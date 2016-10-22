@@ -1,0 +1,1 @@
+Health checks give you a way of adding small tests to your application to allow you to verify that your application is functioning correctly in production. We strongly recommend that all of your applications have at least a minimal set of health checks

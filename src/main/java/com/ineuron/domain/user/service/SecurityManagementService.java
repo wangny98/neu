@@ -12,15 +12,15 @@ public class SecurityManagementService {
 		List<User> users = new ArrayList<User>();
 		User user = new User();
 		user.setId(11);
-		user.setName("zhang san");
+		user.setUsername("zhang san");
 		
 		User user2 = new User();
 		user2.setId(12);
-		user2.setName("li si");
+		user2.setUsername("li si");
 		
 		User user3 = new User();
 		user3.setId(13);
-		user3.setName("wang wu");
+		user3.setUsername("wang wu");
 		
 		users.add(user);
 		users.add(user2);

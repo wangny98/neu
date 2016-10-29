@@ -2,6 +2,7 @@ package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.ineuron.api.user.*;
+import com.ineuron.domain.user.entity.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -36,15 +37,12 @@ public class UserResource {
     
     @Path("/register")
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Timed
-    public UserRegister signup(@QueryParam("username") Optional<String> username,@QueryParam("lastname") Optional<String> lastname,@QueryParam("firstname") Optional<String> firstname,@QueryParam("password") Optional<String> password,@QueryParam("role") Optional<String> role) {
-        final String usernameValue = String.format(text, username.orElse(defaultName));
-        final String lastnameValue = String.format(text, lastname.orElse(defaultName));
-        final String firstnameValue = String.format(text, firstname.orElse(defaultName));
-        final String passwordValue = String.format(text, password.orElse(defaultName));
-        final String roleValue = String.format(text, role.orElse(defaultName));
+    public UserRegister signup(@QueryParam("user") User user) {
+        //final String roleValue = String.format(user,);
         
-        return new UserRegister(usernameValue,lastnameValue,firstnameValue,passwordValue,roleValue);
+        return new UserRegister(user);
     }
 }
 

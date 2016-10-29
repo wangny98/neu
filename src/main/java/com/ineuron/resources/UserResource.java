@@ -1,9 +1,11 @@
 package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ineuron.api.INeuronResponse;
 import com.ineuron.api.user.*;
+import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.User;
-
+import com.ineuron.domain.user.service.UserService;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -44,8 +46,21 @@ public class UserResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
-    public void signup(final User user, @Context final UriInfo uriInfo) {
-        System.out.println(user.getUsername());
+    public INeuronResponse signup(final User user, @Context final UriInfo uriInfo) {
+    	INeuronResponse response = new INeuronResponse();
+    	
+    	UserService service = new UserService();
+    	try {
+			service.doRegister(user);
+		} catch (RepositoryException e) {
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			return response;
+		}
+    	response.setMessage("success");
+		response.setSuccess(true);
+		response.setValue(user);
+		return response;
 
     }
 }

@@ -69,6 +69,7 @@
 		            method: 'POST',            
 		            data: {username:$scope.username, firstname:$scope.firstname, lastname:$scope.lastname, password:$scope.password}      
 		        }).success(function(data){
+		        	alert(data.message);
 		            console.log("success!");
 		        }).error(function(data){
 		            console.log("error");

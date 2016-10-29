@@ -10,4 +10,7 @@ public class RepositoryException extends Exception{
 		this.e = e;
 	}
 
+	public Throwable getRootCause(){
+		return e;
+	}
 }

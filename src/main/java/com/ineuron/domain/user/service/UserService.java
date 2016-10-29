@@ -12,6 +12,7 @@ public class UserService {
 	public void doRegister(User user) throws RepositoryException {
 
 		UserRepository userRep = new UserRepository();
+		user.setRole("user");
 
 		userRep.doRegistter(user);
 

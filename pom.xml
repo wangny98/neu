@@ -47,6 +47,12 @@
    <artifactId>guava</artifactId>
    <version>18.0</version>
   </dependency>
+ 
+ <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.19</version>
+    </dependency>
     
   </dependencies>
   <build>
@@ -80,7 +86,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.ineuron.HelloWorldApplication</mainClass>
+									<mainClass>com.ineuron.INeuronApplication</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

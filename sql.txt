@@ -1,0 +1,13 @@
+Create database ineuron;
+
+CREATE TABLE `ineuron`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL UNIQUE,
+  `lastname` VARCHAR(45) NULL,
+  `firstname` VARCHAR(45) NULL,
+`password` VARCHAR(45) NOT NULL,  `role` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+insert into ineuron.users (username,lastname,firstname,role) values('davidwang', 'david', 'wang', 'admin');
+
+select * from ineuron.users;

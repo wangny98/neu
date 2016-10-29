@@ -1,2 +1,2 @@
-template: Hello, %s!
+text: '%s'
 defaultName: Stranger

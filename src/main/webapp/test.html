@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+<head>
+<script src="js/angular-min.js"></script>
+</head>
+<body>
+	<div ng-controller='HelloController'>
+		<p>{{greeting.text}}, World</p>
+	</div>
+<script> 	
+	function HelloController($scope, $location) { 
+		$scope.greeting = { text: 'Hello' }; 
+		// use $location for something good here... 
+	} 
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<meta charset="utf-8" >
+
+<div class="container">
+
+<h3>新用户注冊:</h3>
+
+<form class="form-horizontal">
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">用戶名:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="newusername" placeholder="用戶名">
+    </div>
+  </div> 
+  <div class="form-group">
+    <label class="col-sm-2 control-label">密码:</label>
+    <div class="col-sm-10">
+    <input type="password" ng-model="newpassw1" placeholder="密码">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">重复密码:</label>
+    <div class="col-sm-10">
+    <input type="password" ng-model="newpassw2" placeholder="重复密码">
+    </div>
+  </div>
+  
+  <hr>
+<button class="btn btn-success" ng-disabled="error || incomplete">
+<span class="glyphicon glyphicon-save"></span>修改
+</button>
+</form>
+
+
+
+</div>

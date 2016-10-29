@@ -63,15 +63,14 @@
 		});
 		
 		userApp.controller('UserRegisterCtrl', function($scope, $http) {
-			alert(1);
 			$scope.submitReg = function() {
 		        $http({
 		            url:'/user/register',
 		            method: 'POST',            
-		            data: {username:$scope.username}      
-		        }).success(function(){
+		            data: {username:$scope.username, firstname:$scope.firstname, lastname:$scope.lastname, password:$scope.password}      
+		        }).success(function(data){
 		            console.log("success!");
-		        }).error(function(){
+		        }).error(function(data){
 		            console.log("error");
 		        })
 		    };

@@ -2,7 +2,7 @@ package com.ineuron.api;
 
 public class INeuronResponse {
 	
-	boolean success;
+	boolean success = false;
 	String message;
 	Object value;
 	

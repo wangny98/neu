@@ -48,18 +48,19 @@ public class UserResource {
     @Timed
     public INeuronResponse signup(final User user, @Context final UriInfo uriInfo) {
     	INeuronResponse response = new INeuronResponse();
-    	
+    	System.out.println("username = " + user.getUsername());
     	UserService service = new UserService();
     	try {
 			service.doRegister(user);
 		} catch (RepositoryException e) {
+			System.out.println(e.getRootCause().getMessage());
 			response.setMessage(e.getMessage());
-			response.setSuccess(false);
 			return response;
 		}
     	response.setMessage("success");
 		response.setSuccess(true);
 		response.setValue(user);
+		System.out.println("success");
 		return response;
 
     }

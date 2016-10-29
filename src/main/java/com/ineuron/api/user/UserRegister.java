@@ -1,25 +1,27 @@
 package com.ineuron.api.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ineuron.domain.user.repository.*;;
+import com.ineuron.domain.user.repository.*;
+import com.ineuron.domain.user.entity.*;
 
 
 public class UserRegister {
+	private User user;
 	private String message;
-	private String username;
+
 	
     public UserRegister() {
         // Jackson deserialization
     }
 
-    public UserRegister(String username, String lastname, String firstname, String password, String role) {
+    public UserRegister(User user) {
       
     	UserRepository userRep=new UserRepository();
     	
-        String[] userResponse=userRep.DoRegistter(username, lastname, firstname, password, role);
+        String[] userResponse=userRep.DoRegistter(user);
         
         this.message=userResponse[0];
-        this.username=userResponse[1];
+        //this.use=userResponse[1];
         
        }
 
@@ -29,7 +31,7 @@ public class UserRegister {
     }
     
     @JsonProperty
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 }

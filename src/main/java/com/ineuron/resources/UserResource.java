@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.ineuron.api.user.*;
 import com.ineuron.domain.user.entity.User;
 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -45,7 +46,7 @@ public class UserResource {
     @Timed
     public void signup(final User user, @Context final UriInfo uriInfo) {
         System.out.println(user.getUsername());
-       // return new UserRegister();
+
     }
 }
 

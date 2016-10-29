@@ -68,7 +68,7 @@
 		        $http({
 		            url:'/user/register',
 		            method: 'POST',            
-		            data: {name:$scope.username,id:'333'}      
+		            data: {username:$scope.username}      
 		        }).success(function(){
 		            console.log("success!");
 		        }).error(function(){

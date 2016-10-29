@@ -44,7 +44,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     public void signup(final User user, @Context final UriInfo uriInfo) {
-        System.out.println(user.getName());
+        System.out.println(user.getUsername());
        // return new UserRegister();
     }
 }

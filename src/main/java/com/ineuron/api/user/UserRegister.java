@@ -1,7 +1,7 @@
 package com.ineuron.api.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ineuron.domain.user.respository.*;
+import com.ineuron.domain.user.repository.*;;
 
 
 public class UserRegister {

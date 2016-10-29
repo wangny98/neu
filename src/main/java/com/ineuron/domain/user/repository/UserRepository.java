@@ -1,4 +1,4 @@
-package com.ineuron.domain.user.respository;
+package com.ineuron.domain.user.repository;
 
 
 import com.ineuron.util.mysql.MySqlConnection;

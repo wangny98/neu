@@ -5,21 +5,22 @@ import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class HelloWorldConfiguration extends Configuration {
+public class INeuronConfiguration extends Configuration {
     @NotEmpty
-    private String template;
+    @JsonProperty
+    private String text;
 
     @NotEmpty
     private String defaultName = "Stranger";
 
     @JsonProperty
-    public String getTemplate() {
-        return template;
+    public String getText() {
+        return text;
     }
 
     @JsonProperty
-    public void setTemplate(String template) {
-        this.template = template;
+    public void setText(String text) {
+        this.text =text;
     }
 
     @JsonProperty

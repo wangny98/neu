@@ -21,7 +21,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>com.ineuron.HelloWorldApplication</mainClass>
+                  <mainClass>com.ineuron.INeuronApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

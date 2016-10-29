@@ -19,7 +19,7 @@ it will take sometime download dropwizard related jars
 mvn package
 
 3. run the following command to run the application in the Project root folder
-java -jar target/ineuron-0.0.1-SNAPSHOT.jar server helloworld.yml
+java -jar target/ineuron-0.0.1-SNAPSHOT.jar server INeuron.yml
 
-4.access the helloworld api
+4.access the api
 http://localhost:8080/hello-world?name=Successful+Dropwizard+User

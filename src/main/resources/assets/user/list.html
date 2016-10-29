@@ -1,0 +1,18 @@
+<meta charset="utf-8" >
+<h2 class="sub-header">用戶列表</h2>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>用户id</th>
+						<th>用户姓名</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="user in users">
+						<td>{{user.id}}</td>
+						<td>{{user.name}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>

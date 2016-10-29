@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app="userApp">
+<head>
+<meta charset="UTF-8">
+<title>用戶</title>
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<script src="/assets/js/angular.min.js"></script>
+<script src="/assets/js/angular-route.min.js"></script>
+
+<script type="text/javascript">
+	    //define tha package as userApp
+		var userApp = angular.module('userApp', ['ngRoute']);
+	    
+		userApp.config(function($routeProvider) {
+
+	        $routeProvider.
+
+	          when('/list', {
+
+	            templateUrl: '/assets/user/list.html',
+
+	            controller: 'UserListController'
+
+	          }).
+
+	          when('/login', {
+
+	            templateUrl: '/assets/user/login.html',
+
+	            controller: 'UserLoginController'
+
+	          }).
+	          
+	          when('/register', {
+
+		            templateUrl: '/assets/user/register.html',
+
+		            controller: 'UserRegisterCtrl'
+
+		          }).
+
+	          otherwise({
+
+	            redirectTo: '/login'
+
+	          });
+
+	      });
+		
+
+		userApp.controller('UserListController', function($scope, $http) {
+
+			$http.get('/user').success(function(data) {
+
+				$scope.users = data;
+
+			});
+		});
+		
+		userApp.controller('UserLoginController', function($scope, $http) {
+
+			
+		});
+		
+		userApp.controller('UserRegisterCtrl', function($scope, $http) {
+
+			
+		});
+	</script>
+	
+</head>
+<body>
+	<div ng-view></div>
+</body>
+</html>

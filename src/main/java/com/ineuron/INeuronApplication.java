@@ -24,7 +24,7 @@ public class INeuronApplication extends Application<INeuronConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<INeuronConfiguration> bootstrap) {
-		bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"));
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/ineuron/"));
 	}
 
 	@Override

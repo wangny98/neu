@@ -38,6 +38,7 @@
 		            controller: 'UserRegisterCtrl'
 
 		          }).
+		          
 
 	          otherwise({
 
@@ -62,7 +63,7 @@
 			
 		});
 		
-		userApp.controller('UserRegisterCtrl', function($scope, $http) {
+		userApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
 			$scope.submitReg = function() {
 		        $http({
 		            url:'/user/register',
@@ -70,7 +71,9 @@
 		            data: {username:$scope.username, firstname:$scope.firstname, lastname:$scope.lastname, password:$scope.password}      
 		        }).success(function(data){
 		        	alert(data.message);
+		        	$location.path("#/login.html");
 		            console.log("success!");
+		            
 		        }).error(function(data){
 		            console.log("error");
 		        })

@@ -7,8 +7,6 @@ import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.UserService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.List;
 import java.util.Optional;
 
 @Path("/user")
@@ -48,21 +47,28 @@ public class UserResource {
     @Timed
     public INeuronResponse signup(final User user, @Context final UriInfo uriInfo) {
     	INeuronResponse response = new INeuronResponse();
-    	System.out.println("username = " + user.getUsername());
     	UserService service = new UserService();
     	try {
 			service.doRegister(user);
 		} catch (RepositoryException e) {
-			System.out.println(e.getRootCause().getMessage());
 			response.setMessage(e.getMessage());
 			return response;
 		}
     	response.setMessage("success");
 		response.setSuccess(true);
 		response.setValue(user);
-		System.out.println("success");
 		return response;
 
     }
+    
+    @Path("/list")
+    @GET
+    @Timed
+    public List<User> getUserList() {
+        
+    	UserService service = new UserService();
+        return service.getUserList();
+    }
+    
 }
 

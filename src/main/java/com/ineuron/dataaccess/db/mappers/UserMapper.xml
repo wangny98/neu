@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ineuron.dataaccess.db.mappers.UserMapper">
+  
+  
+  <insert id="addUser">
+    insert into users (username,lastname,firstname,password, role) 
+	values(#{username},#{lastname},#{firstname},#{password},#{role})  
+  </insert>
+  
+  <select id="getUserById" resultType="com.ineuron.domain.user.entity.User">
+    select * from Users where id = #{id}
+  </select>
+  
+  <select id="getUsers" resultType="com.ineuron.domain.user.entity.User">
+    select * from Users
+  </select>
+
+</mapper>

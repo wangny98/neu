@@ -4,14 +4,18 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>用户id</th>
-						<th>用户姓名</th>
+						<th>用户名</th>
+						<th>姓</th>
+						<th>名</th>
+						<th>角色</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="user in users">
-						<td>{{user.id}}</td>
-						<td>{{user.name}}</td>
+						<td>{{user.username}}</td>
+						<td>{{user.lastname}}</td>
+						<td>{{user.firstname}}</td>
+						<td>{{user.role}}</td>
 					</tr>
 				</tbody>
 			</table>

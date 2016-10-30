@@ -50,7 +50,7 @@
 
 		userApp.controller('UserListController', function($scope, $http) {
 
-			$http.get('/user').success(function(data) {
+			$http.get('/user/list').success(function(data) {
 
 				$scope.users = data;
 

@@ -33,31 +33,15 @@
 			<version>1.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>io.dropwizard</groupId>
-			<artifactId>dropwizard-views-freemarker</artifactId>
-			<version>${dropwizard.version}</version>
+			<groupId>com.hubspot.dropwizard</groupId>
+			<artifactId>dropwizard-guice</artifactId>
+			<version>1.0.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.datastax.cassandra</groupId>
-			<artifactId>cassandra-driver-core</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.datastax.cassandra</groupId>
-			<artifactId>cassandra-driver-mapping</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.datastax.cassandra</groupId>
-			<artifactId>cassandra-driver-extras</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>18.0</version>
-		</dependency>
-
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.0</version>
+		</dependency> 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

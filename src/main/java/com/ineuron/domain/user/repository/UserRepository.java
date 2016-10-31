@@ -2,9 +2,14 @@ package com.ineuron.domain.user.repository;
 
 import com.ineuron.util.mysql.MySqlConnection;
 import com.ineuron.common.exception.RepositoryException;
+import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.user.entity.*;
 
 import java.sql.*;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
 
 public class UserRepository {
 
@@ -56,32 +61,27 @@ public class UserRepository {
 	}
 
 	public void doRegistter(User user) throws RepositoryException {
-		try {
-			// 获取连接类实例con，用con创建Statement对象类实例 sql_statement
-			Connection conn = MySqlConnection.getConnection();
-
-			PreparedStatement sql_statement = conn.prepareStatement(
-					"insert into users (username,lastname,firstname,password,role) values (?, ?, ?, ?, ?)");
-			sql_statement.clearParameters();
-			sql_statement.setString(1, user.getUsername());
-			sql_statement.setString(2, user.getLastrname());
-			sql_statement.setString(3, user.getFirstname());
-			sql_statement.setString(4, user.getPassword());
-			sql_statement.setString(5, user.getRole());
-			sql_statement.execute();
-
-			// 关闭连接和声明
-			sql_statement.close();
-			conn.close();
-		} catch (java.lang.ClassNotFoundException e) {
-
-			throw new RepositoryException("ClassNotFoundException", e);
-			
-		} catch (SQLException ex) {
-
-			throw new RepositoryException("SQLException", ex);
+		SqlSession session = INeuronDBConnection.getSession();
+		try{
+			session.insert("addUser", user);
+			session.commit();
+			System.out.println("insert user by using mybatis!");
+		}finally{
+			session.close();
 		}
-
+		
 	}
-
+	
+	public List<User> getUserList(){
+		
+		SqlSession session = INeuronDBConnection.getSession();
+		try{
+			List<User> users = session.selectList("getUsers");
+			return users;
+		}finally{
+			session.close();
+		}
+		
+	}
+		
 }

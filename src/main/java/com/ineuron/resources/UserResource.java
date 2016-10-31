@@ -1,14 +1,13 @@
 package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.api.user.*;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.UserService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,28 +17,27 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.List;
 import java.util.Optional;
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
-	private final String text;
-    private final String defaultName;
     
-    public UserResource(String text, String defaultName) 
-    {
-    	this.text = text;
-        this.defaultName = defaultName;
-    };
+    @Inject
+    private UserService userService;
+    
+    public UserResource(){
+    	super();
+    }
+    
 
     @Path("/authenticate")
     @GET
     @Timed
     public UserAuthenticate login(@QueryParam("username") Optional<String> username,@QueryParam("password") Optional<String> password) {
-        final String usernameValue = String.format(text, username.orElse(defaultName));
-        final String passwordValue = String.format(text, password.orElse(defaultName));
         
-        return new UserAuthenticate(usernameValue, passwordValue);
+        return new UserAuthenticate(username.get(), password.get());
     }
     
     @Path("/register")
@@ -48,21 +46,26 @@ public class UserResource {
     @Timed
     public INeuronResponse signup(final User user, @Context final UriInfo uriInfo) {
     	INeuronResponse response = new INeuronResponse();
-    	System.out.println("username = " + user.getUsername());
-    	UserService service = new UserService();
     	try {
-			service.doRegister(user);
+    		userService.doRegister(user);
 		} catch (RepositoryException e) {
-			System.out.println(e.getRootCause().getMessage());
 			response.setMessage(e.getMessage());
 			return response;
 		}
     	response.setMessage("success");
 		response.setSuccess(true);
 		response.setValue(user);
-		System.out.println("success");
 		return response;
 
     }
+    
+    @Path("/list")
+    @GET
+    @Timed
+    public List<User> getUserList() {
+    	
+        return userService.getUserList();
+    }
+    
 }
 

@@ -1,5 +1,6 @@
 package com.ineuron;
 
+import com.hubspot.dropwizard.guice.GuiceBundle;
 import com.ineuron.health.TemplateHealthCheck;
 import com.ineuron.resources.*;
 import io.dropwizard.Application;
@@ -24,20 +25,20 @@ public class INeuronApplication extends Application<INeuronConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<INeuronConfiguration> bootstrap) {
-		bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"));
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/ineuron/"));
+		
+		//Guice是Google开发的一个轻量级，基于Java5（主要运用泛型与注释特性）的依赖注入框架(IOC)。
+		GuiceBundle<INeuronConfiguration> guiceBundle = GuiceBundle.<INeuronConfiguration>newBuilder()
+				.addModule(new INeuronModule())
+				.enableAutoConfig(getClass().getPackage().getName())
+				.setConfigClass(INeuronConfiguration.class)
+				.build();
+
+		bootstrap.addBundle(guiceBundle);
 	}
 
 	@Override
 	public void run(INeuronConfiguration configuration, Environment environment) {
-		final UserResource userResource = new UserResource(
-				configuration.getText(), configuration.getDefaultName());
-
-		final TemplateHealthCheck healthCheck = new TemplateHealthCheck(
-				configuration.getText());
-
-		environment.healthChecks().register("text", healthCheck);
-
-		environment.jersey().register(userResource);
 
 	}
 

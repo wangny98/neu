@@ -13,13 +13,18 @@
 </head>
 
 <div class="container">
-	<form class="form-user">
+	<form class="form-user" name="loginform">
 		<h3 class="form-user-heading">用户登录</h3>
-		<input type="text" ng-model="username" placeholder="用戶名"> <input
-			type="password" ng-model="passw" placeholder="密码">
-		<button class="btn btn-large btn-primary" ng-disabled="error || incomplete">
+		<input type="text" ng-model="username" placeholder="用戶名"
+			required> <input type="password"
+			ng-model="password" placeholder="密码" required>
+		<button ng-disabled="!loginform.$valid" class="btn btn-large btn-primary" ng-click="submitReg()">
 			<span class="glyphicon glyphicon-save"></span>登录
 		</button>
+		<!-- show an error if this isn't filled in -->
+		<p ng-show="userForm.username.$error.required">Your username is
+			required.</p>
+
 	</form>
 
 </div>

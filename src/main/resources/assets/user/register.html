@@ -1,32 +1,38 @@
-<meta charset="utf-8" >
+<meta charset="utf-8">
 <head>
 <!-- Le styles -->
-    <link href="/ineuron/css/bootstrap.css" rel="stylesheet">
-    <link href="/ineuron/css/user.css" rel="stylesheet">
-        <link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="/ineuron/css/bootstrap.css" rel="stylesheet">
+<link href="/ineuron/css/user.css" rel="stylesheet">
+<link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
       <script src="../ineuron/js/html5shiv.js"></script>
     <![endif]-->
 
-   </head>
-   
+</head>
+
 <div class="container">
 
-<form class="form-user">
- <h3 class="form-user-heading">新用户注册：</h3>
-    <input type="text" class="input-block-level" ng-model="username" placeholder="用戶名">
-    <input type="text" class="input-block-level" ng-model="lastname" placeholder="姓">
-    <input type="text" class="input-block-level" ng-model="firstname" placeholder="名">
-    <input type="password" class="input-block-level" ng-model="password" placeholder="密码">
-    <input type="password" class="input-block-level" ng-model="password2" placeholder="重复密码">
-  <hr>
-<button class="btn btn-large btn-primary" ng-disabled="error || incomplete" ng-click="submitReg()">
-<span class="glyphicon glyphicon-save"></span>注册
-</button>
-</form>
+	<form class="form-user" name="registerform">
+		<h3 class="form-user-heading">新用户注册：</h3>
+		<input type="text" class="input-block-level" ng-model="username"
+			placeholder="用戶名" required> <input type="text"
+			class="input-block-level" ng-model="lastname" placeholder="姓"
+			required> <input type="text" class="input-block-level"
+			ng-model="firstname" placeholder="名" required> <input
+			type="password" class="input-block-level" ng-model="password"
+			placeholder="密码" required> <input type="password"
+			class="input-block-level" ng-model="password2" placeholder="重复密码"
+			required>
+		<hr>
+		<button class="btn btn-large btn-primary"
+			ng-disabled="!registerform.$valid" ng-click="submitReg()">
+			<span class="glyphicon glyphicon-save"></span>注册
+		</button>
+	</form>
 
 
 
-</div> <!-- /container -->
+</div>
+<!-- /container -->

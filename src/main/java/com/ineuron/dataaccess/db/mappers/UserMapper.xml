@@ -14,6 +14,10 @@
     select * from Users where id = #{id}
   </select>
   
+   <select id="getUserByUsername" resultType="com.ineuron.domain.user.entity.User">
+    select * from Users where username = #{username}
+  </select>
+  
   <select id="getUsers" resultType="com.ineuron.domain.user.entity.User">
     select * from Users
   </select>

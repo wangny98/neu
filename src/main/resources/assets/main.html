@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+<head>
+<meta charset="UTF-8">
+<title>主页</title>
+<link href="/ineuron/css/leftmenu.css" rel="stylesheet">
+<link href="/ineuron/css/bootstrap-3.2.0.min.css" rel="stylesheet">
+<script src="/ineuron/js/jquery-2.1.1.min.js"></script>
+<script src="/ineuron/js/bootstrap-3.2.0.min.js"></script>
+<script src="/ineuron/js/angular.js"></script>
+<script src="/ineuron/js/angular-ui-router.js"></script>
+<script src="/ineuron/js/angular-cookies.min.js"></script>
+<script type="text/javascript">
+		//define the package as userApp
+		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies' ]);
+		
+		mainApp.config(function($stateProvider) {
+			  var userManagementState = {
+			    name: 'userManagement',
+			    url: 'userManagement',
+			    templateUrl: '/ineuron/user/list.html',
+			    controller: function($scope, $http) {
+
+					$http.get('/user/list').success(function(data) {
+
+						$scope.users = data;
+
+					});
+				}
+			  }
+
+			  var aboutState = {
+			    name: 'about',
+			    url: '/about',
+			    template: '<h3>琥崧智能工厂运营与控制系统</h3>'
+			  }
+
+			  $stateProvider.state(userManagementState);
+			  $stateProvider.state(aboutState);
+			});
+		
+		mainApp.controller('UserListController', );
+		
+	</script>
+</head>
+
+<body>
+	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/Admin/index.html" id="logo">琥崧智能工厂运营与控制系统
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2">
+				<ul id="main-nav" class="nav nav-tabs nav-stacked" style="">
+					<li class="active"><a href="#"> <i
+							class="glyphicon glyphicon-th-large"></i> 首页
+					</a></li>
+					<li><a href="#systemSetting" class="nav-header collapsed"
+						data-toggle="collapse"> <i class="glyphicon glyphicon-cog"></i>
+							系统管理 <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+					</a>
+						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
+							style="height: 0px;">
+							<li><a ui-sref="userManagement" ui-sref-active="active"><i class="glyphicon glyphicon-user"></i>用户管理</a></li>
+							<li><a href="#"><i class="glyphicon glyphicon-th-list"></i>菜单管理</a></li>
+							<li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
+							<li><a href="#"><i class="glyphicon glyphicon-edit"></i>修改密码</a></li>
+						</ul></li>
+
+					<li><a ui-sref="about" ui-sref-active="active"> <i class="glyphicon glyphicon-fire"></i>
+							关于系统
+					</a></li>
+				</ul>
+			</div>
+			<div class="col-md-10">
+				<ui-view></ui-view>
+			</div>
+		</div>
+	</div>
+
+	
+</body>
+</html>

@@ -2,27 +2,19 @@
 <html ng-app="userApp">
 <head>
 <meta charset="UTF-8">
-<title>用戶</title>
+<title>琥崧智能工厂运营与控制系统</title>
 <link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
 <script src="/ineuron/js/angular.min.js"></script>
 <script src="/ineuron/js/angular-route.min.js"></script>
+<script src="/ineuron/js/angular-cookies.min.js"></script>
 
 <script type="text/javascript">
 	    //define the package as userApp
-		var userApp = angular.module('userApp', ['ngRoute']);
+		var userApp = angular.module('userApp', ['ngRoute','ngCookies']);
 	    
 		userApp.config(function($routeProvider) {
 
 	        $routeProvider.
-
-	          when('/list', {
-
-	            templateUrl: '/ineuron/user/list.html',
-
-	            controller: 'UserListController'
-
-	          }).
-
 	          when('/login', {
 
 	            templateUrl: '/ineuron/user/login.html',
@@ -39,13 +31,6 @@
 
 		          }).
 		          
-		      when('/main', {
-
-			        templateUrl: '/ineuron/user/main.html',
-
-			        controller: 'MainController'
-
-			       }).
 	          otherwise({
 
 	            redirectTo: '/login'
@@ -54,27 +39,17 @@
 
 	      });
 		
-
-		userApp.controller('UserListController', function($scope, $http) {
-
-			$http.get('/user/list').success(function(data) {
-
-				$scope.users = data;
-
-			});
-		});
-		
-		userApp.controller('UserLoginController', function($scope, $http, $location) {
-			$scope.submitReg = function(isValid) {
+		userApp.controller('UserLoginController', function($scope, $http, $location, $cookies) {
+			$scope.login = function(isValid) {
 		        $http({
 		            url:'/user/authenticate',
 		            method: 'POST',            
 		            data: {username:$scope.username, password:$scope.password}      
 		        }).success(function(data){
 		        	alert(data.message);
-		        	$location.path("#/main.html");
 		            console.log("success!");
-		            
+		        	$cookies.put('INeuron-UserName', $scope.username);  	
+		        	window.location.href="/ineuron/main.html";
 		        }).error(function(data){
 		        	alert(data.message);
 		            console.log("error");
@@ -92,7 +67,7 @@
 		            data: {username:$scope.username, firstname:$scope.firstname, lastname:$scope.lastname, password:$scope.password}      
 		        }).success(function(data){
 		        	alert(data.message);
-		        	$location.path("#/login.html");
+		        	$location.path("/login");
 		            console.log("success!");
 		            
 		        }).error(function(data){

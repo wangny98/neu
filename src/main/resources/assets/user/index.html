@@ -59,6 +59,20 @@
 		});
 		
 		userApp.controller('UserLoginController', function($scope, $http) {
+			$scope.submitReg = function() {
+		        $http({
+		            url:'/user/authenticate',
+		            method: 'GET',            
+		            data: {username:$scope.username, password:$scope.password}      
+		        }).success(function(data){
+		        	alert(data.message);
+		        	//$location.path("#/login.html");
+		            console.log("success!");
+		            
+		        }).error(function(data){
+		            console.log("error");
+		        })
+		    };
 
 			
 		});

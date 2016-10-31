@@ -8,7 +8,7 @@
 <script src="/ineuron/js/angular-route.min.js"></script>
 
 <script type="text/javascript">
-	    //define tha package as userApp
+	    //define the package as userApp
 		var userApp = angular.module('userApp', ['ngRoute']);
 	    
 		userApp.config(function($routeProvider) {
@@ -30,7 +30,7 @@
 	            controller: 'UserLoginController'
 
 	          }).
-	          
+	          	          
 	          when('/register', {
 
 		            templateUrl: '/ineuron/user/register.html',
@@ -39,7 +39,13 @@
 
 		          }).
 		          
+		      when('/main', {
 
+			        templateUrl: '/ineuron/user/main.html',
+
+			        controller: 'MainController'
+
+			       }).
 	          otherwise({
 
 	            redirectTo: '/login'
@@ -58,18 +64,19 @@
 			});
 		});
 		
-		userApp.controller('UserLoginController', function($scope, $http) {
-			$scope.submitReg = function() {
+		userApp.controller('UserLoginController', function($scope, $http, $location) {
+			$scope.submitReg = function(isValid) {
 		        $http({
 		            url:'/user/authenticate',
-		            method: 'GET',            
+		            method: 'POST',            
 		            data: {username:$scope.username, password:$scope.password}      
 		        }).success(function(data){
 		        	alert(data.message);
-		        	//$location.path("#/login.html");
+		        	$location.path("#/main.html");
 		            console.log("success!");
 		            
 		        }).error(function(data){
+		        	alert(data.message);
 		            console.log("error");
 		        })
 		    };
@@ -95,7 +102,7 @@
 
 		});
 	</script>
-	
+
 </head>
 <body>
 	<div ng-view></div>

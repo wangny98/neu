@@ -16,6 +16,13 @@ public class UserService {
 
 	}
 
+	public User doAuthenticate(User user) throws RepositoryException {
+
+		UserRepository userRep = new UserRepository();
+		return userRep.DoAuthenticate(user);
+
+	}
+
 	public List<User> getUserList() {
 
 		UserRepository userRep = new UserRepository();

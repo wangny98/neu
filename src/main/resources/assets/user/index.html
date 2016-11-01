@@ -46,9 +46,9 @@
 		            method: 'POST',            
 		            data: {username:$scope.username, password:$scope.password}      
 		        }).success(function(data){
-		        	alert(data.message);
 		            console.log("success!");
-		        	$cookies.put('INeuron-UserName', $scope.username);  	
+		            var time = new Date().getTime() + 60*1000;
+		        	$cookies.put('INeuron-UserName', $scope.username, {path:"/", expires:new Date(time)});  
 		        	window.location.href="/ineuron/main.html";
 		        }).error(function(data){
 		        	alert(data.message);

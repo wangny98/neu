@@ -7,7 +7,7 @@
 <link href="/ineuron/css/bootstrap-3.2.0.min.css" rel="stylesheet">
 <script src="/ineuron/js/jquery-2.1.1.min.js"></script>
 <script src="/ineuron/js/bootstrap-3.2.0.min.js"></script>
-<script src="/ineuron/js/angular.js"></script>
+<script src="/ineuron/js/angular.min.js"></script>
 <script src="/ineuron/js/angular-ui-router.js"></script>
 <script src="/ineuron/js/angular-cookies.min.js"></script>
 <script type="text/javascript">
@@ -19,8 +19,8 @@
 			    name: 'userManagement',
 			    url: 'userManagement',
 			    templateUrl: '/ineuron/user/list.html',
-			    controller: function($scope, $http) {
-
+			    controller: function($scope, $http, $cookies) {
+			    	checkCookies($cookies);
 					$http.get('/user/list').success(function(data) {
 
 						$scope.users = data;
@@ -39,12 +39,25 @@
 			  $stateProvider.state(aboutState);
 			});
 		
-		mainApp.controller('UserListController', );
+		mainApp.controller('verifyCookies', function($cookies) {
+			checkCookies($cookies);
+		}); 
+		
+		function checkCookies(cookies){
+			var username = cookies.get('INeuron-UserName');
+
+			if(username == null || username == undefined){
+				
+				alert("会话已过期，请重新登录");
+				window.location.href="/ineuron/user/index.html/#/login";
+			} 
+		}
 		
 	</script>
 </head>
 
 <body>
+<div ng-controller="verifyCookies"></div>
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">

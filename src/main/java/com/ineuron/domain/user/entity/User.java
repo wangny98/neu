@@ -23,7 +23,7 @@ public class User {
 		this.username = username;
 	}
 
-	public String getLastrname() {
+	public String getLastname() {
 		return lastname;
 	}
 	public void setLastname(String lastname) {

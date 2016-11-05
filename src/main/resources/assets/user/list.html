@@ -1,22 +1,83 @@
-<meta charset="utf-8" >
-<h2 class="sub-header">用戶列表</h2>
-		<div class="table-responsive">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>用户名</th>
-						<th>姓</th>
-						<th>名</th>
-						<th>角色</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="user in users">
-						<td>{{user.username}}</td>
-						<td>{{user.lastname}}</td>
-						<td>{{user.firstname}}</td>
-						<td>{{user.role}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<div ng-controller="UserListController as userList">
+	<form class="form-inline" ng-submit="userList.addPerson()">
+		<table datatable="ng" dt-options="userList.dtOptions"
+			dt-column-defs="userList.dtColumnDefs" class="row-border hover">
+			<thead>
+				<tr>
+					<th>
+						<div class="form-group">
+							<label> <input class="form-control" type="text"
+								name="username" ng-model="userList.person2Add.id" value="">
+							</label>
+						</div>
+					</th>
+					<th>
+						<div class="form-group">
+							<label> <input type="text" class="form-control"
+								name="firstname" ng-model="userList.person2Add.firstName"
+								value="">
+							</label>
+						</div>
+					</th>
+					<th>
+						<div class="form-group">
+							<label> <input type="text" class="form-control"
+								name="lastname" ng-model="userList.person2Add.lastName" value="">
+							</label>
+						</div>
+					</th>
+					<th>
+						<div class="form-group">
+							<label> <input type="text" class="form-control"
+								name="role" ng-model="userList.person2Add.lastName" value="">
+							</label>
+						</div>
+					</th>
+					<th>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+					</th>
+					<th>
+						<div class="form-group"></div>
+					</th>
+				</tr>
+				<tr>
+					<th>用户名</th>
+					<th>名</th>
+					<th>姓</th>
+					<th>角色</th>
+					<th>修改</th>
+					<th>删除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in userList.users">
+					<td>{{ user.username }}</td>
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.lastname }}</td>
+					<td>{{ user.role }}</td>
+
+					<td>
+						<button type="button" ng-click="userList.modifyPerson($index)"
+							class="btn btn-warning">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+					<td>
+						<button type="button" ng-click="userList.removePerson($index)"
+							class="btn btn-danger">
+							<i class="fa fa-trash-o"></i>
+						</button>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>

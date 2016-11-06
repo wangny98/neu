@@ -53,7 +53,8 @@
 		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies', 'datatables']);
 		
 		mainApp.config(function($stateProvider) {
-			  var userManagementState = {
+					
+			var userManagementState = {
 			    name: 'userManagement',
 			    url: 'userManagement',
 			    templateUrl: '/ineuron/user/list.html',
@@ -65,18 +66,54 @@
 			    url: '/about',
 			    template: '<h3>琥崧智能工厂运营与控制系统</h3>'
 			  }
+			
+			 var updateUserState = {
+				    name: 'updateUser',
+				    url: 'updateUser/{username}',
+				    views: {'':{
+				    	
+				    	templateUrl: '/ineuron/user/updateUser.html',
+					    controller: 'UserUpdateController'
+					    
+				    	}
+				    }
+				    
+				  }
 
 			  $stateProvider.state(userManagementState);
+			  $stateProvider.state(updateUserState);
 			  $stateProvider.state(aboutState);
 			});
 		
-		 mainApp.controller('UserListController', function($http, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
+		mainApp.controller('UserUpdateController',function($scope, $stateParams){
+			$scope.updateUsername=$stateParams.username;
+		});
+
+		
+		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
 			checkCookies($cookies);
 			var vm = this;
 			$http.get('/user/list').success(function(data) {				 
 				vm.users = data;				
 			
 			});
+			
+			var roleData = [{
+			    "id": 1,
+			    "role": "admin"
+			}, {
+			    "id": 2,
+			    "role": "salesperson"
+			}, {
+			    "id": 3,
+			    "role": "production-person"
+			}, {
+			    "id": 4,
+			    "role": "guest"
+			}
+			];
+			
+			vm.roles=roleData;
 			 vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
 			    vm.dtColumnDefs = [
 			        DTColumnDefBuilder.newColumnDef(0),
@@ -84,31 +121,25 @@
 			        DTColumnDefBuilder.newColumnDef(2).notSortable(),
 			        DTColumnDefBuilder.newColumnDef(3).notSortable()
 			    ];
-			    vm.person2Add = _buildPerson2Add(1);
-			    vm.addPerson = addPerson;
-			    vm.modifyPerson = modifyPerson;
-			    vm.removePerson = removePerson;
+			    //vm.user2Add = _buildUser2Add(1);
+			    vm.addUser = addUser;
+			    vm.modifyUser = modifyUser;
+			    vm.removeUser = removeUser;
 
-			    function _buildPerson2Add(id) {
-			        return {
-			            id: id,
-			            firstName: 'Foo' + id,
-			            lastName: 'Bar' + id
-			        };
-			    }
-			    function addPerson(index) {
+			    function addUser(index) {
 			        //vm.users.push(angular.copy(vm.person2Add));
 			        //vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
 			        alert("add 1");
 			        alert("add"+vm.users[index].username);
 			    }
-			    function modifyPerson(index) {
-			        //vm.persons.splice(index, 1, angular.copy(vm.person2Add));
-			        //vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-			        //vm.person1=vm.persons.slice(0,1);
-			        alert(vm.users[index].username);
+			    
+			    function modifyUser(index) {
+			       $scope.edit=true;
+			       $scope.updateUsername=vm.users[index].username;
+			       $location.path("updateUser");
 			    }
-			    function removePerson(index) {
+			    
+			    function removeUser(index) {
 			        alert("remove");
 			        alert(vm.users[index].username);
 			    }
@@ -137,6 +168,7 @@
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
+			   <img alt="" src="/ineuron/image/logo.png"></img>
 				<a class="navbar-brand" href="/Admin/index.html" id="logo">琥崧智能工厂运营与控制系统
 				</a>
 			</div>

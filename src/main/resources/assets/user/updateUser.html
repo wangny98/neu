@@ -1,0 +1,50 @@
+<meta charset="utf-8">
+<head>
+<!-- Le styles -->
+<link href="/ineuron/css/bootstrap.css" rel="stylesheet">
+<link href="/ineuron/css/user.css" rel="stylesheet">
+<link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../ineuron/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<div ng-controller="UserListController as userList">
+
+	<form class="form-user" name="updateuser">
+		<table width="200">
+		  <tbody>
+		    <tr>
+		      <td><h4 class="form-user-heading">用户修改</h4></td>
+		      
+	        </tr>
+		    <tr>
+		      <td><input class="input-block-level" type="text" ng-model="updateUsername"
+			placeholder="用戶名" required> </td>
+		     
+	        </tr>
+		    <tr>
+		      <td><select class="input-block-level" name="roleSelect" id="roleSelect" ng-model="updateRoleSelected">
+  						    <option ng-repeat="role in userList.roles" value="{{role.id}}">{{role.role}}</option>
+    					 </select></td>
+		      
+	        </tr>
+	      </tbody>
+	  </table>
+		
+		
+		
+		<hr>
+		<button class="btn btn-large btn-primary"
+			ng-disabled="!updateuser.$valid" ng-click="updateUser()">
+			<span class="glyphicon glyphicon-upload"></span>  确定
+		</button>
+	</form>
+
+
+
+</div>
+<!-- /container -->

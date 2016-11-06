@@ -4,28 +4,60 @@
 <meta charset="UTF-8">
 <title>主页</title>
 <link href="/ineuron/css/leftmenu.css" rel="stylesheet">
-<link href="/ineuron/css/bootstrap-3.2.0.min.css" rel="stylesheet">
+<!-- for DataTable -->
+<link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/font-awesome-animation/dist/font-awesome-animation.min.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables/media/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-colreorder/css/dataTables.colReorder.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-tabletools/css/dataTables.tableTools.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-responsive/css/responsive.dataTables.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-scroller/css/dataTables.scroller.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-fixedcolumns/css/fixedColumns.dataTables.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-fixedheader/css/fixedHeader.dataTables.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-buttons/css/buttons.dataTables.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/datatables-select/css/select.dataTables.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/backtotop/backtotop.min.css">
+<link rel="stylesheet"
+	href="/ineuron/css/datatable-css/dist/css/angular-datatables.css">
+
 <script src="/ineuron/js/jquery-2.1.1.min.js"></script>
-<script src="/ineuron/js/bootstrap-3.2.0.min.js"></script>
+<script src="/ineuron/js/jquery.dataTables.min.js"></script>
 <script src="/ineuron/js/angular.min.js"></script>
+<script src="/ineuron/js/angular-datatables.min.js"></script>
+<script src="/ineuron/js/angular-resource.min.js"></script>
+
+<script src="/ineuron/js/bootstrap-3.2.0.min.js"></script>
 <script src="/ineuron/js/angular-ui-router.js"></script>
 <script src="/ineuron/js/angular-cookies.min.js"></script>
+
+
+
 <script type="text/javascript">
+
 		//define the package as userApp
-		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies' ]);
+		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies', 'datatables']);
 		
 		mainApp.config(function($stateProvider) {
 			  var userManagementState = {
 			    name: 'userManagement',
 			    url: 'userManagement',
 			    templateUrl: '/ineuron/user/list.html',
-			    controller: function($scope, $http, $cookies) {
-			    	checkCookies($cookies);
-					$http.get('/user/list').success(function(data) {
-						$scope.users = data;
-
-					});
-				}
+			    controller: 'UserListController'
 			  }
 
 			  var aboutState = {
@@ -38,6 +70,51 @@
 			  $stateProvider.state(aboutState);
 			});
 		
+		 mainApp.controller('UserListController', function($http, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
+			checkCookies($cookies);
+			var vm = this;
+			$http.get('/user/list').success(function(data) {				 
+				vm.users = data;				
+			
+			});
+			 vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
+			    vm.dtColumnDefs = [
+			        DTColumnDefBuilder.newColumnDef(0),
+			        DTColumnDefBuilder.newColumnDef(1),
+			        DTColumnDefBuilder.newColumnDef(2),
+			        DTColumnDefBuilder.newColumnDef(3).notSortable()
+			    ];
+			    vm.person2Add = _buildPerson2Add(1);
+			    vm.addPerson = addPerson;
+			    vm.modifyPerson = modifyPerson;
+			    vm.removePerson = removePerson;
+
+			    function _buildPerson2Add(id) {
+			        return {
+			            id: id,
+			            firstName: 'Foo' + id,
+			            lastName: 'Bar' + id
+			        };
+			    }
+			    function addPerson(index) {
+			        //vm.users.push(angular.copy(vm.person2Add));
+			        //vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+			        alert("add 1");
+			        alert("add"+vm.users[index].username);
+			    }
+			    function modifyPerson(index) {
+			        //vm.persons.splice(index, 1, angular.copy(vm.person2Add));
+			        //vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+			        //vm.person1=vm.persons.slice(0,1);
+			        alert(vm.users[index].username);
+			    }
+			    function removePerson(index) {
+			        alert("remove");
+			        alert(vm.users[index].username);
+			    }
+		 }
+			 
+		);
 		mainApp.controller('verifyCookies', function($cookies) {
 			checkCookies($cookies);
 		}); 
@@ -56,7 +133,7 @@
 </head>
 
 <body>
-<div ng-controller="verifyCookies"></div>
+	<div ng-controller="verifyCookies"></div>
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -78,14 +155,15 @@
 					</a>
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a ui-sref="userManagement" ui-sref-active="active"><i class="glyphicon glyphicon-user"></i>用户管理</a></li>
+							<li><a ui-sref="userManagement" ui-sref-active="active"><i
+									class="glyphicon glyphicon-user"></i>用户管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-th-list"></i>菜单管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-edit"></i>修改密码</a></li>
 						</ul></li>
 
-					<li><a ui-sref="about" ui-sref-active="active"> <i class="glyphicon glyphicon-fire"></i>
-							关于系统
+					<li><a ui-sref="about" ui-sref-active="active"> <i
+							class="glyphicon glyphicon-fire"></i> 关于系统
 					</a></li>
 				</ul>
 			</div>
@@ -95,6 +173,6 @@
 		</div>
 	</div>
 
-	
+
 </body>
 </html>

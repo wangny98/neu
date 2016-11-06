@@ -2,36 +2,10 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="UserListController as userList">
-	<form class="form-inline" ng-submit="userList.addPerson()">
+	<form class="form-inline" ng-submit="userList.addUser($index)">
 		<table datatable="ng" dt-options="userList.dtOptions"
 			dt-column-defs="userList.dtColumnDefs" class="row-border hover">
 			<thead>
-				<tr>
-					<th>
-						<div class="form-group">
-							<label> <input class="form-control" type="text"
-								name="username" ng-model="userList.person2Add.username" value="">
-							</label>
-						</div>
-					</th>
-					<th>
-						<div class="form-group">
-							<label> <input type="text" class="form-control"
-								name="role" ng-model="userList.person2Add.role" value="">
-							</label>
-						</div>
-					</th>
-					<th>
-						<div class="form-group">
-							<button type="submit" class="btn btn-success">
-								<i class="fa fa-plus"></i>
-							</button>
-						</div>
-					</th>
-					<th>
-						<div class="form-group"></div>
-					</th>
-				</tr>
 				<tr>
 					<th>用户名</th>
 					<th>角色</th>
@@ -45,13 +19,16 @@
 					<td>{{ user.role }}</td>
 
 					<td>
-						<button type="button" ng-click="userList.modifyPerson($index)"
+						<!-- <a ui-sref="updateUser({username:user.username})">修改</a> -->
+						<button type="button" ui-sref="updateUser({username:user.username})"
 							class="btn btn-warning">
 							<i class="fa fa-edit"></i>
 						</button>
+						
+						
 					</td>
 					<td>
-						<button type="button" ng-click="userList.removePerson($index)"
+						<button type="button" ng-click="userList.removeUser($index)"
 							class="btn btn-danger">
 							<i class="fa fa-trash-o"></i>
 						</button>

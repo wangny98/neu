@@ -22,7 +22,6 @@
 			    controller: function($scope, $http, $cookies) {
 			    	checkCookies($cookies);
 					$http.get('/user/list').success(function(data) {
-
 						$scope.users = data;
 
 					});

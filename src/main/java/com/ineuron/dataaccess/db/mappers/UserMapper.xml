@@ -10,9 +10,10 @@
 	values(#{username},#{lastname},#{firstname},#{password},#{role})  
   </insert>
   
-  <select id="getUserById" resultType="com.ineuron.domain.user.entity.User">
-    select * from Users where id = #{id}
-  </select>
+  <update id="updateUser">
+    update users u set u.username = #{username}, u.lastname = #{lastname},
+    u.firstname = #{firstname}, u.role = #{role} where id = #{id}
+  </update>
   
    <select id="getUserByUsername" resultType="com.ineuron.domain.user.entity.User">
     select * from Users where username = #{username}
@@ -21,5 +22,19 @@
   <select id="getUsers" resultType="com.ineuron.domain.user.entity.User">
     select * from Users
   </select>
+  
+  <!-- mappers for roles -->
 
+ <insert id="addRole">
+    insert into roles (rolename,permissions) 
+	values(#{rolename},#{permissions})  
+  </insert>
+  
+  <update id="updateRole" >
+    update roles r set r.rolename = #{rolename}, r.permissions = #{permissions} where id = #{id}
+  </update>
+  
+  <select id="getRoles" resultType="com.ineuron.domain.user.entity.Role">
+    select * from roles
+  </select>
 </mapper>

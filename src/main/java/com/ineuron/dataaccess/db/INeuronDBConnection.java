@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.ineuron.common.exception.RepositoryException;
+
 public class INeuronDBConnection {
 	
 	static SqlSessionFactory sqlSessionFactory;
@@ -16,14 +18,14 @@ public class INeuronDBConnection {
 		
 	}
 	
-	public static SqlSession getSession(){
+	public static SqlSession getSession() throws RepositoryException{
 		if(sqlSessionFactory == null){
 			String resource = "com/ineuron/dataaccess/db/mybatis-config.xml";
 			InputStream inputStream = null;
 			try {
 				inputStream = Resources.getResourceAsStream(resource);
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RepositoryException("failed to load mybatis-config.xml", e);
 			}
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 		}

@@ -19,8 +19,10 @@ public class UserRepository {
 		
 		try {
 			foundUser=session.selectOne("getUserByUsername", user.getUsername());
-			session.commit();
-			System.out.println("select user by using getUserByUsername!"+"Hi "+foundUser.getUsername()+"role: "+foundUser.getRole());
+			if(foundUser != null){
+				System.out.println("select user by using getUserByUsername!"+"Hi "+foundUser.getUsername()+"role: "+foundUser.getRole());
+			}
+			
 		} finally {
 			session.close();
 		}
@@ -28,7 +30,7 @@ public class UserRepository {
 		return foundUser;
 	}
 
-	public void doRegistter(User user) throws RepositoryException {
+	public void addUser(User user) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			session.insert("addUser", user);
@@ -38,8 +40,19 @@ public class UserRepository {
 			session.close();
 		}
 	}
+	
+	public void updateUser(User user) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.insert("updateUser", user);
+			session.commit();
+			System.out.println("update user by using mybatis!");
+		} finally {
+			session.close();
+		}
+	}
 
-	public List<User> getUserList() {
+	public List<User> getUserList() throws RepositoryException {
 
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
@@ -49,6 +62,39 @@ public class UserRepository {
 			session.close();
 		}
 
+	}
+
+	public void addRole(Role role) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.insert("addRole", role);
+			session.commit();
+			System.out.println("insert role by using mybatis!");
+		} finally {
+			session.close();
+		}
+	}
+
+	public void updateRole(Role role) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.insert("updateRole", role);
+			session.commit();
+			System.out.println("update role by using mybatis!");
+		} finally {
+			session.close();
+		}
+		
+	}
+
+	public List<Role> getRoleList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Role> roles = session.selectList("getRoles");
+			return roles;
+		} finally {
+			session.close();
+		}
 	}
 
 }

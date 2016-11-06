@@ -1,8 +1,6 @@
 package com.ineuron;
 
 import com.hubspot.dropwizard.guice.GuiceBundle;
-import com.ineuron.health.TemplateHealthCheck;
-import com.ineuron.resources.*;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;

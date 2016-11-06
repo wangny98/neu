@@ -1,5 +1,8 @@
 package com.ineuron.domain.user.entity;
 
+import com.ineuron.common.exception.RepositoryException;
+import com.ineuron.domain.user.repository.UserRepository;
+
 public class User {
 	
 	private Integer id;
@@ -8,6 +11,25 @@ public class User {
 	private String lastname;
 	private String role;
 	private String password;
+	
+	
+	public void addUser(UserRepository userRepository) throws RepositoryException{
+		//set default role
+		setRole("user");
+		userRepository.addUser(this);
+	}
+	
+	public void updateUser(UserRepository userRepository) throws RepositoryException{
+		
+		userRepository.updateUser(this);
+		
+	}
+	
+	public User doAuthenticate(UserRepository userRepository) throws RepositoryException{
+		
+		return userRepository.DoAuthenticate(this);
+
+	}
 	
 	public Integer getId() {
 		return id;
@@ -49,6 +71,6 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
+	}	
 	
 }

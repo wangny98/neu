@@ -12,7 +12,7 @@
 
 </head>
 
-<div ng-controller="UserListController as userList">
+<div ng-controller="UserUpdateController as userUpdate">
 
 	<form class="form-user" name="updateuser">
 		<table width="200">
@@ -28,7 +28,7 @@
 	        </tr>
 		    <tr>
 		      <td><select class="input-block-level" name="roleSelect" id="roleSelect" ng-model="updateRoleSelected">
-  						    <option ng-repeat="role in userList.roles" value="{{role.id}}">{{role.role}}</option>
+  						    <option ng-repeat="role in userUpdate.roles" value="{{role.id}}">{{role.role}}</option>
     					 </select></td>
 		      
 	        </tr>
@@ -39,7 +39,7 @@
 		
 		<hr>
 		<button class="btn btn-large btn-primary"
-			ng-disabled="!updateuser.$valid" ng-click="updateUser()">
+			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()">
 			<span class="glyphicon glyphicon-upload"></span>  确定
 		</button>
 	</form>

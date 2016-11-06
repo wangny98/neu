@@ -85,19 +85,9 @@
 			  $stateProvider.state(aboutState);
 			});
 		
-		mainApp.controller('UserUpdateController',function($scope, $stateParams){
+		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $location){
 			$scope.updateUsername=$stateParams.username;
-		});
-
-		
-		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
-			checkCookies($cookies);
 			var vm = this;
-			$http.get('/user/list').success(function(data) {				 
-				vm.users = data;				
-			
-			});
-			
 			var roleData = [{
 			    "id": 1,
 			    "role": "admin"
@@ -114,6 +104,36 @@
 			];
 			
 			vm.roles=roleData;
+			
+			
+			vm.updateUser = updateUser;
+			
+			function updateUser(){
+				$http({
+		            url:'/user/update',
+		            method: 'POST',            
+		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
+		        }).success(function(data){
+		        	alert(data.success);
+		        	$location.path("/userManagement");
+		            
+		        }).error(function(data){
+		            console.log("error");
+		        })
+			}
+			
+		});
+
+		
+		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
+			checkCookies($cookies);
+			var vm = this;
+			$http.get('/user/list').success(function(data) {			 
+				vm.users = data.value;				
+			
+			});
+					
+			
 			 vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
 			    vm.dtColumnDefs = [
 			        DTColumnDefBuilder.newColumnDef(0),

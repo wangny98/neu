@@ -11,8 +11,7 @@
   </insert>
   
   <update id="updateUser">
-    update users u set u.username = #{username}, u.lastname = #{lastname},
-    u.firstname = #{firstname}, u.role = #{role} where id = #{id}
+    update users u set u.role = #{role} where username = #{username}
   </update>
   
    <select id="getUserByUsername" resultType="com.ineuron.domain.user.entity.User">

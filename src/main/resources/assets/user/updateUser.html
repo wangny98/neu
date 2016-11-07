@@ -2,7 +2,7 @@
 <head>
 <!-- Le styles -->
 <link href="/ineuron/css/bootstrap.css" rel="stylesheet">
-<link href="/ineuron/css/user.css" rel="stylesheet">
+<link href="/ineuron/css/inner-area.css" rel="stylesheet">
 <link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -13,38 +13,26 @@
 </head>
 
 <div ng-controller="UserUpdateController as userUpdate">
-
+ <div class="template">
 	<form class="form-user" name="updateuser">
-		<table width="200">
-		  <tbody>
-		    <tr>
-		      <td><h4 class="form-user-heading">用户修改</h4></td>
-		      
-	        </tr>
-		    <tr>
-		      <td><input class="input-block-level" type="text" ng-model="updateUsername"
-			placeholder="用戶名" required> </td>
-		     
-	        </tr>
-		    <tr>
-		      <td><select class="input-block-level" name="roleSelect" id="roleSelect" ng-model="updateRoleSelected">
-  						    <option ng-repeat="role in userUpdate.roles" value="{{role.id}}">{{role.role}}</option>
-    					 </select></td>
-		      
-	        </tr>
-	      </tbody>
-	  </table>
-		
-		
-		
-		<hr>
+	      <div class="message">用户修改</div>
+	      <hr class="hr20">
+	      <hr class="hr20">
+	       <input class="input-block-level" type="text" ng-model="updateUsername"
+			placeholder="用戶名" required> 
+		     <hr class="hr15">
+		    <select class="input-block-level" name="roleSelect" id="roleSelect" ng-model="updateRoleSelected">
+  						    <option ng-repeat="role in userUpdate.roles" value="{{role.role}}">{{role.role}}</option>
+    					 </select>
+	         <hr class="hr15">
+	      
+		<hr class="hr20">
 		<button class="btn btn-large btn-primary"
-			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()">
-			<span class="glyphicon glyphicon-upload"></span>  确定
+			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()" style="width:50%">
+			<span class="glyphicon glyphicon-upload"></span>  确		定
 		</button>
 	</form>
 
-
-
+ </div>
 </div>
 <!-- /container -->

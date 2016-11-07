@@ -2,7 +2,7 @@
 <head>
 <!-- Le styles -->
 <link href="/ineuron/css/bootstrap.css" rel="stylesheet">
-<link href="/ineuron/css/user.css" rel="stylesheet">
+<link href="/ineuron/css/login.css" rel="stylesheet">
 <link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -12,27 +12,24 @@
 
 </head>
 
-<div class="container">
-
+<div class="register">
+	<div class="message">琥崧智能工厂运营与控制系统-用户注册</div>
+    <div id="darkbannerwrap"></div>
 	<form class="form-user" name="registerform">
-		<h3 class="form-user-heading">新用户注册：</h3>
-		<input type="text" class="input-block-level" ng-model="username"
-			placeholder="用戶名" required> <input type="text"
-			class="input-block-level" ng-model="lastname" placeholder="姓"
-			required> <input type="text" class="input-block-level"
-			ng-model="firstname" placeholder="名" required> <input
-			type="password" class="input-block-level" ng-model="password"
-			placeholder="密码" required> <input type="password"
-			class="input-block-level" ng-model="password2" placeholder="重复密码"
-			required>
-		<hr>
-		<button class="btn btn-large btn-primary"
-			ng-disabled="!registerform.$valid" ng-click="submitReg()">
+
+		<input type="text" class="input-block-level" ng-model="username" placeholder="用戶名" required> 
+		<hr class="hr10">
+		<input type="text" class="input-block-level" ng-model="lastname" placeholder="姓" required> 
+		<hr class="hr10">
+		<input type="text" class="input-block-level" ng-model="firstname" placeholder="名" required> 
+		<hr class="hr10">
+		<input type="password" class="input-block-level" ng-model="password" placeholder="密码" required> 
+		<hr class="hr10">
+		<input type="password"	class="input-block-level" ng-model="password2" placeholder="重复密码" required>
+		<hr class="hr15">
+		<button class="btn btn-large btn-primary" ng-disabled="!registerform.$valid" ng-click="submitReg()" style="width:100%;>
 			<span class="glyphicon glyphicon-plus"></span>注册
 		</button>
 	</form>
-
-
-
 </div>
 <!-- /container -->

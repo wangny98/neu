@@ -85,7 +85,7 @@
 			  $stateProvider.state(aboutState);
 			});
 		
-		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $location){
+		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $state){
 			$scope.updateUsername=$stateParams.username;
 			var vm = this;
 			var roleData = [{
@@ -115,7 +115,7 @@
 		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
 		        }).success(function(data){
 		        	//alert(data.success);
-		        	$location.path("/userManagement");
+		        	$state.go("userManagement");
 		            
 		        }).error(function(data){
 		            console.log("error");

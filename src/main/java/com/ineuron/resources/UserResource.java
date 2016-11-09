@@ -6,6 +6,7 @@ import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.Role;
 import com.ineuron.domain.user.entity.User;
+import com.ineuron.domain.user.service.SecurityService;
 import com.ineuron.domain.user.service.UserService;
 import com.ineuron.domain.user.valueobject.Function;
 
@@ -14,9 +15,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,6 +31,9 @@ public class UserResource {
 
 	@Inject
 	private UserService userService;
+	
+	@Inject
+	private SecurityService securityService;
 
 	public UserResource() {
 		super();
@@ -39,13 +46,16 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 		try {
 			userService.doAuthenticate(user);
+			String apiToken = securityService.createApiToken(user.getUsername());
 			response.setSuccess(true);
 			response.setValue(user);
-			return response;
+			response.setApiToken(apiToken);
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
-			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return response;
 
 	}
 
@@ -71,36 +81,61 @@ public class UserResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
-	public INeuronResponse update(final User user, @Context final UriInfo uriInfo) {
+	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders hh) {
 		INeuronResponse response = new INeuronResponse();
+		String apiToken = hh.getHeaderString("apiToken");
+		String username = hh.getHeaderString("username");
+		System.out.println("apiToken=" + apiToken);
+		System.out.println("userName=" + username);
+		
 		try {
-			userService.updateUser(user);			
-			response.setSuccess(true);
-			response.setValue(user);
-			return response;
+			apiToken = URLDecoder.decode(apiToken, "UTF-8");
+			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			if(newApiToken != null){
+				userService.updateUser(user);			
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+				response.setValue(user);
+			}
+			
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
-			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		return response;
 	}
 
 	@Path("/list")
 	@GET
 	@Timed
-	public INeuronResponse getUserList() {
+	public INeuronResponse getUserList(@Context HttpHeaders hh) {
 		INeuronResponse response = new INeuronResponse();
-
+		String apiToken = hh.getHeaderString("apiToken");
+		String username = hh.getHeaderString("username");
+		System.out.println("apiToken=" + apiToken);
+		System.out.println("userName=" + username);
 		try {
-			List<User> users = userService.getUserList();
-			response.setValue(users);
-			response.setSuccess(true);
-			return response;
+			apiToken = URLDecoder.decode(apiToken, "UTF-8");
+			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			if(newApiToken != null){
+				List<User> users = userService.getUserList();
+				response.setValue(users);
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+			}
+			
+			
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
-			return response;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		return response;
 	}
 
 	@Path("/createrole")

@@ -4,6 +4,7 @@ public class INeuronResponse {
 	
 	boolean success = false;
 	String message;
+	String apiToken;
 	Object value;
 	
 	public boolean isSuccess() {
@@ -17,6 +18,13 @@ public class INeuronResponse {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String getApiToken() {
+		return apiToken;
+	}
+	public void setApiToken(String apiToken) {
+		this.apiToken = apiToken;
 	}
 	public Object getValue() {
 		return value;

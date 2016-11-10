@@ -9,28 +9,27 @@
 				<tr>
 					<th><pre>用户名</pre></th>
 					<th><pre>角色</pre></th>
+					<th><pre>特殊权限</pre></th>
 					<th><pre>修改</pre></th>
-					<th><pre>删除</pre></th>
+					<th><pre>查看</pre></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in userList.users">
 					<td>{{ user.username }}</td>
 					<td>{{ user.role }}</td>
-
+					<td>{{ user.permissionflag }}</td>
 					<td>
 						<!-- <a ui-sref="updateUser({username:user.username})">修改</a> -->
 						<button type="button" ui-sref="updateUser({username:user.username})"
 							class="btn btn-warning">
 							<i class="fa fa-edit"></i>
-						</button>
-						
-						
+						</button>			
 					</td>
 					<td>
 						<button type="button" ng-click="userList.removeUser($index)"
-							class="btn btn-danger">
-							<i class="fa fa-trash-o"></i>
+							class="btn btn-success">
+							<i class="fa fa-eye"></i>
 						</button>
 					</td>
 

@@ -11,6 +11,8 @@ public class User {
 	private String lastname;
 	private String role;
 	private String password;
+	private String permissions;
+	private String permissionflag;
 	
 	
 	public void addUser(UserRepository userRepository) throws RepositoryException{
@@ -73,4 +75,17 @@ public class User {
 		this.password = password;
 	}	
 	
+	public String getPermissions() {
+		return permissions;
+	}
+	public void setPermissions(String permissions) {
+		this.permissions = permissions;
+	}	
+	
+	public String getPermissionflag() {
+		return permissionflag;
+	}
+	public void setPermissionflag(String permissionflag) {
+		this.permissionflag = permissionflag;
+	}	
 }

@@ -19,6 +19,9 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -34,6 +37,8 @@ public class UserResource {
 	
 	@Inject
 	private SecurityService securityService;
+	
+	static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
 	public UserResource() {
 		super();
@@ -43,17 +48,20 @@ public class UserResource {
 	@POST
 	@Timed
 	public INeuronResponse login(final User user, @Context final UriInfo uriInfo) {
+		System.out.println("LOGGER.isDebugEnabled() = " + LOGGER.isDebugEnabled());
 		INeuronResponse response = new INeuronResponse();
 		try {
 			userService.doAuthenticate(user);
 			String apiToken = securityService.createApiToken(user.getUsername());
+			LOGGER.info("user/authenticate newApiToken=" + apiToken);
 			response.setSuccess(true);
 			response.setValue(user);
 			response.setApiToken(apiToken);
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return response;
 
@@ -69,11 +77,11 @@ public class UserResource {
 			userService.doRegister(user);
 			response.setSuccess(true);
 			response.setValue(user);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 
@@ -85,12 +93,13 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 		String apiToken = hh.getHeaderString("apiToken");
 		String username = hh.getHeaderString("username");
-		System.out.println("apiToken=" + apiToken);
-		System.out.println("userName=" + username);
+		LOGGER.info("user/update apiToken=" + apiToken);
+		LOGGER.info("user/update userName=" + username);
 		
 		try {
 			apiToken = URLDecoder.decode(apiToken, "UTF-8");
 			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateUser(user);			
 				response.setSuccess(true);
@@ -99,9 +108,10 @@ public class UserResource {
 			}
 			
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return response;
 	}
@@ -113,11 +123,12 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 		String apiToken = hh.getHeaderString("apiToken");
 		String username = hh.getHeaderString("username");
-		System.out.println("apiToken=" + apiToken);
-		System.out.println("userName=" + username);
+		LOGGER.info("user/list apiToken=" + apiToken);
+		LOGGER.info("user/list userName=" + username);
 		try {
 			apiToken = URLDecoder.decode(apiToken, "UTF-8");
 			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				List<User> users = userService.getUserList();
 				response.setValue(users);
@@ -125,15 +136,13 @@ public class UserResource {
 				response.setApiToken(newApiToken);
 			}
 			
-			
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return response;
 	}
@@ -148,11 +157,11 @@ public class UserResource {
 			userService.createRole(role);
 			response.setSuccess(true);
 			response.setValue(role);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 	
@@ -166,11 +175,11 @@ public class UserResource {
 			userService.updateRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 	
@@ -187,6 +196,7 @@ public class UserResource {
 			response.setSuccess(true);
 			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage());
 			response.setMessage(e.getMessage());
 			return response;
 		}

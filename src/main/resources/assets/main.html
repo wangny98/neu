@@ -85,7 +85,7 @@
 			  $stateProvider.state(aboutState);
 			});
 		
-		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $state){
+		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $state, $cookies){
 			$scope.updateUsername=$stateParams.username;
 			var vm = this;
 			var roleData = [{
@@ -104,20 +104,23 @@
 			];
 			
 			vm.roles=roleData;
-			
-			
+					
 			vm.updateUser = updateUser;
 			
 			function updateUser(){
+				var username = $cookies.get('INeuron-UserName');
+				var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
 				$http({
 		            url:'/user/update',
-		            method: 'POST',            
+		            method: 'POST',
+		            headers: {'username':username, 'apiToken':apiToken},
 		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
 		        }).success(function(data){
-		        	//alert(data.success);
+		        	validateApiToken(data, $cookies);
 		        	$state.go("userManagement");
 		            
 		        }).error(function(data){
+		        	alert('error');
 		            console.log("error");
 		        })
 			}
@@ -126,12 +129,20 @@
 
 		
 		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
-			checkCookies($cookies);
 			var vm = this;
-			$http.get('/user/list').success(function(data) {			 
-				vm.users = data.value;				
-			
-			});
+			var username = $cookies.get('INeuron-UserName');
+			var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
+			$http({
+				url:'/user/list',
+	            method: 'GET',
+	            headers: {'username':username, 'apiToken':apiToken}
+			}).success(function(data) {	
+				validateApiToken(data, $cookies);
+				vm.users = data.value;					
+			}).error(function(data){
+	        	alert('error');
+	            console.log("error");
+	        })
 					
 			
 			 vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
@@ -161,26 +172,20 @@
 		 }
 			 
 		);
-		 
-		mainApp.controller('verifyCookies', function($cookies) {
-			checkCookies($cookies);
-		}); 
 		
-		function checkCookies(cookies){
-			var username = cookies.get('INeuron-UserName');
-
-			if(username == null || username == undefined){
-				
-				alert("会话已过期，请重新登录");
-				window.location.href="/ineuron/user/index.html/#/login";
-			} 
+		
+		function validateApiToken(data, cookies){
+        	if(data.apiToken == null){
+        		alert("会话已过期，请重新登录");
+        		window.location.href="/ineuron/user/index.html/#/login";
+        	}
+        	cookies.put('INeuron-ApiToken', data.apiToken, {path:"/"});  
 		}
 		
 	</script>
 </head>
 
 <body>
-	<div ng-controller="verifyCookies"></div>
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">

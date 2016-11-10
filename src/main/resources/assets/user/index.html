@@ -47,8 +47,8 @@
 		            data: {username:$scope.username, password:$scope.password}      
 		        }).success(function(data){
 		            console.log("success!");
-		            var time = new Date().getTime() + 180*1000;
-		        	$cookies.put('INeuron-UserName', $scope.username, {path:"/", expires:new Date(time)});  
+		        	$cookies.put('INeuron-UserName', $scope.username, {path:"/"});  
+		        	$cookies.put('INeuron-ApiToken', data.apiToken, {path:"/"});  
 		        	window.location.href="/ineuron/main.html";
 		        }).error(function(data){
 		        	alert(data.message);

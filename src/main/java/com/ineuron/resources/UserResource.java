@@ -38,7 +38,7 @@ public class UserResource {
 	@Inject
 	private SecurityService securityService;
 	
-	static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
 	public UserResource() {
 		super();
@@ -58,7 +58,7 @@ public class UserResource {
 			response.setValue(user);
 			response.setApiToken(apiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -78,7 +78,7 @@ public class UserResource {
 			response.setSuccess(true);
 			response.setValue(user);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -97,7 +97,6 @@ public class UserResource {
 		LOGGER.info("user/update userName=" + username);
 		
 		try {
-			apiToken = URLDecoder.decode(apiToken, "UTF-8");
 			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
@@ -108,10 +107,10 @@ public class UserResource {
 			}
 			
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 		return response;
 	}
@@ -126,7 +125,6 @@ public class UserResource {
 		LOGGER.info("user/list apiToken=" + apiToken);
 		LOGGER.info("user/list userName=" + username);
 		try {
-			apiToken = URLDecoder.decode(apiToken, "UTF-8");
 			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
@@ -137,12 +135,12 @@ public class UserResource {
 			}
 			
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 		return response;
 	}
@@ -158,7 +156,7 @@ public class UserResource {
 			response.setSuccess(true);
 			response.setValue(role);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -176,7 +174,7 @@ public class UserResource {
 			response.setSuccess(true);
 			response.setValue(role);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -193,13 +191,12 @@ public class UserResource {
 		try {
 			List<Role> roles = userService.getRoleList();
 			response.setValue(roles);
-			response.setSuccess(true);
-			return response;
+			response.setSuccess(true);			
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 

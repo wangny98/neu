@@ -149,31 +149,26 @@
 			    vm.dtColumnDefs = [
 			        DTColumnDefBuilder.newColumnDef(0),
 			        DTColumnDefBuilder.newColumnDef(1),
-			        DTColumnDefBuilder.newColumnDef(2).notSortable(),
-			        DTColumnDefBuilder.newColumnDef(3).notSortable()
+			        DTColumnDefBuilder.newColumnDef(2),
+			        DTColumnDefBuilder.newColumnDef(3).notSortable(),
+			        DTColumnDefBuilder.newColumnDef(4).notSortable()
 			    ];
 			    //vm.user2Add = _buildUser2Add(1);
 			    vm.addUser = addUser;
-			    vm.modifyUser = modifyUser;
 			    vm.removeUser = removeUser;
 
-			    function addUser(index) {
+			     function addUser(index) {
 			        //vm.users.push(angular.copy(vm.person2Add));
 			        //vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
 			        alert("add 1");
 			        alert("add"+vm.users[index].username);
 			    }
 			    
-			    function modifyUser(index) {
-			       $scope.edit=true;
-			       $scope.updateUsername=vm.users[index].username;
-			       $location.path("updateUser");
-			    }
-			    
+   
 			    function removeUser(index) {
 			        alert("remove");
 			        alert(vm.users[index].username);
-			    }
+			    } 
 		 }
 			 
 		);
@@ -194,16 +189,16 @@
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-			  <table width="300%" border="0">
-		        <tbody>
-			       <tr>
-			         <td><img alt="" src="/ineuron/images/logo.png"></td>
-                     
-			         <td align="center"><a class="navbar-brand" >琥崧智能工厂运营与控制系统</a></td>
-		           </tr>
-	            </tbody>
-		      </table>
-		    </div>
+				<table width="300%" border="0">
+					<tbody>
+						<tr>
+							<td><img alt="" src="/ineuron/images/logo.png"></td>
+
+							<td align="center"><a class="navbar-brand">琥崧智能工厂运营与控制系统</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="container-fluid">
@@ -213,7 +208,7 @@
 					<li class="active"><a href="#"> <i
 							class="glyphicon glyphicon-th-large"></i> 首页
 					</a></li>
-				 <li><a href="#systemSetting" class="nav-header collapsed"
+					<li><a href="#systemSetting" class="nav-header collapsed"
 						data-toggle="collapse"> <i class="glyphicon glyphicon-cog"></i>
 							系统管理 <span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -223,24 +218,16 @@
 									class="glyphicon glyphicon-user"></i>用户管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-edit"></i>修改密码</a></li>
-						</ul>
-					</li>
-					<li><a href="./plans.html"><i class="glyphicon glyphicon-credit-card"></i>
-						产品管理 
-						</a>
-					</li>
+						</ul></li>
+					<li><a href="./plans.html"><i
+							class="glyphicon glyphicon-credit-card"></i> 产品管理 </a></li>
 					<li><a href="#"><i class="glyphicon glyphicon-th-list"></i>
-						订单管理
-						</a>
-					</li>
+							订单管理 </a></li>
 					<li><a href="#"><i class="glyphicon glyphicon-wrench"></i>
-						生产管理
-						</a>
-					</li>
-					<li><a ui-sref="about" ui-sref-active="active"> 
-					<i class="glyphicon glyphicon-fire"></i> 关于系统
-					</a>
-					</li>
+							生产管理 </a></li>
+					<li><a ui-sref="about" ui-sref-active="active"> <i
+							class="glyphicon glyphicon-fire"></i> 关于系统
+					</a></li>
 				</ul>
 			</div>
 			<div class="col-md-10">

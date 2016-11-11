@@ -10,12 +10,17 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class DesUtil {
 
 	private final static String DES = "DES";
 
 	private static String key = null;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DesUtil.class);
 
 	public static void main(String[] args) throws Exception {
 		String data = "test|2016-11-09";
@@ -66,6 +71,7 @@ public class DesUtil {
 	private static String getKey() {
 		if (key == null) {
 			key = getRandomString(8);
+			LOGGER.info("DES Key : " + key);
 		}
 		return key;
 	}

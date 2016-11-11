@@ -18,7 +18,7 @@ public class DesUtil {
 
 	private final static String DES = "DES";
 
-	private static String key = "dQgCluDR";
+	private static String key = null;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DesUtil.class);
 
@@ -26,7 +26,7 @@ public class DesUtil {
 		String data = "test|2016-11-09";
 		System.err.println(getKey());
 		System.err.println(encrypt(data));
-		System.err.println(decrypt("3CLZbU6KnBgyZrojkjzo+gGOhsZTYQHU+I0gPxpKbOw="));
+		System.err.println(decrypt(encrypt(data)));
 
 	}
 

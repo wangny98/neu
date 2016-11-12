@@ -2,7 +2,9 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="UserListController as userList">
+	<!-- 
 	<form class="form-inline" ng-submit="userList.addUser($index)">
+	 -->
 		<table datatable="ng" dt-options="userList.dtOptions"
 			dt-column-defs="userList.dtColumnDefs" class="row-border hover">
 			<thead>
@@ -20,7 +22,7 @@
 					<td>{{ user.role }}</td>
 					<td>{{ user.permissionflag }}</td>
 					<td>
-						<!-- <a ui-sref="updateUser({username:user.username})">修改</a> -->
+						<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->
 						<button type="button" ui-sref="updateUser({username:user.username})"
 							class="btn btn-warning">
 							<i class="fa fa-edit"></i>
@@ -36,5 +38,5 @@
 				</tr>
 			</tbody>
 		</table>
-	</form>
+	<!-- </form> -->
 </div>

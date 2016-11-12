@@ -28,6 +28,10 @@ public class UserService {
 	public List<User> getUserList() throws RepositoryException {
 		return userRepository.getUserList();
 	}
+	
+	public User getUserByUsername(String username) throws RepositoryException {
+		return userRepository.getUserByUsername(username);
+	}
 
 	
 	public void createRole(Role role) throws RepositoryException {

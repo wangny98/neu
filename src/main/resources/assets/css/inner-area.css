@@ -22,11 +22,11 @@ a{
     cursor:pointer;
 }
 .template{
-    margin: 100px auto 0 auto;
-    min-height: 420px;
-    max-width: 420px;
-    padding: 40px;
-    margin-left: auto;
+    margin: 20px auto 0 auto;
+    /* min-height: 420px;
+    max-width: 420px; 
+    padding: 40px; */
+    margin-left: 100px;
     margin-right: auto;
     border-radius: 4px;
     /* overflow-x: hidden; */
@@ -40,14 +40,15 @@ a.logo{
     background-size: 167px 42px;
 }
 .message {
-	margin: 0px 0 0 0px;
+	margin: 0px 0 0 300px;
 	align-self: center;
-	padding: 10px 10px 18px 10px;
+	padding: 10px 10px 10px 10px;
 	background: #27A9E3;
 	position: relative;
 	color: #fff;
 	font-size: 16px;
 	text-align: center;
+	width:300px;
     
 }
 
@@ -114,6 +115,11 @@ hr.hr20 {
     margin: 0px;
     padding: 0px;
     width: 100%;
+}
+
+.space {
+	width:100px;
+	padding-left:20px
 }
 
 .copyright{

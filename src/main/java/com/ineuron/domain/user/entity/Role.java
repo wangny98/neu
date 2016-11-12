@@ -10,8 +10,9 @@ import com.ineuron.domain.user.valueobject.Permission;
 public class Role {
 
 	private Integer id;
-	private String roleName;
+	private String rolename;
 	private String permissions;
+	private String description;
 	// private Map<Function, Permission> permissions;
 
 	public void addRole(UserRepository userRepository) throws RepositoryException {
@@ -30,12 +31,12 @@ public class Role {
 		this.id = id;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getRolename() {
+		return rolename;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
 	}
 
 	public String getPermissions() {
@@ -45,7 +46,15 @@ public class Role {
 	public void setPermissions(String permissions) {
 		this.permissions = permissions;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	
 
 }

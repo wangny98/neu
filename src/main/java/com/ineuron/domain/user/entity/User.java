@@ -2,6 +2,8 @@ package com.ineuron.domain.user.entity;
 
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.repository.UserRepository;
+import com.ineuron.domain.user.valueobject.Permission;
+import com.ineuron.domain.user.valueobject.Function;
 
 public class User {
 	
@@ -32,6 +34,10 @@ public class User {
 		return userRepository.DoAuthenticate(this);
 
 	}
+	
+	/*public getUserFuncPermissionList(){
+		
+	}*/
 	
 	public Integer getId() {
 		return id;

@@ -1,9 +1,13 @@
 <meta charset="utf-8">
 <head>
 <!-- Le styles -->
-<link href="/ineuron/css/bootstrap.css" rel="stylesheet">
-<link href="/ineuron/css/inner-area.css" rel="stylesheet">
-<link href="/ineuron/css/bootstrap-responsive.css" rel="stylesheet">
+<link rel="stylesheet" href="/ineuron/css/bootstrap.css">
+<link rel="stylesheet" href="/ineuron/css/inner-area.css">
+<link rel="stylesheet" href="/ineuron/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/ineuron/css/isteven-multi-select.css">
+<link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
+<script src="/ineuron/js/angular.min.js"></script>
+<script src="/ineuron/js/isteven-multi-select.js"></script>
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -13,26 +17,68 @@
 </head>
 
 <div ng-controller="UserUpdateController as userUpdate">
- <div class="template">
-	<form class="form-user" name="updateuser">
-	      <div class="message">用户修改</div>
-	      <hr class="hr20">
-	      <hr class="hr20">
-	       <input class="input-block-level" type="text" ng-model="updateUsername"
-			placeholder="用戶名" required> 
-		     <hr class="hr15">
-		    <select class="input-block-level" name="roleSelect" id="roleSelect" ng-model="updateRoleSelected">
-  						    <option ng-repeat="role in userUpdate.roles" value="{{role.role}}">{{role.role}}</option>
-    					 </select>
-	         <hr class="hr15">
-	      
-		<hr class="hr20">
-		<button class="btn btn-large btn-primary"
-			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()" style="width:50%">
-			<span class="glyphicon glyphicon-upload"></span>  确		定
-		</button>
-	</form>
+<div class="message">用户权限修改</div>
 
+ <div class="template">
+     <hr class="hr20">
+     <hr class="hr20">
+	<form class="form-user" name="updateuser">
+	<table>
+	 <tbody>
+	  <tr>
+	  <td class="space">用户名：</td>
+	  <td> <input class="input-block-level" type="text" ng-model="updateUsername" value="disabled" disabled required>
+       </td> 
+       </tr>
+       
+       <tr><hr class="hr15"></tr>
+       
+	   <tr>
+	   <td class="space">角色：</td>
+	   <td>{{user.role}}</td>
+	   </tr>
+	   
+	   <tr><hr class="hr15"></tr>
+	   
+	   <tr>
+	   <td class="space">新角色: </td>
+	   <td>
+	    <table>
+                <tr class="hljs-tag" ng-repeat="row in newroles" >
+                    <td>&nbsp;</td>
+                    <td><span class="hljs-value">{{row.rolename}}</span></td>
+                    <td><span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>   
+	    </td>
+	   <td>
+	    <div isteven-multi-select input-model="userUpdate.roles"
+								output-model="newroles" button-label="rolename"
+								item-label="rolename" tick-property="ticked"
+								orientation="horizontal"></div>
+
+		</td>
+	   </tr>
+	   <tr>
+	   <td class="space">权限：</td>
+	   <td></td>
+	   </tr>
+	   
+	   <tr>
+	   </tr>
+    	
+	  </tbody> 
+	 </table>        
+	 <hr class="hr15">  
+	 <hr class="hr20">
+	 <button class="btn btn-large btn-primary"
+			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()">
+	 <span class="glyphicon glyphicon-upload"></span>  确		定
+	 </button>
+	</form>
  </div>
+ 
+ 
+ 
 </div>
 <!-- /container -->

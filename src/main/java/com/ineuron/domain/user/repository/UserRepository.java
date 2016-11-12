@@ -64,6 +64,25 @@ public class UserRepository {
 
 	}
 
+	public User getUserByUsername(String username) throws RepositoryException {
+
+		User foundUser;
+		
+		System.out.println("in UserRespository: getUserByUsername. username:"+username);
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			foundUser = session.selectOne("getUserByUsername", username);
+			if(foundUser != null){
+				System.out.println("select user by using getUserByUsername!"+"found, username:"+username);
+			}
+		
+		} finally {
+			session.close();
+		}
+		
+		return foundUser;
+	}
+	
 	public void addRole(Role role) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {

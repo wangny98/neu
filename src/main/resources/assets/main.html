@@ -45,12 +45,16 @@
 <script src="/ineuron/js/angular-ui-router.js"></script>
 <script src="/ineuron/js/angular-cookies.min.js"></script>
 
+<link rel="stylesheet" href="/ineuron/css/isteven-multi-select.css">
+<link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
+<script src="/ineuron/js/angular.min.js"></script>
+<script src="/ineuron/js/isteven-multi-select.js"></script>
 
 
 <script type="text/javascript">
 
 		//define the package as userApp
-		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies', 'datatables']);
+		var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies', 'datatables', 'isteven-multi-select']);
 		
 		mainApp.config(function($stateProvider) {
 					
@@ -70,51 +74,85 @@
 			 var updateUserState = {
 				    name: 'updateUser',
 				    url: 'updateUser/{username}',
-				    views: {'':{
-				    	
+				    views: {'':{				    	
 				    	templateUrl: '/ineuron/user/updateUser.html',
-					    controller: 'UserUpdateController'
-					    
+					    controller: 'UserUpdateController'		    
 				    	}
-				    }
-				    
+				    }				    
 				  }
 
 			  $stateProvider.state(userManagementState);
 			  $stateProvider.state(updateUserState);
 			  $stateProvider.state(aboutState);
+			  
 			});
 		
+		mainApp.controller('NavMenuController', function($scope){
+			$scope.ShowUserManagementMenu=function(){
+				return true;	
+			}			
+		});
+		
 		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $state, $cookies){
+			//alert($stateParams.username+$stateParams.role);
+			var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
+			var username=$stateParams.username;
 			$scope.updateUsername=$stateParams.username;
-			var vm = this;
-			var roleData = [{
-			    "id": 1,
-			    "role": "admin"
-			}, {
-			    "id": 2,
-			    "role": "salesperson"
-			}, {
-			    "id": 3,
-			    "role": "production-person"
-			}, {
-			    "id": 4,
-			    "role": "guest"
-			}
-			];
 			
-			vm.roles=roleData;
-					
+			var vm=this;
+			
+			//Get user by name
+			$http({
+	            url:'/user/user',
+	            method: 'GET',
+	            headers: {'username':username, 'apiToken':apiToken}	            
+	        }).success(function(userdata){
+	        	$scope.user=userdata.value;
+	        	
+	        	//get permission/func list of this user
+	        	/* var strpermissions=userdata.value.permissions;
+	        	var permissionslist=strpermissions.split(",");
+	        	for (var i in permissionslist){
+	        		
+	        	} */
+	        	
+	        }).error(function(userdata){
+	        	alert('error: get user by name');
+	            console.log("error:getuserbyname");
+	        });
+			
+			
+			//Get Rolelist
+ 			$http({
+	            url:'/user/rolelist',
+	            method: 'GET'      
+	        }).success(function(roledata){
+	        	vm.roles=roledata.value;
+	        }).error(function(roledata){
+	        	alert('error');
+	            console.log("error:getrolelist");
+	        });
+			
+	
 			vm.updateUser = updateUser;
 			
 			function updateUser(){
 				var username = $cookies.get('INeuron-UserName');
 				var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
+				
+				var strRoles="";
+				var usernewroles=$scope.newroles;
+				for (var i in usernewroles){
+					strRoles=strRoles.concat(usernewroles[i].rolename,"|");
+				};
+				strRoles=strRoles.substring(0,strRoles.length-1);
+				
+				alert(strRoles);
 				$http({
 		            url:'/user/update',
 		            method: 'POST',
 		            headers: {'username':username, 'apiToken':apiToken},
-		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
+		            data: {username:$scope.updateUsername, role:strRoles}      
 		        }).success(function(data){
 		        	validateApiToken(data, $cookies);
 		        	$state.go("userManagement");
@@ -137,14 +175,39 @@
 	            method: 'GET',
 	            headers: {'username':username, 'apiToken':apiToken}
 			}).success(function(data) {	
-				validateApiToken(data, $cookies);
+				//validateApiToken(data, $cookies);
 				vm.users = data.value;					
 			}).error(function(data){
 	        	alert('error');
 	            console.log("error");
-	        })
+	        });
 					
+			//Get Rolelist
+ 			$http({
+	            url:'/user/rolelist',
+	            method: 'GET'      
+	        }).success(function(roledata){
+	        	vm.roles=roledata.value;
+	        }).error(function(roledata){
+	        	alert('error');
+	            console.log("error:getrolelist");
+	        });
 			
+			//replace user.role id to name
+			for (var i in vm.users){
+				var roleList=vm.users[i].role.split("|");
+				var strRoles="";
+				for (var j in roleList){
+				  for (var k in vm.roles){				  
+					if (roleList[j]==vm.roles[k].id){ roleList[j]=vm.roles[k].rolename; break}
+				 }
+				  strRoles=strRoles.concat(roleList[j],"|");
+				}
+				strRoles=strRoles.substring(0,strRoles.length-1);
+				vm.users[i].role=strRoles;
+			 }					
+				
+				
 			 vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
 			    vm.dtColumnDefs = [
 			        DTColumnDefBuilder.newColumnDef(0),
@@ -201,7 +264,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid">
+	<div ng-controller="NavMenuController" class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
 				<ul id="main-nav" class="nav nav-tabs nav-stacked" style="">
@@ -214,7 +277,7 @@
 					</a>
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a ui-sref="userManagement" ui-sref-active="active"><i
+							<li><a ui-sref="userManagement" ng-show="ShowUserManagementMenu()" ui-sref-active="active"><i
 									class="glyphicon glyphicon-user"></i>用户管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
 							<li><a href="#"><i class="glyphicon glyphicon-edit"></i>修改密码</a></li>

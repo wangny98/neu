@@ -9,6 +9,7 @@ import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.SecurityService;
 import com.ineuron.domain.user.service.UserService;
 import com.ineuron.domain.user.valueobject.Function;
+import com.ineuron.domain.user.valueobject.Permission;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -91,12 +92,12 @@ public class UserResource {
 		try {
 			apiToken = URLDecoder.decode(apiToken, "UTF-8");
 			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
-			if(newApiToken != null){
+			//if(newApiToken != null){
 				userService.updateUser(user);			
 				response.setSuccess(true);
 				response.setApiToken(newApiToken);
 				response.setValue(user);
-			}
+			//}
 			
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
@@ -138,6 +139,38 @@ public class UserResource {
 		return response;
 	}
 
+	@Path("/user")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Timed
+	public INeuronResponse getUserByUsername(@Context HttpHeaders hh) {
+		INeuronResponse response = new INeuronResponse();
+		String apiToken = hh.getHeaderString("apiToken");
+		String username = hh.getHeaderString("username");
+		System.out.println("apiToken=" + apiToken);
+		System.out.println("userName=" + username);
+		System.out.println("in getuserbyname.");
+		try {
+			apiToken = URLDecoder.decode(apiToken, "UTF-8");
+			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			//if(newApiToken != null){
+				User user=userService.getUserByUsername(username);			
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+				response.setValue(user);
+				System.out.println("success in get userbyname" + user.getRole());
+			//}
+		} catch (RepositoryException e) {
+			response.setMessage(e.getMessage());
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return response;
+	}
+
+	
 	@Path("/createrole")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -209,5 +242,52 @@ public class UserResource {
 		response.setValue(functions);
 		return response;
 	}
+	
+	@Path("/funcbyindex")
+	@GET
+	@Timed
+	public INeuronResponse getFuncByIndex(Integer index) {
+		
+		INeuronResponse response = new INeuronResponse();
+		String functionName="";
+		
+		functionName=Function.getName(index);
+		response.setSuccess(true);
+		response.setValue(functionName);
+		return response;
+	}
+	
+
+	@Path("/permissionlist")
+	@GET
+	@Timed
+	public INeuronResponse getPermissionList() {
+		
+		INeuronResponse response = new INeuronResponse();
+		
+		Map<Integer, String> permissions = new TreeMap<Integer, String>();
+
+		for (Permission f : Permission.values()){
+			permissions.put(f.getIndex(), f.getName());
+		}
+		response.setSuccess(true);
+		response.setValue(permissions);
+		return response;
+	}
+	
+	@Path("/permissionbyindex")
+	@GET
+	@Timed
+	public INeuronResponse getPermissionByIndex(Integer index) {
+		
+		INeuronResponse response = new INeuronResponse();
+		String permissionName="";
+		
+		permissionName=Permission.getName(index);
+		response.setSuccess(true);
+		response.setValue(permissionName);
+		return response;
+	}
+	
 
 }

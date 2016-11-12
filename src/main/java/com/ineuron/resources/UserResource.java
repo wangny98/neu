@@ -112,21 +112,6 @@ public class UserResource {
 		return response;
 	}
 
-	private String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
-		Map<String, Cookie> cookies = httpHeader.getCookies();
-		
-		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
-		Cookie usernameCookie = cookies.get("INeuron-UserName");
-		
-		String apiToken = apiTokenCookie.getValue();
-		apiToken = UriEncoder.decode(apiToken);
-		String username = usernameCookie.getValue();
-		LOGGER.info("user/update apiToken=" + apiToken);
-		LOGGER.info("user/update userName=" + username);
-		
-		return securityService.validateAndUpdateApiToken(apiToken, username);
-	}
-
 	@Path("/list")
 	@GET
 	@Timed
@@ -223,6 +208,21 @@ public class UserResource {
 		response.setSuccess(true);
 		response.setValue(functions);
 		return response;
+	}
+	
+	private String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
+		Map<String, Cookie> cookies = httpHeader.getCookies();
+		
+		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
+		Cookie usernameCookie = cookies.get("INeuron-UserName");
+		
+		String apiToken = apiTokenCookie.getValue();
+		apiToken = UriEncoder.decode(apiToken);
+		String username = usernameCookie.getValue();
+		LOGGER.info("user/update apiToken=" + apiToken);
+		LOGGER.info("user/update userName=" + username);
+		
+		return securityService.validateAndUpdateApiToken(apiToken, username);
 	}
 
 }

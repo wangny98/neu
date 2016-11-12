@@ -94,8 +94,6 @@
 		});
 		
 		mainApp.controller('UserUpdateController',function($scope, $stateParams, $http, $state, $cookies){
-			//alert($stateParams.username+$stateParams.role);
-			var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
 			var username=$stateParams.username;
 			$scope.updateUsername=$stateParams.username;
 			
@@ -107,6 +105,7 @@
 	            method: 'GET',
 	            data: {'username':username}	            
 	        }).success(function(userdata){
+	        	validateApiToken(data, $cookies);
 	        	$scope.user=userdata.value;	        	
 	        }).error(function(userdata){
 	        	alert('error: get user by name');
@@ -119,6 +118,7 @@
 	            url:'/user/rolelist',
 	            method: 'GET'      
 	        }).success(function(roledata){
+	        	validateApiToken(data, $cookies);
 	        	vm.roles=roledata.value;
 	        }).error(function(roledata){
 	        	alert('error');
@@ -128,9 +128,7 @@
 	
 			vm.updateUser = updateUser;
 			
-			function updateUser(){
-
-				
+			function updateUser(){				
 				var strRoles="";
 				var usernewroles=$scope.newroles;
 				for (var i in usernewroles){
@@ -138,8 +136,7 @@
 				};
 				strRoles=strRoles.substring(0,strRoles.length-1);
 				
-				alert(strRoles);
-				   
+				alert(strRoles);				   
 
 				$http({
 		            url:'/user/update',
@@ -164,7 +161,7 @@
 				url:'/user/list',
 	            method: 'GET'
 			}).success(function(data) {	
-				//validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies);
 				vm.users = data.value;					
 			}).error(function(data){
 	        	alert('error');
@@ -176,6 +173,7 @@
 	            url:'/user/rolelist',
 	            method: 'GET'      
 	        }).success(function(roledata){
+	        	validateApiToken(data, $cookies);
 	        	vm.roles=roledata.value;
 	        }).error(function(roledata){
 	        	alert('error');

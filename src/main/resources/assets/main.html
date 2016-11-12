@@ -108,12 +108,9 @@
 			vm.updateUser = updateUser;
 			
 			function updateUser(){
-				var username = $cookies.get('INeuron-UserName');
-				var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
 				$http({
 		            url:'/user/update',
 		            method: 'POST',
-		            headers: {'username':username, 'apiToken':apiToken},
 		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
 		        }).success(function(data){
 		        	validateApiToken(data, $cookies);
@@ -130,12 +127,9 @@
 		
 		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
 			var vm = this;
-			var username = $cookies.get('INeuron-UserName');
-			var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
 			$http({
 				url:'/user/list',
-	            method: 'GET',
-	            headers: {'username':username, 'apiToken':apiToken}
+	            method: 'GET'
 			}).success(function(data) {	
 				validateApiToken(data, $cookies);
 				vm.users = data.value;					
@@ -179,7 +173,7 @@
         		alert("会话已过期，请重新登录");
         		window.location.href="/ineuron/user/index.html/#/login";
         	}
-        	cookies.put('INeuron-ApiToken', data.apiToken, {path:"/"});  
+        	cookies.put('INeuron-ApiToken', encodeURI(encodeURI(data.apiToken)), {path:"/"});  
 		}
 		
 	</script>

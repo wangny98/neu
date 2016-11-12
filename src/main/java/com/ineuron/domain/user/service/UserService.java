@@ -28,7 +28,6 @@ public class UserService {
 	public List<User> getUserList() throws RepositoryException {
 		return userRepository.getUserList();
 	}
-
 	
 	public void createRole(Role role) throws RepositoryException {
 		role.addRole(userRepository);		
@@ -43,8 +42,5 @@ public class UserService {
 	}
 
 	
-
-	
-
 
 }

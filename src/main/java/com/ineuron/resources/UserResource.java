@@ -204,15 +204,20 @@ public class UserResource {
 	@Path("/rolelist")
 	@GET
 	@Timed
-	public INeuronResponse getRoleList() {
+	public INeuronResponse getRoleList(@Context HttpHeaders httpHeader) {
 
 		INeuronResponse response = new INeuronResponse();
 
 		try {
+			String newApiToken = validateAndUpdateApiToken(httpHeader);
 			List<Role> roles = userService.getRoleList();
 			response.setValue(roles);
-			response.setSuccess(true);			
+			response.setSuccess(true);		
+			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}

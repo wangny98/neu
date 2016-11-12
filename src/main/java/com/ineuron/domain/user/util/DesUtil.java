@@ -2,6 +2,7 @@ package com.ineuron.domain.user.util;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Random;
 
 import javax.crypto.Cipher;
@@ -9,14 +10,17 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class DesUtil {
 
 	private final static String DES = "DES";
 
 	private static String key = null;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DesUtil.class);
 
 	public static void main(String[] args) throws Exception {
 		String data = "test|2016-11-09";
@@ -38,7 +42,7 @@ public class DesUtil {
 	public static String encrypt(String data) throws Exception {
 		String key = getKey();
 		byte[] bt = encrypt(data.getBytes(), key.getBytes());
-		String strs = new BASE64Encoder().encode(bt);
+		String strs = Base64.getEncoder().encodeToString(bt);
 		return strs;
 	}
 
@@ -58,8 +62,8 @@ public class DesUtil {
 
 		if (data == null)
 			return null;
-		BASE64Decoder decoder = new BASE64Decoder();
-		byte[] buf = decoder.decodeBuffer(data);
+		
+		byte[] buf = Base64.getDecoder().decode(data);
 		byte[] bt = decrypt(buf, key.getBytes());
 		return new String(bt);
 	}
@@ -67,6 +71,7 @@ public class DesUtil {
 	private static String getKey() {
 		if (key == null) {
 			key = getRandomString(8);
+			LOGGER.info("DES Key : " + key);
 		}
 		return key;
 	}

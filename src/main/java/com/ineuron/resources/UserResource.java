@@ -1,6 +1,7 @@
 package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.RepositoryException;
@@ -16,12 +17,15 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -35,6 +39,8 @@ public class UserResource {
 	
 	@Inject
 	private SecurityService securityService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
 	public UserResource() {
 		super();
@@ -44,17 +50,20 @@ public class UserResource {
 	@POST
 	@Timed
 	public INeuronResponse login(final User user, @Context final UriInfo uriInfo) {
+		System.out.println("LOGGER.isDebugEnabled() = " + LOGGER.isDebugEnabled());
 		INeuronResponse response = new INeuronResponse();
 		try {
 			userService.doAuthenticate(user);
 			String apiToken = securityService.createApiToken(user.getUsername());
+			LOGGER.info("user/authenticate newApiToken=" + apiToken);
 			response.setSuccess(true);
 			response.setValue(user);
 			response.setApiToken(apiToken);
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return response;
 
@@ -70,11 +79,11 @@ public class UserResource {
 			userService.doRegister(user);
 			response.setSuccess(true);
 			response.setValue(user);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 
@@ -82,27 +91,24 @@ public class UserResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
-	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders hh) {
+	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
-		String apiToken = hh.getHeaderString("apiToken");
-		String username = hh.getHeaderString("username");
-		System.out.println("apiToken=" + apiToken);
-		System.out.println("userName=" + username);
-		
+			
 		try {
-			apiToken = URLDecoder.decode(apiToken, "UTF-8");
-			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
-			//if(newApiToken != null){
+			String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			LOGGER.info("user/list newApiToken=" + newApiToken);
+			if(newApiToken != null){
 				userService.updateUser(user);			
 				response.setSuccess(true);
 				response.setApiToken(newApiToken);
 				response.setValue(user);
-			//}
+			}
 			
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
 		}
 		return response;
 	}
@@ -110,15 +116,11 @@ public class UserResource {
 	@Path("/list")
 	@GET
 	@Timed
-	public INeuronResponse getUserList(@Context HttpHeaders hh) {
+	public INeuronResponse getUserList(@Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
-		String apiToken = hh.getHeaderString("apiToken");
-		String username = hh.getHeaderString("username");
-		System.out.println("apiToken=" + apiToken);
-		System.out.println("userName=" + username);
 		try {
-			apiToken = URLDecoder.decode(apiToken, "UTF-8");
-			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			String newApiToken = validateAndUpdateApiToken(httpHeader);	
+			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				List<User> users = userService.getUserList();
 				response.setValue(users);
@@ -126,15 +128,13 @@ public class UserResource {
 				response.setApiToken(newApiToken);
 			}
 			
-			
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
 		}
 		return response;
 	}
@@ -143,23 +143,17 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
-	public INeuronResponse getUserByUsername(@Context HttpHeaders hh) {
+	public INeuronResponse getUserByUsername(String username, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
-		String apiToken = hh.getHeaderString("apiToken");
-		String username = hh.getHeaderString("username");
-		System.out.println("apiToken=" + apiToken);
-		System.out.println("userName=" + username);
-		System.out.println("in getuserbyname.");
+		
 		try {
-			apiToken = URLDecoder.decode(apiToken, "UTF-8");
-			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
-			//if(newApiToken != null){
+			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
 				response.setApiToken(newApiToken);
 				response.setValue(user);
-				System.out.println("success in get userbyname" + user.getRole());
-			//}
+			}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			System.out.println(response);
@@ -181,11 +175,11 @@ public class UserResource {
 			userService.createRole(role);
 			response.setSuccess(true);
 			response.setValue(role);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 	
@@ -199,11 +193,11 @@ public class UserResource {
 			userService.updateRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
-			return response;
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 	
@@ -217,12 +211,12 @@ public class UserResource {
 		try {
 			List<Role> roles = userService.getRoleList();
 			response.setValue(roles);
-			response.setSuccess(true);
-			return response;
+			response.setSuccess(true);			
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-			return response;
 		}
+		return response;
 
 	}
 
@@ -243,6 +237,7 @@ public class UserResource {
 		return response;
 	}
 	
+
 	@Path("/funcbyindex")
 	@GET
 	@Timed
@@ -289,5 +284,20 @@ public class UserResource {
 		return response;
 	}
 	
+
+	private String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
+		Map<String, Cookie> cookies = httpHeader.getCookies();
+		
+		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
+		Cookie usernameCookie = cookies.get("INeuron-UserName");
+		
+		String apiToken = apiTokenCookie.getValue();
+		apiToken = UriEncoder.decode(apiToken);
+		String username = usernameCookie.getValue();
+		LOGGER.info("user/update apiToken=" + apiToken);
+		LOGGER.info("user/update userName=" + username);
+		
+		return securityService.validateAndUpdateApiToken(apiToken, username);
+	}
 
 }

@@ -105,17 +105,9 @@
 			$http({
 	            url:'/user/user',
 	            method: 'GET',
-	            headers: {'username':username, 'apiToken':apiToken}	            
+	            data: {'username':username}	            
 	        }).success(function(userdata){
-	        	$scope.user=userdata.value;
-	        	
-	        	//get permission/func list of this user
-	        	/* var strpermissions=userdata.value.permissions;
-	        	var permissionslist=strpermissions.split(",");
-	        	for (var i in permissionslist){
-	        		
-	        	} */
-	        	
+	        	$scope.user=userdata.value;	        	
 	        }).error(function(userdata){
 	        	alert('error: get user by name');
 	            console.log("error:getuserbyname");
@@ -137,8 +129,7 @@
 			vm.updateUser = updateUser;
 			
 			function updateUser(){
-				var username = $cookies.get('INeuron-UserName');
-				var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
+
 				
 				var strRoles="";
 				var usernewroles=$scope.newroles;
@@ -148,11 +139,12 @@
 				strRoles=strRoles.substring(0,strRoles.length-1);
 				
 				alert(strRoles);
+				   
+
 				$http({
 		            url:'/user/update',
 		            method: 'POST',
-		            headers: {'username':username, 'apiToken':apiToken},
-		            data: {username:$scope.updateUsername, role:strRoles}      
+		            data: {username:$scope.updateUsername, role:$scope.updateRoleSelected}      
 		        }).success(function(data){
 		        	validateApiToken(data, $cookies);
 		        	$state.go("userManagement");
@@ -168,12 +160,9 @@
 		
 		 mainApp.controller('UserListController', function($http, $scope, $location, $cookies, DTOptionsBuilder, DTColumnDefBuilder){
 			var vm = this;
-			var username = $cookies.get('INeuron-UserName');
-			var apiToken = encodeURI(encodeURI($cookies.get('INeuron-ApiToken')));
 			$http({
 				url:'/user/list',
-	            method: 'GET',
-	            headers: {'username':username, 'apiToken':apiToken}
+	            method: 'GET'
 			}).success(function(data) {	
 				//validateApiToken(data, $cookies);
 				vm.users = data.value;					
@@ -242,7 +231,7 @@
         		alert("会话已过期，请重新登录");
         		window.location.href="/ineuron/user/index.html/#/login";
         	}
-        	cookies.put('INeuron-ApiToken', data.apiToken, {path:"/"});  
+        	cookies.put('INeuron-ApiToken', encodeURI(encodeURI(data.apiToken)), {path:"/"});  
 		}
 		
 	</script>

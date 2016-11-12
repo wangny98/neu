@@ -66,10 +66,10 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	$http({
 		url : '/user/rolelist',
 		method : 'GET'
-	}).success(function(roledata) {
+	}).success(function(data) {
 		validateApiToken(data, $cookies);
-		vm.roles = roledata.value;
-	}).error(function(roledata) {
+		vm.roles = data.value;
+	}).error(function(data) {
 		alert('error');
 		console.log("error:getrolelist");
 	});

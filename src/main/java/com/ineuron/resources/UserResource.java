@@ -148,6 +148,7 @@ public class UserResource {
 		
 		try {
 			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			LOGGER.info("user/user newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
@@ -156,10 +157,10 @@ public class UserResource {
 			}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
-			System.out.println(response);
+			LOGGER.error(e.getMessage(), e);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			response.setMessage(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 		return response;
 	}

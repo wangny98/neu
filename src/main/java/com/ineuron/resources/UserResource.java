@@ -1,6 +1,7 @@
 package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.RepositoryException;
@@ -15,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
@@ -23,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -89,15 +90,11 @@ public class UserResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
-	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders hh) {
+	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
-		String apiToken = hh.getHeaderString("apiToken");
-		String username = hh.getHeaderString("username");
-		LOGGER.info("user/update apiToken=" + apiToken);
-		LOGGER.info("user/update userName=" + username);
-		
+			
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			String newApiToken = validateAndUpdateApiToken(httpHeader);		
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateUser(user);			
@@ -118,14 +115,10 @@ public class UserResource {
 	@Path("/list")
 	@GET
 	@Timed
-	public INeuronResponse getUserList(@Context HttpHeaders hh) {
+	public INeuronResponse getUserList(@Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
-		String apiToken = hh.getHeaderString("apiToken");
-		String username = hh.getHeaderString("username");
-		LOGGER.info("user/list apiToken=" + apiToken);
-		LOGGER.info("user/list userName=" + username);
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(apiToken, username);
+			String newApiToken = validateAndUpdateApiToken(httpHeader);	
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				List<User> users = userService.getUserList();
@@ -215,6 +208,21 @@ public class UserResource {
 		response.setSuccess(true);
 		response.setValue(functions);
 		return response;
+	}
+	
+	private String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
+		Map<String, Cookie> cookies = httpHeader.getCookies();
+		
+		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
+		Cookie usernameCookie = cookies.get("INeuron-UserName");
+		
+		String apiToken = apiTokenCookie.getValue();
+		apiToken = UriEncoder.decode(apiToken);
+		String username = usernameCookie.getValue();
+		LOGGER.info("user/update apiToken=" + apiToken);
+		LOGGER.info("user/update userName=" + username);
+		
+		return securityService.validateAndUpdateApiToken(apiToken, username);
 	}
 
 }

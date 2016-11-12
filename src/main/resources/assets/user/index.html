@@ -48,7 +48,7 @@
 		        }).success(function(data){
 		            if(data.success==true){
 		            	$cookies.put('INeuron-UserName', $scope.username, {path:"/"});  
-			        	$cookies.put('INeuron-ApiToken', data.apiToken, {path:"/"});  
+			        	$cookies.put('INeuron-ApiToken', encodeURI(encodeURI(data.apiToken)), {path:"/"});  
 			        	window.location.href="/ineuron/main.html";
 		            }else{
 		            	alert(data.message);

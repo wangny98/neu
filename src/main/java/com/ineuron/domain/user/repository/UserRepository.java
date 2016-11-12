@@ -20,7 +20,7 @@ public class UserRepository {
 		try {
 			foundUser=session.selectOne("getUserByUsername", user.getUsername());
 			if(foundUser != null){
-				System.out.println("select user by using getUserByUsername!"+"Hi "+foundUser.getUsername()+"role: "+foundUser.getRole());
+				System.out.println("select user by using getUserByUsername!"+"Hi "+foundUser.getUsername()+"role: "+foundUser.getRoles());
 			}
 			
 		} finally {

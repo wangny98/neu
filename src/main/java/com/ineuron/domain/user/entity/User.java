@@ -1,25 +1,32 @@
 package com.ineuron.domain.user.entity;
 
+import java.util.List;
+
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.repository.UserRepository;
 import com.ineuron.domain.user.valueobject.Permission;
 import com.ineuron.domain.user.valueobject.Function;
+import com.ineuron.domain.user.valueobject.Operation;
 
 public class User {
 	
 	private Integer id;
 	private String username;
+	private String password;
 	private String firstname;
 	private String lastname;
-	private String role;
-	private String password;
-	private String permissions;
-	private String permissionflag;
+	private String roles;
+	private String operations;
+	
+	
+	private List<Role> roleList;
+	private List<Permission> permissionList;
+	private List<Operation> operationList;
 	
 	
 	public void addUser(UserRepository userRepository) throws RepositoryException{
 		//set default role
-		setRole("user");
+		setRoles("user");
 		userRepository.addUser(this);
 	}
 	
@@ -67,11 +74,11 @@ public class User {
 		this.firstname = firstname;
 	}
 	
-	public String getRole() {
-		return role;
+	public String getRoles() {
+		return roles;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 	
 	public String getPassword() {
@@ -81,17 +88,5 @@ public class User {
 		this.password = password;
 	}	
 	
-	public String getPermissions() {
-		return permissions;
-	}
-	public void setPermissions(String permissions) {
-		this.permissions = permissions;
-	}	
 	
-	public String getPermissionflag() {
-		return permissionflag;
-	}
-	public void setPermissionflag(String permissionflag) {
-		this.permissionflag = permissionflag;
-	}	
 }

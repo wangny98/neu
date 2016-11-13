@@ -2,36 +2,41 @@ package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.RepositoryException;
-import com.ineuron.domain.user.entity.Role;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.SecurityService;
 import com.ineuron.domain.user.service.UserService;
 import com.ineuron.domain.user.valueobject.Function;
-import com.ineuron.domain.user.valueobject.Permission;
+import com.ineuron.domain.user.valueobject.Operation;
+import com.ineuron.domain.user.valueobject.Role;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 @Path("/user")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8") 
 public class UserResource {
 
 	@Inject
@@ -42,6 +47,7 @@ public class UserResource {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
+	 private final Gson gsonForFull = new GsonBuilder().serializeNulls().excludeFieldsWithModifiers(Modifier.VOLATILE).create();
 	public UserResource() {
 		super();
 	}
@@ -71,7 +77,6 @@ public class UserResource {
 
 	@Path("/register")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
 	public INeuronResponse signup(final User user, @Context final UriInfo uriInfo) {
 		INeuronResponse response = new INeuronResponse();
@@ -89,7 +94,6 @@ public class UserResource {
 
 	@Path("/update")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
 	public INeuronResponse update(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
@@ -138,10 +142,31 @@ public class UserResource {
 		}
 		return response;
 	}
+	
+	@Path("/testlist")
+	@GET
+	@Timed
+	public INeuronResponse getTestUserList() {
+		LOGGER.info("user/testlist");
+		List<User> users = null;
+		INeuronResponse response = new INeuronResponse();
+		try {
+				users = userService.getUserList();
+				LOGGER.info("users.size() = " + users.size());
+				response.setValue(users);
+				response.setSuccess(true);
+				
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return response;
+	}
 
 	@Path("/user")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
 	public INeuronResponse getUserByUsername(String username, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
@@ -165,10 +190,28 @@ public class UserResource {
 		return response;
 	}
 
+	@Path("/testuser")
+	@GET
+	@Timed
+	public INeuronResponse getUserByUsername1(@QueryParam("username") String username, @Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+		
+		try {
+				User user=userService.getUserByUsername(username);			
+				response.setSuccess(true);
+				response.setValue(user);
+		} catch (RepositoryException e) {
+			response.setMessage(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+		} catch (Exception e) {
+			response.setMessage(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+		}
+		return response;
+	}
 	
 	@Path("/createrole")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
 	public INeuronResponse createRole(final Role role, @Context final UriInfo uriInfo) {
 		INeuronResponse response = new INeuronResponse();
@@ -186,7 +229,6 @@ public class UserResource {
 	
 	@Path("/updaterole")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Timed
 	public INeuronResponse updateRole(final Role role, @Context final UriInfo uriInfo) {
 		INeuronResponse response = new INeuronResponse();
@@ -259,34 +301,27 @@ public class UserResource {
 	}
 	
 
-	@Path("/permissionlist")
+	@Path("/operationlist")
 	@GET
 	@Timed
-	public INeuronResponse getPermissionList() {
+	public INeuronResponse getOperationList() {
 		
 		INeuronResponse response = new INeuronResponse();
-		
-		Map<Integer, String> permissions = new TreeMap<Integer, String>();
-
-		for (Permission f : Permission.values()){
-			permissions.put(f.getIndex(), f.getName());
-		}
+	
 		response.setSuccess(true);
-		response.setValue(permissions);
+		response.setValue(Operation.values());
 		return response;
 	}
 	
-	@Path("/permissionbyindex")
+	@Path("/operationbyindex")
 	@GET
 	@Timed
-	public INeuronResponse getPermissionByIndex(Integer index) {
+	public INeuronResponse getOperationByIndex(Integer index) {
 		
 		INeuronResponse response = new INeuronResponse();
-		String permissionName="";
-		
-		permissionName=Permission.getName(index);
+	
 		response.setSuccess(true);
-		response.setValue(permissionName);
+		response.setValue(Operation.getName(index));
 		return response;
 	}
 	

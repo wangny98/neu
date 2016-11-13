@@ -25,6 +25,18 @@ public enum Function {
 		return null;
 	}
 
+	public static Function getFunction(int index) {
+		for (Function c : Function.values()) {
+			if (c.getIndex() == index) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public String toString(){
+		return this.index + "|" + this.name;
+	}
 
 	public String getName() {
 		return name;

@@ -6,12 +6,12 @@
   
   
   <insert id="addUser">
-    insert into users (username,lastname,firstname,password, role) 
-	values(#{username},#{lastname},#{firstname},#{password},#{role})  
+    insert into users (username,lastname,firstname,password, roles, permissions) 
+	values(#{username},#{lastname},#{firstname},#{password},#{roles},#{permissions})  
   </insert>
   
   <update id="updateUser">
-    update users u set u.role = #{role} where username = #{username}
+    update users u set u.roles = #{roles} where username = #{username}
   </update>
   
    <select id="getUserByUsername" resultType="com.ineuron.domain.user.entity.User">
@@ -33,7 +33,7 @@
     update roles r set r.rolename = #{rolename}, r.permissions = #{permissions} where id = #{id}
   </update>
   
-  <select id="getRoles" resultType="com.ineuron.domain.user.entity.Role">
+  <select id="getRoles" resultType="com.ineuron.domain.user.valueobject.Role">
     select * from roles
   </select>
 </mapper>

@@ -1,6 +1,12 @@
 package com.ineuron;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hubspot.dropwizard.guice.GuiceBundle;
+import com.ineuron.common.exception.RepositoryException;
+import com.ineuron.domain.user.valueobject.RolesCache;
+
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -12,6 +18,8 @@ import io.dropwizard.setup.Environment;
  */
 public class INeuronApplication extends Application<INeuronConfiguration> {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(INeuronApplication.class);
+	
 	public static void main(String[] args) throws Exception {
 		new INeuronApplication().run(args);
 	}
@@ -33,11 +41,17 @@ public class INeuronApplication extends Application<INeuronConfiguration> {
 				.build();
 
 		bootstrap.addBundle(guiceBundle);
+		
 	}
 
 	@Override
 	public void run(INeuronConfiguration configuration, Environment environment) {
-
+		try {
+			RolesCache.init();
+			LOGGER.info("RolesCache is initiallized...");
+		} catch (RepositoryException e) {
+			LOGGER.error("Failed to initiallize the RolesCache", e);
+		}
 	}
 
 }

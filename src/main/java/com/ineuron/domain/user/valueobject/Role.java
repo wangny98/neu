@@ -31,7 +31,7 @@ public class Role {
 	public void translatePermissionsToPermissionList() {
 
 		if (this.permissions != null && permissionList == null) {
-
+			permissionList = new ArrayList<Permission>();
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
 				String[] fao = permission.split(":");
@@ -54,7 +54,6 @@ public class Role {
 						permissionObj.getOperations().add(operation);
 					}
 				}
-				permissionList = new ArrayList<Permission>();
 				permissionList.add(permissionObj);
 			}
 		}

@@ -2,8 +2,6 @@ package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.INeuronException;
@@ -24,14 +22,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,7 +44,6 @@ public class UserResource {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
-	 private final Gson gsonForFull = new GsonBuilder().serializeNulls().excludeFieldsWithModifiers(Modifier.VOLATILE).create();
 	public UserResource() {
 		super();
 	}

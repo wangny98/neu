@@ -55,7 +55,7 @@ public class User {
 	public Set<Permission> getAllPermissions() throws INeuronException {
 		if (allPermissions == null) {
 			allPermissions = new HashSet<Permission>();
-			roleList = new ArrayList<>();
+			roleList = new ArrayList<Role>();
 			if (this.roles != null) {
 				String[] roles = this.roles.split("\\|");
 				RolesCache rolesCache = RolesCache.getRolesCache();
@@ -86,6 +86,7 @@ public class User {
 					continue;
 				}
 				if (Function.getFunction(Integer.valueOf(fao[0])) == null) {
+					LOGGER.warn("Illegal function id: " + fao[0]);
 					continue;
 				}
 				Permission permissionObj = new Permission();
@@ -94,10 +95,12 @@ public class User {
 
 				String[] operationArray = fao[1].split("\\|");
 				for (String op : operationArray) {
-					if (Operation.getOperation(Integer.valueOf(op)) != null) {
-						String operation = Operation.getOperation(Integer.valueOf(op)).toString();
-						permissionObj.getOperations().add(operation);
+					if (Operation.getOperation(Integer.valueOf(op)) == null) {
+						LOGGER.warn("Illegal operation id: " + op);
+						continue;
 					}
+					String operation = Operation.getOperation(Integer.valueOf(op)).toString();
+					permissionObj.getOperations().add(operation);
 				}
 				mergeToAllPermissions(permissionObj);
 			}
@@ -114,7 +117,7 @@ public class User {
 
 	private void mergeToAllPermissions(Permission permission) {
 
-		if (allPermissions.contains(permission)) {
+		
 			Iterator<Permission> iterator = allPermissions.iterator();
 			while (iterator.hasNext()) {
 				Permission existPermission = iterator.next();
@@ -123,7 +126,7 @@ public class User {
 					break;
 				}
 			}
-		}
+
 		allPermissions.add(permission);
 
 	}
@@ -192,4 +195,9 @@ public class User {
 		return permissions;
 	}
 
+	public String getPermissionFlag() {
+		return permissionFlag;
+	}
+
+	
 }

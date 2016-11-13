@@ -55,7 +55,7 @@ public class User {
 	public Set<Permission> getAllPermissions() throws INeuronException {
 		if (allPermissions == null) {
 			allPermissions = new HashSet<Permission>();
-			roleList = new ArrayList<>();
+			roleList = new ArrayList<Role>();
 			if (this.roles != null) {
 				String[] roles = this.roles.split("\\|");
 				RolesCache rolesCache = RolesCache.getRolesCache();

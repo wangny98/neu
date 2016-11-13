@@ -50,34 +50,36 @@
 						<td class="labelformat">权限：</td>
 					<td>
 				   <table>
-				   <tr><td class="labelformat">功能</td><td>操作</td>
+				   <tr>
+				   <td class="labelformat">功能</td>
+				   <td class="labelformat">原有操作</td>
+				   <td class="labelformat">更新操作</td>
 				   </tr>
-				   <tr ng-repeat="function in userUpdate.functions" >
+				   <tr ng-repeat="function in userUpdate.functions">
 				   <td>{{function.functionname}}</td>
 				   <td>
 				   <table>
 				   <tr ng-repeat="permission in userUpdate.permissions">
-				   <td><span ng-if="permission.functionname==function.function">{{permission.operationname}}</span></td>
+				   <td><span ng-if="permission.functionname==function.functionname">{{permission.operationname}}</span></td>
 				   </tr>
 				   </table>
 				   </td>
-				   <!--  
-				   <td><div isteven-multi-select input-model="userUpdate.permission[]"
-								output-model="newoperation" button-label="operationname"
+				   <td><div isteven-multi-select input-model="userUpdate.operations"
+								output-model="newoperations" button-label="operationname"
 								item-label="operationname" tick-property="ticked"></div>
 					</td>
-					-->
-					  </tr>
-				   </table>
-				   <!-- 
 					<td><button class="btn btn-large btn-primary"
 					    ng-disabled="!updateuser.$valid"
-						ng-click="userUpdate.addPermission()">
+						ng-click="userUpdate.addPermission($index)">
 						<span class="glyphicon glyphicon-plus"></span> 添加
 					</button>
                     </td>
+					  </tr>
+				   </table>
+				   
+					
 					</tr>
- 					-->
+ 					
 					
 					<tr>
 						<td><hr class="hr15"></td>
@@ -86,6 +88,11 @@
 						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
+					<td>
+					<div isteven-multi-select input-model="userUpdate.operations"
+								output-model="mynewoperations" button-label="operationname"
+								item-label="operationname" tick-property="ticked"></div>
+							</td>	
 					<td><button class="btn btn-large btn-primary"
 						ng-disabled="!updateuser.$valid"
 						ng-click="userUpdate.updateUser()">

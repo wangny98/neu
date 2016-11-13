@@ -77,16 +77,23 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	vm.updateUser = updateUser;
 	vm.addPermission= addPermission;
 	
-	function addPermission(){
-		alert("add permission");
+	function addPermission(index){
+		alert("add permission"+"index: "+index);
+		alert("function[$index].functionname "+vm.functions[index].functionname);
+		//alert("mynewoperations "+scope.mynewoperations );
+		var usernewroles = $scope.newroles;
+		alert("roles "+userewroles[0].rolename);
+		var usernewops=scope.mynewoperations;
+		alert("newoperations.operationname "+usernewops[0].operationname); 
+		/*
 		var length=vm.permissions.length;
 		//alert("permission length:"+length);
 		alert("newfuncationname: "+$scope.newfunction[0].functionname);
 		vm.permissions[length].functionname=$scope.newfunction[0].functionname;
 		vm.permissions[length].operationname=$scope.newoperation[0].operationname;
 		$scope.permissions=vm.permissions;
-		//vm.permissions[0].operationname="xxx";
-	}
+		//vm.permissions[0].operationname="xxx";*/	
+		}
 	
 	//Get user by name
 	$http({
@@ -120,6 +127,8 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 
 	function updateUser() {
 		var strRoles = "";
+		var usernewops=$scope.mynewoperations;
+		alert("newop "+usernewops[0].operationname);
 		var usernewroles = $scope.newroles;
 		for ( var i in usernewroles) {
 			strRoles = strRoles.concat(usernewroles[i].rolename, "|");

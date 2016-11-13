@@ -81,10 +81,10 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		alert("add permission"+"index: "+index);
 		alert("function[$index].functionname "+vm.functions[index].functionname);
 		//alert("mynewoperations "+scope.mynewoperations );
-		var usernewroles = $scope.newroles;
+		var usernewops=$scope.mynewoperations;
 		alert("roles "+userewroles[0].rolename);
-		var usernewops=scope.mynewoperations;
-		alert("newoperations.operationname "+usernewops[0].operationname); 
+		//var usernewops=scope.mynewoperations;
+		//alert("newoperations.operationname "+usernewops[0].operationname); 
 		/*
 		var length=vm.permissions.length;
 		//alert("permission length:"+length);
@@ -169,18 +169,6 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
-	});
-
-	//Get Rolelist
-	$http({
-		url : '/user/rolelist',
-		method : 'GET'
-	}).success(function(roledata) {
-		validateApiToken(data, $cookies);
-		vm.roles = roledata.value;
-	}).error(function(roledata) {
-		alert('error');
-		console.log("error:getrolelist");
 	});
 
 	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(

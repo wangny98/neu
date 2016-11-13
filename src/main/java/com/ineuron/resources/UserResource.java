@@ -2,8 +2,6 @@ package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.INeuronException;
@@ -48,7 +46,6 @@ public class UserResource {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
-	 private final Gson gsonForFull = new GsonBuilder().serializeNulls().excludeFieldsWithModifiers(Modifier.VOLATILE).create();
 	public UserResource() {
 		super();
 	}

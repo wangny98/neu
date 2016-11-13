@@ -20,7 +20,7 @@
 				<tr ng-repeat="user in userList.users">
 					<td>{{ user.username }}</td>
 					<td>{{ user.roles }}</td>
-					<td>{{ user.permissionflag }}</td>
+					<td>{{ user.permissionFlag }}</td>
 					<td>
 						<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->
 						<button type="button" ui-sref="updateUser({username:user.username})"

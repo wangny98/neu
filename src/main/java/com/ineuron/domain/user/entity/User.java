@@ -28,7 +28,7 @@ public class User {
 	private String lastname;
 	private String roles;
 	private String permissions;
-	private String permissionFlag = "无";
+	private String permissionFlag = "鏃�";
 	private List<Role> roleList;
 	private Set<Permission> allPermissions;
 
@@ -55,7 +55,7 @@ public class User {
 	public Set<Permission> getAllPermissions() throws INeuronException {
 		if (allPermissions == null) {
 			allPermissions = new HashSet<Permission>();
-			roleList = new ArrayList<>();
+			roleList = new ArrayList<Role>();
 			if (this.roles != null) {
 				String[] roles = this.roles.split("\\|");
 				RolesCache rolesCache = RolesCache.getRolesCache();
@@ -76,7 +76,7 @@ public class User {
 	public void translateAndMergePermissionsToAllPermissions() {
 
 		if (this.permissions != null) {
-			permissionFlag = "有";
+			permissionFlag = "鏈�";
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
 				String[] fao = permission.split(":");

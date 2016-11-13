@@ -14,7 +14,7 @@ mainApp.config(function($stateProvider) {
 	var aboutState = {
 		name : 'about',
 		url : '/about',
-		template : '<h3>�������ܹ�����Ӫ�����ϵͳ</h3>'
+		template : '<h3>琥崧智能控制系统</h3>'
 	}
 
 	var updateUserState = {

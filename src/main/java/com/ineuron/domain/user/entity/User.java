@@ -28,7 +28,7 @@ public class User {
 	private String lastname;
 	private String roles;
 	private String permissions;
-	private String permissionFlag = "鏃�";
+	private String permissionFlag = "无";
 	private List<Role> roleList;
 	private Set<Permission> allPermissions;
 
@@ -76,7 +76,7 @@ public class User {
 	public void translateAndMergePermissionsToAllPermissions() {
 
 		if (this.permissions != null) {
-			permissionFlag = "鏈�";
+			permissionFlag = "有";
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
 				String[] fao = permission.split(":");

@@ -17,7 +17,7 @@ logging:
     - type: file
       threshold: INFO
       currentLogFilename: ./logs/info.log
-      archivedLogFilenamePattern: ./logs/example-%d.log.gz
+      archivedLogFilenamePattern: ./logs/info-%d.log.gz
       archivedFileCount: 5
 
     # Log debug messages, info, warnings and errors to our apps' debug log.

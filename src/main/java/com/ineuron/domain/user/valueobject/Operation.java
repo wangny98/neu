@@ -3,7 +3,9 @@ package com.ineuron.domain.user.valueobject;
 public enum Operation {
 	
 	Read("查询", 1), 
-	Write("编辑", 2);
+	Write("编辑", 2),
+	Print("打印", 3), 
+	Report("报表", 4);
 
 	private String name;
 	private int index;
@@ -23,7 +25,19 @@ public enum Operation {
 		return null;
 	}
 
-
+	public static Operation getOperation(int index) {
+		for (Operation c : Operation.values()) {
+			if (c.getIndex() == index) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public String toString(){
+		return this.index + "|" + this.name;
+	}
+	
 	public String getName() {
 		return name;
 	}

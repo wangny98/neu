@@ -43,17 +43,20 @@ userApp.controller('UserLoginController', function($scope, $http, $location,
 						$cookies.put('INeuron-UserName', $scope.username, {
 							path : "/"
 						});
+						$cookies.put('INeuron-User', data.value, {
+							path : "/"
+						});
 						$cookies.put('INeuron-ApiToken',
 								encodeURI(encodeURI(data.apiToken)), {
 									path : "/"
 								});
 						window.location.href = "/ineuron/main.html";
 					} else {
-						alert(data.message);
+						alert(data.message+"不正确的用户名或者密码！");
 					}
 
 				}).error(function(data) {
-			alert(data.message);
+			alert(data.message+"error");
 			console.log("error");
 		})
 	};

@@ -34,9 +34,21 @@ mainApp.config(function($stateProvider) {
 
 });
 
-mainApp.controller('NavMenuController', function($scope) {
+mainApp.controller('NavMenuController', function($scope, $cookies) {
+	var userManagementMenu="用户管理";
+
 	$scope.ShowUserManagementMenu = function() {
-		return true;
+		/*var loginedUser=$cookies.get('INeuron-User');
+        for (var i in loginedUser.allPermissions){
+        	var strFunc=loginedUser.allPermissions[i];
+        	if (strFunc.indexOf(userManagementMenu)>=0)
+        		return true;
+        	else return false;
+        }*/
+		var username=$cookies.get('INeuron-UserName');
+		if (username.indexOf("d")>=0) return true;
+        
+        return false;
 	}
 });
 

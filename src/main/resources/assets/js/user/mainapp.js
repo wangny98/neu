@@ -102,10 +102,10 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		data : {
 			'username' : username
 		}
-	}).success(function(userdata) {
+	}).success(function(data) {
 		validateApiToken(data, $cookies);
-		$scope.user = userdata.value;
-	}).error(function(userdata) {
+		$scope.user = data.value;
+	}).error(function(data) {
 		alert('error: get user by name');
 		console.log("error:getuserbyname");
 	});

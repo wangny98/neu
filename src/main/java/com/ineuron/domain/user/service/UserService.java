@@ -47,8 +47,10 @@ public class UserService {
 		rolesCache.addRole(role);
 	}
 	
-	public void updateRole(Role role) throws RepositoryException {
+	public void updateRole(Role role) throws RepositoryException, INeuronException {
 		role.updateRole(userRepository);
+		RolesCache rolesCache = RolesCache.getRolesCache();
+		rolesCache.updateRole(role);
 	}
 	
 	public List<Role> getRoleList() throws RepositoryException, INeuronException {

@@ -220,7 +220,10 @@ public class UserResource {
 			userService.createRole(role);
 			response.setSuccess(true);
 			response.setValue(role);
-		} catch (RepositoryException | INeuronException e) {
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
@@ -237,7 +240,10 @@ public class UserResource {
 			userService.updateRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
-		} catch (RepositoryException | INeuronException e) {
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}

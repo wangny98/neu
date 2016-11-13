@@ -1,8 +1,11 @@
 package com.ineuron.domain.user.repository;
 
+import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.user.entity.*;
+import com.ineuron.domain.user.valueobject.Role;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -52,11 +55,14 @@ public class UserRepository {
 		}
 	}
 
-	public List<User> getUserList() throws RepositoryException {
+	public List<User> getUserList() throws RepositoryException, INeuronException {
 
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			List<User> users = session.selectList("getUsers");
+			for(User user : users){
+				user.getAllPermissions();
+			}
 			return users;
 		} finally {
 			session.close();

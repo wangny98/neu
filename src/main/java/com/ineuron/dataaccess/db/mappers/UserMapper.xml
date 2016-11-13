@@ -33,7 +33,7 @@
     update roles r set r.rolename = #{rolename}, r.permissions = #{permissions} where id = #{id}
   </update>
   
-  <select id="getRoles" resultType="com.ineuron.domain.user.entity.Role">
+  <select id="getRoles" resultType="com.ineuron.domain.user.valueobject.Role">
     select * from roles
   </select>
 </mapper>

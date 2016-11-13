@@ -23,7 +23,19 @@ public enum Operation {
 		return null;
 	}
 
-
+	public static Operation getOperation(int index) {
+		for (Operation c : Operation.values()) {
+			if (c.getIndex() == index) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public String toString(){
+		return this.index + "|" + this.name;
+	}
+	
 	public String getName() {
 		return name;
 	}

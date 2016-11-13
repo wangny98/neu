@@ -3,10 +3,11 @@ package com.ineuron.domain.user.service;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
-import com.ineuron.domain.user.entity.Role;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.repository.UserRepository;
+import com.ineuron.domain.user.valueobject.Role;
 
 public class UserService {
 
@@ -25,7 +26,7 @@ public class UserService {
 		return user.doAuthenticate(userRepository);
 	}
 
-	public List<User> getUserList() throws RepositoryException {
+	public List<User> getUserList() throws RepositoryException, INeuronException {
 		return userRepository.getUserList();
 	}
 	

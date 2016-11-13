@@ -24,7 +24,11 @@ public class RolesCache {
 		if(rolesCache == null){
 			UserRepository userRepository = new UserRepository();
 			rolesCache = new RolesCache();
-			rolesCache.setRoles(userRepository.getRoleList());
+			List<Role> roles = userRepository.getRoleList();
+			for(Role role : roles){
+				role.getPermissionList();
+			}
+			rolesCache.setRoles(roles);
 			
 			Map<Integer, Role> rolesMap = new HashMap<Integer, Role>();
 			for(Role role : rolesCache.getRoles()){
@@ -39,6 +43,16 @@ public class RolesCache {
 			throw new INeuronException("RolesCache is not initiallized!", null);
 		}
 		return rolesCache;
+	}
+	
+	public void addRole(Role role){
+		role.getPermissionList();
+		roles.add(role);
+		rolesMap.put(role.getId(), role);
+	}
+	
+	public void updateRole(Role role) {
+		rolesMap.put(role.getId(), role);	
 	}
 	
 	public List<Role> getRoles(){
@@ -56,7 +70,6 @@ public class RolesCache {
 	public void setRolesMap(Map<Integer, Role> rolesMap) {
 		this.rolesMap = rolesMap;
 	}
-	
-	
+
 	
 }

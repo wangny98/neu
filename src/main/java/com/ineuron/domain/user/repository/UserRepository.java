@@ -9,9 +9,13 @@ import com.ineuron.domain.user.valueobject.Role;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserRepository {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
+	
 	public UserRepository() {
 
 	}
@@ -47,7 +51,7 @@ public class UserRepository {
 	public void updateUser(User user) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			session.insert("updateUser", user);
+			session.update("updateUser", user);
 			session.commit();
 			System.out.println("update user by using mybatis!");
 		} finally {
@@ -60,9 +64,6 @@ public class UserRepository {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			List<User> users = session.selectList("getUsers");
-			for(User user : users){
-				user.getAllPermissions();
-			}
 			return users;
 		} finally {
 			session.close();
@@ -70,7 +71,7 @@ public class UserRepository {
 
 	}
 
-	public User getUserByUsername(String username) throws RepositoryException {
+	public User getUserByUsername(String username) throws RepositoryException, INeuronException {
 
 		User foundUser;
 		
@@ -78,8 +79,10 @@ public class UserRepository {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			foundUser = session.selectOne("getUserByUsername", username);
-			if(foundUser != null){
-				System.out.println("select user by using getUserByUsername!"+"found, username:"+username);
+			if(foundUser == null){
+				LOGGER.error("failed to select user by using getUserByUsername!"+"found, username:"+username);
+			}else{
+				LOGGER.info("select user by using getUserByUsername!"+"found, username:"+username);
 			}
 		
 		} finally {
@@ -103,7 +106,7 @@ public class UserRepository {
 	public void updateRole(Role role) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			session.insert("updateRole", role);
+			session.update("updateRole", role);
 			session.commit();
 			System.out.println("update role by using mybatis!");
 		} finally {

@@ -18,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
@@ -189,6 +190,25 @@ public class UserResource {
 		return response;
 	}
 
+	@Path("/testuser")
+	@GET
+	@Timed
+	public INeuronResponse getUserByUsername1(@QueryParam("username") String username, @Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+		
+		try {
+				User user=userService.getUserByUsername(username);			
+				response.setSuccess(true);
+				response.setValue(user);
+		} catch (RepositoryException e) {
+			response.setMessage(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+		} catch (Exception e) {
+			response.setMessage(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+		}
+		return response;
+	}
 	
 	@Path("/createrole")
 	@POST

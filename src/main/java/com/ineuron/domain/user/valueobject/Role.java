@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.repository.UserRepository;
 
@@ -62,25 +61,27 @@ public class Role {
 	}
 
 	public List<Permission> getPermissionList() {
-		List<Permission> permissionList = new ArrayList<Permission>();
-		String[] permissions = this.permissions.split(",");
-		for(String permission : permissions){
-			String[] fao = permission.split("\\|");
-			if(fao.length != 2){
-				LOGGER.error("Illegal permission format: " + permission);
-				continue;
+		if(permissionList == null){
+			permissionList = new ArrayList<Permission>();
+			String[] permissions = this.permissions.split(",");
+			for(String permission : permissions){
+				String[] fao = permission.split("\\|");
+				if(fao.length != 2){
+					LOGGER.error("Illegal permission format: " + permission);
+					continue;
+				}
+				if(Function.getFunction(Integer.valueOf(fao[0])) == null || Operation.getOperation(Integer.valueOf(fao[1])) == null){
+					continue;
+				}
+				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
+				String operation = Operation.getOperation(Integer.valueOf(fao[1])).toString();
+				Permission permissionObj = new Permission();
+				permissionObj.setFunction(function);
+				permissionObj.setOperation(operation);
+				permissionList.add(permissionObj);
 			}
-			if(Function.getFunction(Integer.valueOf(fao[0])) == null || Operation.getOperation(Integer.valueOf(fao[1])) == null){
-				continue;
-			}
-			String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
-			String operation = Operation.getOperation(Integer.valueOf(fao[1])).toString();
-			Permission permissionObj = new Permission();
-			permissionObj.setFunction(function);
-			permissionObj.setOperation(operation);
-			permissionList.add(permissionObj);
 		}
-		
+				
 		return permissionList;
 	}
 

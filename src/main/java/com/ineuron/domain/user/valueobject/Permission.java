@@ -1,25 +1,16 @@
 package com.ineuron.domain.user.valueobject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Permission {
 
 	private String function;
 
-	private String operation;
-
-	public String getFunction() {
-		return function;
-	}
-
-	public void setFunction(String function) {
-		this.function = function;
-	}
-
-	public String getOperation() {
-		return operation;
-	}
-
-	public void setOperation(String operation) {
-		this.operation = operation;
+	private Set<String> operations;
+	
+	public Permission(){
+		operations = new HashSet<String>();
 	}
 
 	@Override
@@ -36,16 +27,31 @@ public class Permission {
 
 		if (!function.equals(permission.getFunction()))
 			return false;
-		if (!operation.equals(permission.getOperation()))
-			return false;
+		
 		return true;
 
 	}
 
 	@Override
 	public int hashCode() {
-
-		return function.hashCode() + operation.hashCode();
+		return function.hashCode();
+	}
+	
+	public String getFunction() {
+		return function;
 	}
 
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	public Set<String> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<String> operations) {
+		this.operations = operations;
+	}
+
+	
 }

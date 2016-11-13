@@ -3,7 +3,9 @@ package com.ineuron.domain.user.valueobject;
 public enum Operation {
 	
 	Read("查询", 1), 
-	Write("编辑", 2);
+	Write("编辑", 2),
+	Print("打印", 3), 
+	Report("报表", 4);
 
 	private String name;
 	private int index;

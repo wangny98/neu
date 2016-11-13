@@ -1,6 +1,7 @@
 package com.ineuron.domain.user.valueobject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ public class Role {
 	private String permissions;
 	private String description;
 	private List<Permission> permissionList;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger("Role");
 
 	public void addRole(UserRepository userRepository) throws RepositoryException {
@@ -26,7 +27,40 @@ public class Role {
 	public void updateRole(UserRepository userRepository) throws RepositoryException {
 		userRepository.updateRole(this);
 	}
-	
+
+	public void translatePermissionsToPermissionList() {
+
+		if (this.permissions != null && permissionList == null) {
+
+			String[] permissions = this.permissions.split(",");
+			for (String permission : permissions) {
+				String[] fao = permission.split(":");
+				if (fao.length != 2) {
+					LOGGER.error("fao.length: " + fao.length);
+					LOGGER.error("Illegal permission format: " + permission);
+					continue;
+				}
+				if (Function.getFunction(Integer.valueOf(fao[0])) == null) {
+					continue;
+				}
+				Permission permissionObj = new Permission();
+				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
+				permissionObj.setFunction(function);
+
+				String[] operationArray = fao[1].split("\\|");
+				for (String op : operationArray) {
+					if (Operation.getOperation(Integer.valueOf(op)) != null) {
+						String operation = Operation.getOperation(Integer.valueOf(op)).toString();
+						permissionObj.getOperations().add(operation);
+					}
+				}
+				permissionList = new ArrayList<Permission>();
+				permissionList.add(permissionObj);
+			}
+		}
+
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -60,34 +94,12 @@ public class Role {
 		this.description = description;
 	}
 
-	public List<Permission> getPermissionList() {
-		if(permissionList == null){
-			permissionList = new ArrayList<Permission>();
-			String[] permissions = this.permissions.split(",");
-			for(String permission : permissions){
-				String[] fao = permission.split("\\|");
-				if(fao.length != 2){
-					LOGGER.error("Illegal permission format: " + permission);
-					continue;
-				}
-				if(Function.getFunction(Integer.valueOf(fao[0])) == null || Operation.getOperation(Integer.valueOf(fao[1])) == null){
-					continue;
-				}
-				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
-				String operation = Operation.getOperation(Integer.valueOf(fao[1])).toString();
-				Permission permissionObj = new Permission();
-				permissionObj.setFunction(function);
-				permissionObj.setOperation(operation);
-				permissionList.add(permissionObj);
-			}
-		}
-				
-		return permissionList;
-	}
-
 	public void setPermissionList(List<Permission> permissionList) {
 		this.permissionList = permissionList;
 	}
 
+	public List<Permission> getPermissionList() {
+		return permissionList;
+	}
 
 }

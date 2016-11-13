@@ -2,6 +2,7 @@ package com.ineuron.domain.user.entity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +28,7 @@ public class User {
 	private String lastname;
 	private String roles;
 	private String permissions;
+	private String permissionFlag = "无";
 	private List<Role> roleList;
 	private Set<Permission> allPermissions;
 
@@ -61,42 +63,69 @@ public class User {
 				for (String role : roles) {
 					Role roleObj = rolesMap.get(Integer.valueOf(role));
 					if (roleObj != null) {
-						allPermissions.addAll(roleObj.getPermissionList());
+						mergeToAllPermissions(roleObj.getPermissionList());
 						roleList.add(roleObj);
 					}
 				}
 			}
-
-			allPermissions.addAll(translatePermissions());
-		}		
+			translateAndMergePermissionsToAllPermissions();
+		}
 		return allPermissions;
 	}
 
-	public List<Permission> translatePermissions() {
+	public void translateAndMergePermissionsToAllPermissions() {
 
-		List<Permission> permissionList = new ArrayList<Permission>();
 		if (this.permissions != null) {
+			permissionFlag = "有";
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
-				String[] fao = permission.split("\\|");
+				String[] fao = permission.split(":");
 				if (fao.length != 2) {
 					LOGGER.error("fao.length: " + fao.length);
 					LOGGER.error("Illegal permission format: " + permission);
 					continue;
 				}
-				if(Function.getFunction(Integer.valueOf(fao[0])) == null || Operation.getOperation(Integer.valueOf(fao[1])) == null){
+				if (Function.getFunction(Integer.valueOf(fao[0])) == null) {
 					continue;
 				}
-				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
-				String operation = Operation.getOperation(Integer.valueOf(fao[1])).toString();
 				Permission permissionObj = new Permission();
+				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
 				permissionObj.setFunction(function);
-				permissionObj.setOperation(operation);
-				permissionList.add(permissionObj);
+
+				String[] operationArray = fao[1].split("\\|");
+				for (String op : operationArray) {
+					if (Operation.getOperation(Integer.valueOf(op)) != null) {
+						String operation = Operation.getOperation(Integer.valueOf(op)).toString();
+						permissionObj.getOperations().add(operation);
+					}
+				}
+				mergeToAllPermissions(permissionObj);
 			}
 		}
 
-		return permissionList;
+	}
+
+	private void mergeToAllPermissions(List<Permission> permissionList) {
+		for (Permission permission : permissionList) {
+			mergeToAllPermissions(permission);
+		}
+
+	}
+
+	private void mergeToAllPermissions(Permission permission) {
+
+		if (allPermissions.contains(permission)) {
+			Iterator<Permission> iterator = allPermissions.iterator();
+			while (iterator.hasNext()) {
+				Permission existPermission = iterator.next();
+				if (existPermission.equals(permission)) {
+					permission.getOperations().addAll(existPermission.getOperations());
+					break;
+				}
+			}
+		}
+		allPermissions.add(permission);
+
 	}
 
 	public Integer getId() {
@@ -162,7 +191,5 @@ public class User {
 	public String getPermissions() {
 		return permissions;
 	}
-
-
 
 }

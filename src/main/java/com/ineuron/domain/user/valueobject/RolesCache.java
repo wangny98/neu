@@ -26,7 +26,7 @@ public class RolesCache {
 			rolesCache = new RolesCache();
 			List<Role> roles = userRepository.getRoleList();
 			for(Role role : roles){
-				role.getPermissionList();
+				role.translatePermissionsToPermissionList();
 			}
 			rolesCache.setRoles(roles);
 			
@@ -46,7 +46,7 @@ public class RolesCache {
 	}
 	
 	public void addRole(Role role){
-		role.getPermissionList();
+		role.translatePermissionsToPermissionList();
 		roles.add(role);
 		rolesMap.put(role.getId(), role);
 	}

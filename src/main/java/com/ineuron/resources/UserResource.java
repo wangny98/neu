@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
+import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.SecurityService;
@@ -219,7 +220,7 @@ public class UserResource {
 			userService.createRole(role);
 			response.setSuccess(true);
 			response.setValue(role);
-		} catch (RepositoryException e) {
+		} catch (RepositoryException | INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
@@ -236,7 +237,7 @@ public class UserResource {
 			userService.updateRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
-		} catch (RepositoryException e) {
+		} catch (RepositoryException | INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}

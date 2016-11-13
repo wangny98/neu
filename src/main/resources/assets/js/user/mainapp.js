@@ -14,7 +14,7 @@ mainApp.config(function($stateProvider) {
 	var aboutState = {
 		name : 'about',
 		url : '/about',
-		template : '<h3>琥崧智能工厂运营与控制系统</h3>'
+		template : '<h3>鐞ュ揣鏅鸿兘鎺у埗绯荤粺</h3>'
 	}
 
 	var updateUserState = {
@@ -46,7 +46,55 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	$scope.updateUsername = $stateParams.username;
 
 	var vm = this;
+	
+	vm.permissions = [
+	                      	{	functionname: "useradmin",	operationname: "read",ticked: true	},
+	                      	{	functionname: "useradmin",	operationname: "write",ticked: false	},
+	                      	{	functionname: "productadmin",	operationname: "write",ticked: false	}
+	                     ];
+	
+	vm.functions = [
+	                      	{	functionname: "useradmin",ticked: true	},            
+	                      	{	functionname: "productadmin",ticked: false	}
+	                     ];
 
+	vm.operations = [
+                      	{	operationname: "read",ticked: true	},	            
+                      	{	operationname: "write",ticked: false	}
+                     ];	
+	
+	vm.operationsuser = [
+                   	{	operationname: "user-read",ticked: true	},	            
+                   	{	operationname: "write",ticked: false	}
+                  ];	
+	
+	vm.operationsprouduct = [
+                   	{	operationname: "product-read",ticked: true	},	            
+                   	{	operationname: "write",ticked: true	}
+                  ];	
+	
+
+	vm.updateUser = updateUser;
+	vm.addPermission= addPermission;
+	
+	function addPermission(index){
+		alert("add permission"+"index: "+index);
+		alert("function[$index].functionname "+vm.functions[index].functionname);
+		//alert("mynewoperations "+scope.mynewoperations );
+		var usernewops=$scope.mynewoperations;
+		alert("roles "+userewroles[0].rolename);
+		//var usernewops=scope.mynewoperations;
+		//alert("newoperations.operationname "+usernewops[0].operationname); 
+		/*
+		var length=vm.permissions.length;
+		//alert("permission length:"+length);
+		alert("newfuncationname: "+$scope.newfunction[0].functionname);
+		vm.permissions[length].functionname=$scope.newfunction[0].functionname;
+		vm.permissions[length].operationname=$scope.newoperation[0].operationname;
+		$scope.permissions=vm.permissions;
+		//vm.permissions[0].operationname="xxx";*/	
+		}
+	
 	//Get user by name
 	$http({
 		url : '/user/user',
@@ -69,15 +117,18 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.roles = data.value;
+		vm.roles[1].ticked=true;
 	}).error(function(data) {
 		alert('error');
 		console.log("error:getrolelist");
 	});
 
-	vm.updateUser = updateUser;
+	
 
 	function updateUser() {
 		var strRoles = "";
+		var usernewops=$scope.mynewoperations;
+		alert("newop "+usernewops[0].operationname);
 		var usernewroles = $scope.newroles;
 		for ( var i in usernewroles) {
 			strRoles = strRoles.concat(usernewroles[i].rolename, "|");
@@ -118,18 +169,6 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
-	});
-
-	//Get Rolelist
-	$http({
-		url : '/user/rolelist',
-		method : 'GET'
-	}).success(function(roledata) {
-		validateApiToken(data, $cookies);
-		vm.roles = roledata.value;
-	}).error(function(roledata) {
-		alert('error');
-		console.log("error:getrolelist");
 	});
 
 	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(

@@ -17,68 +17,94 @@
 </head>
 
 <div ng-controller="UserUpdateController as userUpdate">
-<div class="message">用户权限修改</div>
+	<div class="message">用户权限修改</div>
 
- <div class="template">
-     <hr class="hr20">
-     <hr class="hr20">
-	<form class="form-user" name="updateuser">
-	<table>
-	 <tbody>
-	  <tr>
-	  <td class="space">用户名：</td>
-	  <td> <input class="input-block-level" type="text" ng-model="updateUsername" value="disabled" disabled required>
-       </td> 
-       </tr>
-       
-       <tr><td><hr class="hr15"></td></tr>
-       
-	   <tr>
-	   <td class="space">角色：</td>
-	   <td>{{user.roles}}</td>
-	   </tr>
-	   
-	   <tr><hr class="hr15"></tr>
-	   
-	   <tr>
-	   <td class="space">新角色: </td>
-	   <td>
-	    <table>
-                <tr class="hljs-tag" ng-repeat="row in newroles" >
-                    <td>&nbsp;</td>
-                    <td><span class="hljs-value">{{row.rolename}}</span></td>
-                    <td><span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
-                </tr>
-            </table>   
-	    </td>
-	   <td>
-	    <div isteven-multi-select input-model="userUpdate.roles"
+	<div class="template">
+		<hr class="hr20">
+		<hr class="hr20">
+		<form class="form-user" name="updateuser">
+			<table>
+				<tbody>
+					<tr>
+						<td class="labelformat">用户名：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="updateUsername" value="disabled" disabled required>
+						</td>
+					</tr>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">角色：</td>
+						<td>
+							<div isteven-multi-select input-model="userUpdate.roles"
 								output-model="newroles" button-label="rolename"
-								item-label="rolename" tick-property="ticked"
-								orientation="horizontal"></div>
+								item-label="rolename" tick-property="ticked"></div>
 
-		</td>
-	   </tr>
-	   <tr>
-	   <td class="space">权限：</td>
-	   <td></td>
-	   </tr>
-	   
-	   <tr>
-	   </tr>
-    	
-	  </tbody> 
-	 </table>        
-	 <hr class="hr15">  
-	 <hr class="hr20">
-	 <button class="btn btn-large btn-primary"
-			ng-disabled="!updateuser.$valid" ng-click="userUpdate.updateUser()">
-	 <span class="glyphicon glyphicon-upload"></span>  确		定
-	 </button>
-	</form>
- </div>
- 
- 
- 
+						</td>
+					</tr>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">权限：</td>
+					<td>
+				   <table>
+				   <tr><td class="labelformat">功能</td><td>操作</td>
+				   </tr>
+				   <tr ng-repeat="function in userUpdate.functions" >
+				   <td>{{function.functionname}}</td>
+				   <td>
+				   <table>
+				   <tr ng-repeat="permission in userUpdate.permissions">
+				   <td><span ng-if="permission.functionname==function.function">{{permission.operationname}}</span></td>
+				   </tr>
+				   </table>
+				   </td>
+				   <!--  
+				   <td><div isteven-multi-select input-model="userUpdate.permission[]"
+								output-model="newoperation" button-label="operationname"
+								item-label="operationname" tick-property="ticked"></div>
+					</td>
+					-->
+					  </tr>
+				   </table>
+				   <!-- 
+					<td><button class="btn btn-large btn-primary"
+					    ng-disabled="!updateuser.$valid"
+						ng-click="userUpdate.addPermission()">
+						<span class="glyphicon glyphicon-plus"></span> 添加
+					</button>
+                    </td>
+					</tr>
+ 					-->
+					
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+					<td><button class="btn btn-large btn-primary"
+						ng-disabled="!updateuser.$valid"
+						ng-click="userUpdate.updateUser()">
+						<span class="glyphicon glyphicon-upload"></span> 确定修改
+					</button>
+					</td>
+					<td><button class="btn btn-large btn-primary"
+						ng-disabled="!updateuser.$valid"
+						ng-click="userUpdate.addPermission()">
+						<span class="glyphicon glyphicon-trash"
+							style="color: rgb(255, 140, 60);"></span> 删除用户
+					</button>
+					</td></tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+
+
 </div>
 <!-- /container -->

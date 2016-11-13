@@ -14,7 +14,7 @@ mainApp.config(function($stateProvider) {
 	var aboutState = {
 		name : 'about',
 		url : '/about',
-		template : '<h3>çúáÂÖÇÄÜ¹¤³§ÔËÓªÓë¿ØÖÆÏµÍ³</h3>'
+		template : '<h3>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½Óªï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³</h3>'
 	}
 
 	var updateUserState = {
@@ -46,7 +46,48 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	$scope.updateUsername = $stateParams.username;
 
 	var vm = this;
+	
+	vm.permissions = [
+	                      	{	functionname: "useradmin",	operationname: "read",ticked: true	},
+	                      	{	functionname: "useradmin",	operationname: "write",ticked: false	},
+	                      	{	functionname: "productadmin",	operationname: "write",ticked: false	}
+	                     ];
+	
+	vm.functions = [
+	                      	{	functionname: "useradmin",ticked: true	},            
+	                      	{	functionname: "productadmin",ticked: false	}
+	                     ];
 
+	vm.operations = [
+                      	{	operationname: "read",ticked: true	},	            
+                      	{	operationname: "write",ticked: false	}
+                     ];	
+	
+	vm.operationsuser = [
+                   	{	operationname: "user-read",ticked: true	},	            
+                   	{	operationname: "write",ticked: false	}
+                  ];	
+	
+	vm.operationsprouduct = [
+                   	{	operationname: "product-read",ticked: true	},	            
+                   	{	operationname: "write",ticked: true	}
+                  ];	
+	
+
+	vm.updateUser = updateUser;
+	vm.addPermission= addPermission;
+	
+	function addPermission(){
+		alert("add permission");
+		var length=vm.permissions.length;
+		//alert("permission length:"+length);
+		alert("newfuncationname: "+$scope.newfunction[0].functionname);
+		vm.permissions[length].functionname=$scope.newfunction[0].functionname;
+		vm.permissions[length].operationname=$scope.newoperation[0].operationname;
+		$scope.permissions=vm.permissions;
+		//vm.permissions[0].operationname="xxx";
+	}
+	
 	//Get user by name
 	$http({
 		url : '/user/user',
@@ -69,12 +110,13 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.roles = data.value;
+		vm.roles[1].ticked=true;
 	}).error(function(data) {
 		alert('error');
 		console.log("error:getrolelist");
 	});
 
-	vm.updateUser = updateUser;
+	
 
 	function updateUser() {
 		var strRoles = "";

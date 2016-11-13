@@ -1,6 +1,6 @@
 function validateApiToken(data, cookies) {
 	if (data.apiToken == null) {
-		alert("»á»°ÒÑ¹ıÆÚ£¬ÇëÖØĞÂµÇÂ¼");
+		alert("ä¼šè¯å·²è¿‡æœŸï¼Œè¯·é‡æ–°ç™»å½•");
 		window.location.href = "/ineuron/user/index.html/#/login";
 	}
 	cookies.put('INeuron-ApiToken', encodeURI(encodeURI(data.apiToken)), {

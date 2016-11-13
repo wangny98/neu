@@ -14,8 +14,9 @@ import org.slf4j.LoggerFactory;
 
 public class UserRepository {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(UserRepository.class);
+
 	public UserRepository() {
 
 	}
@@ -23,18 +24,26 @@ public class UserRepository {
 	public User DoAuthenticate(User user) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		User foundUser;
-		
+		boolean validUser = false;
+
 		try {
-			foundUser=session.selectOne("getUserByUsername", user.getUsername());
-			if(foundUser != null){
-				System.out.println("select user by using getUserByUsername!"+"Hi "+foundUser.getUsername()+"role: "+foundUser.getRoles());
+			foundUser = session.selectOne("getUserByUsername",
+					user.getUsername());
+			if (foundUser != null) {
+				validUser = user.getPassword().equals(foundUser.getPassword());
+				System.out.println("select user by using getUserByUsername!"
+						+ "Hi " + foundUser.getUsername() + "role: "
+						+ foundUser.getRoles());
 			}
-			
+
 		} finally {
 			session.close();
 		}
 
-		return foundUser;
+		if (validUser)
+			return foundUser;
+		else
+			return null;
 	}
 
 	public void addUser(User user) throws RepositoryException {
@@ -47,7 +56,7 @@ public class UserRepository {
 			session.close();
 		}
 	}
-	
+
 	public void updateUser(User user) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
@@ -59,7 +68,8 @@ public class UserRepository {
 		}
 	}
 
-	public List<User> getUserList() throws RepositoryException, INeuronException {
+	public List<User> getUserList() throws RepositoryException,
+			INeuronException {
 
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
@@ -71,27 +81,31 @@ public class UserRepository {
 
 	}
 
-	public User getUserByUsername(String username) throws RepositoryException, INeuronException {
+	public User getUserByUsername(String username) throws RepositoryException,
+			INeuronException {
 
 		User foundUser;
-		
-		System.out.println("in UserRespository: getUserByUsername. username:"+username);
+
+		System.out.println("in UserRespository: getUserByUsername. username:"
+				+ username);
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			foundUser = session.selectOne("getUserByUsername", username);
-			if(foundUser == null){
-				LOGGER.error("failed to select user by using getUserByUsername!"+"found, username:"+username);
-			}else{
-				LOGGER.info("select user by using getUserByUsername!"+"found, username:"+username);
+			if (foundUser == null) {
+				LOGGER.error("failed to select user by using getUserByUsername!"
+						+ "found, username:" + username);
+			} else {
+				LOGGER.info("select user by using getUserByUsername!"
+						+ "found, username:" + username);
 			}
-		
+
 		} finally {
 			session.close();
 		}
-		
+
 		return foundUser;
 	}
-	
+
 	public void addRole(Role role) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
@@ -112,7 +126,7 @@ public class UserRepository {
 		} finally {
 			session.close();
 		}
-		
+
 	}
 
 	public List<Role> getRoleList() throws RepositoryException {

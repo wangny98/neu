@@ -57,12 +57,17 @@ public class UserResource {
 		System.out.println("LOGGER.isDebugEnabled() = " + LOGGER.isDebugEnabled());
 		INeuronResponse response = new INeuronResponse();
 		try {
-			userService.doAuthenticate(user);
+			User foundUser=userService.doAuthenticate(user);
+			if(foundUser!=null){
 			String apiToken = securityService.createApiToken(user.getUsername());
 			LOGGER.info("user/authenticate newApiToken=" + apiToken);
 			response.setSuccess(true);
 			response.setValue(user);
 			response.setApiToken(apiToken);
+			}
+			else{
+				response.setSuccess(false);
+			}
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());

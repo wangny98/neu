@@ -37,7 +37,7 @@ mainApp.config(function($stateProvider) {
 mainApp.controller('NavMenuController', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
@@ -64,30 +64,6 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 	     }
         return false;
 	}
-});
-
-mainApp.factory('getUserData',function($http, $stateParams, $cookies, $q){
-    return function(){
-        var defer = $q.defer();
-    	var username = $stateParams.username;
-    	
-        $http({
-    		url : '/user/user',
-    		method : 'POST',
-    		data : 	username
-    	}).success(function(data) {
-    		validateApiToken(data, $cookies);
-    		defer.resolve(data);
-    		// var roleStr=user.roles;
-    		//userAssignedRoles=user.roleList;
-    		//alert(data.value.username);
-    	}).error(function(data) {
-    		// alert('error: get user by name');
-    		defer.reject(data);
-    		console.log("error:getuserbyname");
-    	});
-        return defer.promise
-    }
 });
 
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
@@ -120,7 +96,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   ];
 		
 	var loginedUserStr=$cookies.get('INeuron-User');
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	vm.userpermissions=loginedUser.permissionList;
 	
@@ -167,17 +143,15 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 			
 		}
 	
-	// Get Rolelist and set user.roles 
+	// Get Rolelist and set user.roles
 	$http({
 		url : '/user/rolelist',
 		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.roles = data.value;
-		//alert("loginedser "+loginedUser.roleList[0].rolename);
-		for (var i in vm.roles){
+		  for (var i in vm.roles){
 			for (var j in loginedUser.roleList){
-				//alert("vm.roles[i] "+vm.roles[i].id+" logineduser "+loginedUser.roleList[j].id)
 				if(vm.roles[i].id==loginedUser.roleList[j].id)
 					vm.roles[i].ticked=true;
 			}
@@ -186,14 +160,6 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		alert('error');
 		console.log("error:getrolelist");
 	});
-	
-	//for (var i in $scope.roledata.value){
-		//alert(vm.roles[i].rolename);
-		//$scope.roles[i].ticked=true;
-	//}
-	//alert("roles "+$scope.roles[0].rolename);
-	//$scope.user=getUserData();
-	//alert($scope.user.value.username);
 
 	function updateUser() {
 		var strRoles = "";

@@ -2,6 +2,9 @@ package com.ineuron.domain.user.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
@@ -15,6 +18,8 @@ public class UserService {
 	@Inject
 	UserRepository userRepository;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+	
 	public void doRegister(User user) throws RepositoryException {
 		user.addUser(userRepository);
 	}
@@ -23,8 +28,11 @@ public class UserService {
 		user.updateUser(userRepository);
 	}
 	
-	public User doAuthenticate(User user) throws RepositoryException {
-		return user.doAuthenticate(userRepository);
+	public User doAuthenticate(User user) throws RepositoryException, INeuronException {
+		User founduser = user.doAuthenticate(userRepository);
+		founduser.getAllPermissions();
+		LOGGER.info("founduser.getAllPermissions().size() : " + founduser.getAllPermissions().size());
+		return founduser;
 	}
 
 	public List<User> getUserList() throws RepositoryException, INeuronException {

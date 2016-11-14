@@ -43,7 +43,8 @@ userApp.controller('UserLoginController', function($scope, $http, $location,
 						$cookies.put('INeuron-UserName', $scope.username, {
 							path : "/"
 						});
-						$cookies.put('INeuron-User', data.value, {
+						var str = JSON.stringify(data.value);  
+						$cookies.put('INeuron-User', str, {
 							path : "/"
 						});
 						$cookies.put('INeuron-ApiToken',

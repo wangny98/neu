@@ -57,14 +57,11 @@ public class UserResource {
 		try {
 			User foundUser=userService.doAuthenticate(user);
 			if(foundUser!=null){
-			String apiToken = securityService.createApiToken(user.getUsername());
-			LOGGER.info("user/authenticate newApiToken=" + apiToken);
-			response.setSuccess(true);
-			response.setValue(user);
-			response.setApiToken(apiToken);
-			}
-			else{
-				response.setSuccess(false);
+				String apiToken = securityService.createApiToken(user.getUsername());
+				LOGGER.info("user/authenticate newApiToken=" + apiToken);
+				response.setSuccess(true);
+				response.setValue(foundUser);
+				response.setApiToken(apiToken);
 			}
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);

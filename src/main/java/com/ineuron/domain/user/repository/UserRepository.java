@@ -32,7 +32,7 @@ public class UserRepository {
 			if (foundUser != null) {
 				validUser = user.getPassword().equals(foundUser.getPassword());
 				System.out.println("select user by using getUserByUsername!"
-						+ "Hi " + foundUser.getUsername() + "role: "
+						+ "Hi " + foundUser.getUsername() + "  role: "
 						+ foundUser.getRoles());
 			}
 

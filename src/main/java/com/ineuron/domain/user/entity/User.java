@@ -1,6 +1,7 @@
 package com.ineuron.domain.user.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,7 @@ public class User {
 	private String permissions;
 	private String permissionFlag = "无";
 	private List<Role> roleList;
+	private Set<Permission> permissionList;
 	private Set<Permission> allPermissions;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("User");
@@ -69,13 +71,15 @@ public class User {
 				}
 			}
 			translateAndMergePermissionsToAllPermissions();
+			mergeToAllPermissions(permissionList);
 		}
 		return allPermissions;
 	}
 
 	public void translateAndMergePermissionsToAllPermissions() {
 
-		if (this.permissions != null) {
+		if (this.permissions != null && permissionList == null) {
+			permissionList = new HashSet<Permission>();
 			permissionFlag = "有";
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
@@ -102,13 +106,13 @@ public class User {
 					String operation = Operation.getOperation(Integer.valueOf(op)).toString();
 					permissionObj.getOperations().add(operation);
 				}
-				mergeToAllPermissions(permissionObj);
+				permissionList.add(permissionObj);
 			}
 		}
 
 	}
 
-	private void mergeToAllPermissions(List<Permission> permissionList) {
+	private void mergeToAllPermissions(Set<Permission> permissionList) {
 		for (Permission permission : permissionList) {
 			mergeToAllPermissions(permission);
 		}
@@ -116,19 +120,15 @@ public class User {
 	}
 
 	private void mergeToAllPermissions(Permission permission) {
-
-		
-			Iterator<Permission> iterator = allPermissions.iterator();
-			while (iterator.hasNext()) {
-				Permission existPermission = iterator.next();
-				if (existPermission.equals(permission)) {
-					permission.getOperations().addAll(existPermission.getOperations());
-					break;
-				}
+		Iterator<Permission> iterator = allPermissions.iterator();
+		while (iterator.hasNext()) {
+			Permission existPermission = iterator.next();
+			if (existPermission.equals(permission)) {
+				existPermission.getOperations().addAll(permission.getOperations());
+				return;
 			}
-
-		allPermissions.add(permission);
-
+		}
+		allPermissions.add(permission.clone());
 	}
 
 	public Integer getId() {
@@ -197,6 +197,14 @@ public class User {
 
 	public String getPermissionFlag() {
 		return permissionFlag;
+	}
+
+	public Set<Permission> getPermissionList() {
+		return permissionList;
+	}
+
+	public void setPermissionList(Set<Permission> permissionList) {
+		this.permissionList = permissionList;
 	}
 
 	

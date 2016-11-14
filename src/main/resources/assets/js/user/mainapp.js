@@ -37,7 +37,8 @@ mainApp.config(function($stateProvider) {
 mainApp.controller('NavMenuController', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	var loginedUser = JSON.parse(loginedUserStr);  
+	//var loginedUser = JSON.parse(loginedUserStr);  
+	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
 
@@ -45,7 +46,6 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 		for (index in allPermissions){
 			var permission = allPermissions[index];
 	        var strFunc=permission.function;
-	        //alert(strFunc);
 	        if (strFunc.indexOf(userManagementMenu)>=0){
 	        	return true;
 	        }      	
@@ -58,7 +58,6 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 		for (index in allPermissions){
 			var permission = allPermissions[index];
 	        var strFunc=permission.function;
-	        //alert(strFunc);
 	        if (strFunc.indexOf(roleManagementMenu)>=0){
 	        	return true;
 	        }      	
@@ -121,7 +120,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   ];
 	
 		
-	vm.userpermissions= [
+	/*vm.userpermissions= [
 	                     { function: "3|订单管理",
 	                    	 operations: ["1|查询","2|编辑"]
 	                     },
@@ -131,7 +130,12 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                     { function: "2|产品管理",
 	                    	 operations: ["1|查询","2|编辑","3|打印"]
 	                     }
-	                     ];
+	                     ];*/
+	
+	var loginedUserStr=$cookies.get('INeuron-User');
+	//var loginedUser = JSON.parse(loginedUserStr);  
+	var loginedUser = eval('(' + loginedUserStr + ')');
+	vm.userpermissions=loginedUser.permissionList;
 	
 	for (var upermissions_index in vm.userpermissions){
 		

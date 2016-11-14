@@ -7,12 +7,20 @@ public class Permission {
 
 	private String function;
 
-	private Set<String> operations;
+	private HashSet<String> operations;
 	
 	public Permission(){
 		operations = new HashSet<String>();
 	}
 
+	public Permission clone(){
+		Permission clonedPermission = new Permission();
+		clonedPermission.setFunction(function);
+		if(operations != null){
+			clonedPermission.setOperations((HashSet<String>)operations.clone());
+		}	
+		return clonedPermission;	
+	}
 	@Override
 	public boolean equals(Object other) {
 
@@ -49,9 +57,11 @@ public class Permission {
 		return operations;
 	}
 
-	public void setOperations(Set<String> operations) {
+	public void setOperations(HashSet<String> operations) {
 		this.operations = operations;
 	}
+
+	
 
 	
 }

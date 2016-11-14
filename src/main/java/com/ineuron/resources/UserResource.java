@@ -22,14 +22,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -59,14 +57,11 @@ public class UserResource {
 		try {
 			User foundUser=userService.doAuthenticate(user);
 			if(foundUser!=null){
-			String apiToken = securityService.createApiToken(user.getUsername());
-			LOGGER.info("user/authenticate newApiToken=" + apiToken);
-			response.setSuccess(true);
-			response.setValue(user);
-			response.setApiToken(apiToken);
-			}
-			else{
-				response.setSuccess(false);
+				String apiToken = securityService.createApiToken(user.getUsername());
+				LOGGER.info("user/authenticate newApiToken=" + apiToken);
+				response.setSuccess(true);
+				response.setValue(foundUser);
+				response.setApiToken(apiToken);
 			}
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);

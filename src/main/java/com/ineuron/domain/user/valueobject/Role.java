@@ -1,8 +1,7 @@
 package com.ineuron.domain.user.valueobject;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ public class Role {
 	private String rolename;
 	private String permissions;
 	private String description;
-	private List<Permission> permissionList;
+	private Set<Permission> permissionList;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Role");
 
@@ -31,7 +30,7 @@ public class Role {
 	public void translatePermissionsToPermissionList() {
 
 		if (this.permissions != null && permissionList == null) {
-
+			permissionList = new HashSet<Permission>();
 			String[] permissions = this.permissions.split(",");
 			for (String permission : permissions) {
 				String[] fao = permission.split(":");
@@ -54,7 +53,6 @@ public class Role {
 						permissionObj.getOperations().add(operation);
 					}
 				}
-				permissionList = new ArrayList<Permission>();
 				permissionList.add(permissionObj);
 			}
 		}
@@ -94,12 +92,12 @@ public class Role {
 		this.description = description;
 	}
 
-	public void setPermissionList(List<Permission> permissionList) {
-		this.permissionList = permissionList;
+	public Set<Permission> getPermissionList() {
+		return permissionList;
 	}
 
-	public List<Permission> getPermissionList() {
-		return permissionList;
+	public void setPermissionList(Set<Permission> permissionList) {
+		this.permissionList = permissionList;
 	}
 
 }

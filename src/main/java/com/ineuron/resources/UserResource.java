@@ -169,7 +169,7 @@ public class UserResource {
 	}
 
 	@Path("/user")
-	@GET
+	@POST
 	@Timed
 	public INeuronResponse getUserByUsername(String username, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();

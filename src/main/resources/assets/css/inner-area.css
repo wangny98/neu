@@ -42,11 +42,11 @@ a.logo{
 .message {
 	margin: 0px 0 0 300px;
 	align-self: center;
-	padding: 10px 10px 10px 10px;
-	background: #27A9E3;
+	padding: 8px 8px 8px 8px;
+	background: #75adde;
 	position: relative;
 	color: #fff;
-	font-size: 16px;
+	font-size: 14px;
 	text-align: center;
 	width:300px;
     

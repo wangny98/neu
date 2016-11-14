@@ -41,6 +41,7 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
+
 		var userManagementMenu="用户管理";
 		for (index in allPermissions){
 			var permission = allPermissions[index];
@@ -65,64 +66,137 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 	}
 });
 
+mainApp.factory('getUserData',function($http, $stateParams, $cookies, $q){
+    return function(){
+        var defer = $q.defer();
+    	var username = $stateParams.username;
+    	
+        $http({
+    		url : '/user/user',
+    		method : 'POST',
+    		data : 	username
+    	}).success(function(data) {
+    		validateApiToken(data, $cookies);
+    		defer.resolve(data);
+    		// var roleStr=user.roles;
+    		//userAssignedRoles=user.roleList;
+    		//alert(data.value.username);
+    	}).error(function(data) {
+    		// alert('error: get user by name');
+    		defer.reject(data);
+    		console.log("error:getuserbyname");
+    	});
+        return defer.promise
+    }
+});
+
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		$http, $state, $cookies) {
 	var username = $stateParams.username;
+		
 	$scope.updateUsername = $stateParams.username;
 
 	var vm = this;
 	
-	vm.permissions = [
-	                      	{	functionname: "useradmin",	operationname: "read",ticked: true	},
-	                      	{	functionname: "useradmin",	operationname: "write",ticked: false	},
-	                      	{	functionname: "productadmin",	operationname: "write",ticked: false	}
-	                     ];
+	vm.useradminops = [
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];	
 	
-	vm.functions = [
-	                      	{	functionname: "useradmin",ticked: true	},            
-	                      	{	functionname: "productadmin",ticked: false	}
-	                     ];
-
-	vm.operations = [
-                      	{	operationname: "read",ticked: true	},	            
-                      	{	operationname: "write",ticked: false	}
-                     ];	
+	vm.prodadminops = [
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];
 	
-	vm.operationsuser = [
-                   	{	operationname: "user-read",ticked: true	},	            
-                   	{	operationname: "write",ticked: false	}
-                  ];	
+	vm.orderadminops=[
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];
 	
-	vm.operationsprouduct = [
-                   	{	operationname: "product-read",ticked: true	},	            
-                   	{	operationname: "write",ticked: true	}
-                  ];	
+		
+	/*vm.userpermissions= [
+	                     { function: "3|订单管理",
+	                    	 operations: ["1|查询","2|编辑"]
+	                     },
+	                     { function: "1|用户管理",
+	                       operations: ["1|查询", "2|编辑"]
+	                     },
+	                     { function: "2|产品管理",
+	                    	 operations: ["1|查询","2|编辑","3|打印"]
+	                     }
+	                     ];*/
 	
-
+	var loginedUserStr=$cookies.get('INeuron-User');
+	//var loginedUser = JSON.parse(loginedUserStr);  
+	var loginedUser = eval('(' + loginedUserStr + ')');
+	vm.userpermissions=loginedUser.permissionList;
+	
+	for (var upermissions_index in vm.userpermissions){
+		
+		var funcStr=vm.userpermissions[upermissions_index].function;
+		var func=funcStr.split("|");
+		var ops=vm.userpermissions[upermissions_index].operations;
+		
+		switch(func[0]){
+		case "1": // for 用户管理 function
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.useradminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.useradminops[u_index].ticked=true; break;}	
+				};
+			}
+			break;
+		case "2": // 产品管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.prodadminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.prodadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;
+		case "3": // 订单管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.orderadminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.orderadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;		   
+		};
+		};
+	
+	
 	vm.updateUser = updateUser;
 	vm.addPermission= addPermission;
 	
-	function addPermission(index){
-		alert("add permission"+"index: "+index);
-		alert("function[$index].functionname "+vm.functions[index].functionname);
-		//alert("mynewoperations "+scope.mynewoperations );
-		var usernewops=$scope.mynewoperations;
-		alert("roles "+userewroles[0].rolename);
-		//var usernewops=scope.mynewoperations;
-		//alert("newoperations.operationname "+usernewops[0].operationname); 
-		/*
-		var length=vm.permissions.length;
-		//alert("permission length:"+length);
-		alert("newfuncationname: "+$scope.newfunction[0].functionname);
-		vm.permissions[length].functionname=$scope.newfunction[0].functionname;
-		vm.permissions[length].operationname=$scope.newoperation[0].operationname;
-		$scope.permissions=vm.permissions;
-		//vm.permissions[0].operationname="xxx";*/	
+
+	function addPermission(){
+			
 		}
+	// alert("username: "+username);
 	
-	//Get user by name
-	$http({
+	// Get user by name
+	/*$http({
 		url : '/user/user',
+<<<<<<< HEAD
+		method : 'POST',
+		data : 	username
+	}).success(function(data) {
+		validateApiToken(data, $cookies);
+		user = data.value;
+		var roleStr=user.roles;
+		userAssignedRoles=user.roleList;
+		alert(userAssignedRoles[0].rolename);
+	
+	}).error(function(data) {
+		// alert('error: get user by name');
+=======
 		method : 'GET',
 		data : {
 			'username' : username
@@ -132,23 +206,45 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		$scope.user = data.value;
 	}).error(function(data) {
 		alert('error: get user by name');
+>>>>>>> origin/master
 		console.log("error:getuserbyname");
 	});
-
-	//Get Rolelist
+    */
+	//alert("role: "+vm.roles[0].rolename);
+	
+	//$scope.user=getUserData();
+	//alert("vm.user "+$scope.user.username);
+	
+	//var user=$cookies.get('INeuron-UserName');
+	// Get Rolelist
 	$http({
 		url : '/user/rolelist',
 		method : 'GET'
-	}).success(function(data) {
-		validateApiToken(data, $cookies);
-		vm.roles = data.value;
-		vm.roles[1].ticked=true;
-	}).error(function(data) {
+	}).success(function(roledata) {
+		validateApiToken(roledata, $cookies);
+		vm.roles = roledata.value;
+		//vm.roles[0].ticked=true;
+		//defer.resolve(roledata);
+		//defer.promise;
+		/*for (var i in vm.roles){
+			for (var j in userAssingedRoles){
+				if(vm.roles[i].id==userAssignedRoles[j].id)
+					vm.roles[i].ticked=true;
+			}
+		}*/
+		// vm.roles[1].ticked=true;
+	}).error(function(roledata) {
 		alert('error');
 		console.log("error:getrolelist");
 	});
-
 	
+	//for (var i in $scope.roledata.value){
+		//alert(vm.roles[i].rolename);
+		//$scope.roles[i].ticked=true;
+	//}
+	//alert("roles "+$scope.roles[0].rolename);
+	//$scope.user=getUserData();
+	//alert($scope.user.value.username);
 
 	function updateUser() {
 		var strRoles = "";
@@ -173,7 +269,6 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		}).success(function(data) {
 			validateApiToken(data, $cookies);
 			$state.go("userManagement");
-
 		}).error(function(data) {
 			alert('error');
 			console.log("error");
@@ -191,6 +286,9 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.users = data.value;
+		for (var i in vm.users.roleList){
+			vm.users.roles=vm.users.roles+vm.users.roleList[i];
+		}
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
@@ -203,13 +301,13 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 			DTColumnDefBuilder.newColumnDef(2),
 			DTColumnDefBuilder.newColumnDef(3).notSortable(),
 			DTColumnDefBuilder.newColumnDef(4).notSortable() ];
-	//vm.user2Add = _buildUser2Add(1);
+	// vm.user2Add = _buildUser2Add(1);
 	vm.addUser = addUser;
 	vm.removeUser = removeUser;
 
 	function addUser(index) {
-		//vm.users.push(angular.copy(vm.person2Add));
-		//vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+		// vm.users.push(angular.copy(vm.person2Add));
+		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
 		alert("add 1");
 		alert("add" + vm.users[index].username);
 	}

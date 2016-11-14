@@ -5,38 +5,42 @@
 	<!-- 
 	<form class="form-inline" ng-submit="userList.addUser($index)">
 	 -->
-		<table datatable="ng" dt-options="userList.dtOptions"
-			dt-column-defs="userList.dtColumnDefs" class="row-border hover">
-			<thead>
-				<tr>
-					<th><pre>用户名</pre></th>
-					<th><pre>角色</pre></th>
-					<th><pre>特殊权限</pre></th>
-					<th><pre>修改</pre></th>
-					<th><pre>查看</pre></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="user in userList.users">
-					<td>{{ user.username }}</td>
-					<td><p ng-repeat="role in user.roleList">{{ role.rolename }} | </p></td>
-					<td>{{ user.permissionFlag }}</td>
-					<td>
-						<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->
-						<button type="button" ui-sref="updateUser({username:user.username})"
-							class="btn btn-warning">
-							<i class="fa fa-edit"></i>
-						</button>			
-					</td>
+	<table datatable="ng" dt-options="userList.dtOptions"
+		dt-column-defs="userList.dtColumnDefs" class="row-border hover">
+		<thead>
+			<tr>
+				<th><pre>用户名</pre></th>
+				<th><pre>角色</pre></th>
+				<th><pre>特殊权限</pre></th>
+				<th><pre>查看/修改</pre></th>
+				<!-- <th><pre>查看</pre></th>  -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in userList.users">
+				<td>{{ user.username }}</td>
+				<td><p ng-repeat="role in user.roleList">{{ role.rolename
+						}} |</p></td>
+				<td>{{ user.permissionFlag }}</td>
+				<td>
+					<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->
+					<button type="button"
+						ui-sref="updateUser({username:user.username})"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>
+				</td>
+				<!-- 
 					<td>
 						<button type="button" ng-click="userList.removeUser($index)"
 							class="btn btn-success">
 							<i class="fa fa-eye"></i>
 						</button>
 					</td>
+					 -->
 
-				</tr>
-			</tbody>
-		</table>
+			</tr>
+		</tbody>
+	</table>
 	<!-- </form> -->
 </div>

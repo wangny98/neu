@@ -37,7 +37,7 @@ mainApp.config(function($stateProvider) {
 mainApp.controller('NavMenuController', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
@@ -64,30 +64,6 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 	     }
         return false;
 	}
-});
-
-mainApp.factory('getUserData',function($http, $stateParams, $cookies, $q){
-    return function(){
-        var defer = $q.defer();
-    	var username = $stateParams.username;
-    	
-        $http({
-    		url : '/user/user',
-    		method : 'POST',
-    		data : 	username
-    	}).success(function(data) {
-    		validateApiToken(data, $cookies);
-    		defer.resolve(data);
-    		// var roleStr=user.roles;
-    		//userAssignedRoles=user.roleList;
-    		//alert(data.value.username);
-    	}).error(function(data) {
-    		// alert('error: get user by name');
-    		defer.reject(data);
-    		console.log("error:getuserbyname");
-    	});
-        return defer.promise
-    }
 });
 
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
@@ -118,22 +94,9 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   {	id: "3", operationname: "打印",ticked: false},	 
 	                   {	id: "4", operationname: "报表",ticked: false}
 	                   ];
-	
 		
-	/*vm.userpermissions= [
-	                     { function: "3|订单管理",
-	                    	 operations: ["1|查询","2|编辑"]
-	                     },
-	                     { function: "1|用户管理",
-	                       operations: ["1|查询", "2|编辑"]
-	                     },
-	                     { function: "2|产品管理",
-	                    	 operations: ["1|查询","2|编辑","3|打印"]
-	                     }
-	                     ];*/
-	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	vm.userpermissions=loginedUser.permissionList;
 	
@@ -179,72 +142,24 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	function addPermission(){
 			
 		}
-	// alert("username: "+username);
 	
-	// Get user by name
-	/*$http({
-		url : '/user/user',
-<<<<<<< HEAD
-		method : 'POST',
-		data : 	username
-	}).success(function(data) {
-		validateApiToken(data, $cookies);
-		user = data.value;
-		var roleStr=user.roles;
-		userAssignedRoles=user.roleList;
-		alert(userAssignedRoles[0].rolename);
-	
-	}).error(function(data) {
-		// alert('error: get user by name');
-=======
-		method : 'GET',
-		data : {
-			'username' : username
-		}
-	}).success(function(data) {
-		validateApiToken(data, $cookies);
-		$scope.user = data.value;
-	}).error(function(data) {
-		alert('error: get user by name');
->>>>>>> origin/master
-		console.log("error:getuserbyname");
-	});
-    */
-	//alert("role: "+vm.roles[0].rolename);
-	
-	//$scope.user=getUserData();
-	//alert("vm.user "+$scope.user.username);
-	
-	//var user=$cookies.get('INeuron-UserName');
-	// Get Rolelist
+	// Get Rolelist and set user.roles
 	$http({
 		url : '/user/rolelist',
 		method : 'GET'
-	}).success(function(roledata) {
-		validateApiToken(roledata, $cookies);
-		vm.roles = roledata.value;
-		//vm.roles[0].ticked=true;
-		//defer.resolve(roledata);
-		//defer.promise;
-		/*for (var i in vm.roles){
-			for (var j in userAssingedRoles){
-				if(vm.roles[i].id==userAssignedRoles[j].id)
+	}).success(function(data) {
+		validateApiToken(data, $cookies);
+		vm.roles = data.value;
+		  for (var i in vm.roles){
+			for (var j in loginedUser.roleList){
+				if(vm.roles[i].id==loginedUser.roleList[j].id)
 					vm.roles[i].ticked=true;
 			}
-		}*/
-		// vm.roles[1].ticked=true;
+		}
 	}).error(function(roledata) {
 		alert('error');
 		console.log("error:getrolelist");
 	});
-	
-	//for (var i in $scope.roledata.value){
-		//alert(vm.roles[i].rolename);
-		//$scope.roles[i].ticked=true;
-	//}
-	//alert("roles "+$scope.roles[0].rolename);
-	//$scope.user=getUserData();
-	//alert($scope.user.value.username);
 
 	function updateUser() {
 		var strRoles = "";

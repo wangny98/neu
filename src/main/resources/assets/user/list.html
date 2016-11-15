@@ -19,8 +19,7 @@
 		<tbody>
 			<tr ng-repeat="user in userList.users">
 				<td>{{ user.username }}</td>
-				<td><p ng-repeat="role in user.roleList">{{ role.rolename
-						}} |</p></td>
+				<td><p ng-repeat="role in user.roleList">{{ role.rolename}}</p></td>
 				<td>{{ user.permissionFlag }}</td>
 				<td>
 					<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->

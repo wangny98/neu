@@ -5,7 +5,8 @@ public enum Function {
 	UserManagement("用户管理", 1), 
 	ProductManagement("产品管理", 2), 
 	OrderManagement("订单管理", 3),
-	ClientManagement("已屏蔽", 4);
+	ClientManagement("已屏蔽", 4),
+	RoleManagement("角色管理", 5);
 
 	private String name;
 	private int index;

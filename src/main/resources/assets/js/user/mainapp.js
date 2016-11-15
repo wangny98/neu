@@ -10,6 +10,13 @@ mainApp.config(function($stateProvider) {
 		templateUrl : '/ineuron/user/list.html',
 		controller : 'UserListController'
 	}
+	
+	var roleManagementState = {
+			name : 'roleManagement',
+			url : 'roleManagement',	
+			templateUrl : '/ineuron/user/rolelist.html',
+			controller : 'RoleListController'
+		}
 
 	var aboutState = {
 		name : 'about',
@@ -27,9 +34,19 @@ mainApp.config(function($stateProvider) {
 			}
 		}
 	}
+	
+	var updateRoleState = {
+			name : 'updateRole',
+			url : 'updateRole/:roleStr',
+			templateUrl : '/ineuron/user/updateRole.html',
+			controller : 'RoleUpdateController'
+
+		}
 
 	$stateProvider.state(userManagementState);
+	$stateProvider.state(roleManagementState);
 	$stateProvider.state(updateUserState);
+	$stateProvider.state(updateRoleState);
 	$stateProvider.state(aboutState);
 
 });
@@ -233,5 +250,56 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	}
 });
 
+mainApp.controller('RoleListController', function($http, $scope, $location,
+		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+	var vm = this;
+	$http({
+		url : '/user/rolelist',
+		method : 'GET'
+	}).success(function(data) {
+		validateApiToken(data, $cookies);
+		vm.roles = data.value;
+	}).error(function(data) {
+		alert('error');
+		console.log("error");
+	});
 
+	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
+			'full_numbers');
+	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
+			DTColumnDefBuilder.newColumnDef(1),
+			DTColumnDefBuilder.newColumnDef(2).notSortable() ];
 
+	vm.addRole = addRole;
+	vm.removeRole = removeRole;
+	vm.updateRole = updateRole;
+
+	function addRole(index) {
+		// vm.users.push(angular.copy(vm.person2Add));
+		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+		alert("add 1");
+		alert("add" + vm.roles[index].rolename);
+	}
+
+	function removeRole(index) {
+		alert("remove");
+		alert(vm.roles[index].rolename);
+	}
+	
+	function updateRole(index) {
+		// vm.users.push(angular.copy(vm.person2Add));
+		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+
+		$state.go("updateRole", {roleStr: JSON.stringify(vm.roles[index])});
+	}
+});
+
+mainApp.controller('RoleUpdateController', function($scope, $stateParams,
+		$http, $state, $cookies) {
+	var roleStr = $stateParams.roleStr;
+
+	alert(roleStr);
+		
+	
+
+});

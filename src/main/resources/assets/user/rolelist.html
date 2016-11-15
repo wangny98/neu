@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<div ng-controller="RoleListController as roleList">
+
+	<table datatable="ng" dt-options="roleList.dtOptions"
+		dt-column-defs="roleList.dtColumnDefs" class="row-border hover">
+		<thead>
+			<tr>
+				<th><pre>角色名</pre></th>
+				<th><pre>描述</pre></th>
+				<th><pre>查看/修改</pre></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="role in roleList.roles">
+				<td>{{ role.rolename }}</td>
+				<td>{{ role.description }}</td>
+				<td>
+					<button type="button"
+						ng-click="roleList.updateRole($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+	<!-- </form> -->
+</div>

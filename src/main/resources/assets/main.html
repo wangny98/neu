@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>主页</title>
 <link href="/ineuron/css/leftmenu.css" rel="stylesheet">
+
 <!-- for DataTable -->
 <link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -70,7 +71,7 @@
 			</div>
 		</div>
 	</div>
-	<div ng-controller="NavMenuController" class="container-fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
 				<ul id="main-nav" class="nav nav-tabs nav-stacked" style="">
@@ -83,9 +84,9 @@
 					</a>
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a ui-sref="userManagement" ng-show="ShowUserManagementMenu()" ui-sref-active="active"><i
+							<li><a ui-sref="userManagement"  ui-sref-active="active"><i
 									class="glyphicon glyphicon-user"></i>用户管理</a></li>
-							<li><a href="#" ng-show="ShowRoleManagementMenu()"><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
+							<li><a href="#" ><i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
 						</ul></li>
 					<li><a href="./plans.html"><i
 							class="glyphicon glyphicon-credit-card"></i> 产品管理 </a></li>

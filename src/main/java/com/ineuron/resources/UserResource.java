@@ -166,18 +166,20 @@ public class UserResource {
 	@Path("/user")
 	@POST
 	@Timed
-	public INeuronResponse getUserByUsername(String username, @Context HttpHeaders httpHeader) {
+	public INeuronResponse getUserByUsername(final String username, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		
+		System.out.println("in userResource: getUserByUsername. username:"
+				+ username);
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
-			LOGGER.info("user/user newApiToken=" + newApiToken);
-			if(newApiToken != null){
+			//String newApiToken = validateAndUpdateApiToken(httpHeader);
+			//LOGGER.info("user/user newApiToken=" + newApiToken);
+			//if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
-				response.setApiToken(newApiToken);
+				//response.setApiToken(newApiToken);
 				response.setValue(user);
-			}
+			//}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);

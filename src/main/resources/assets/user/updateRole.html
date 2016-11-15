@@ -1,0 +1,97 @@
+<meta charset="utf-8">
+<head>
+<!-- Le styles -->
+<link rel="stylesheet" href="/ineuron/css/bootstrap.css">
+<link rel="stylesheet" href="/ineuron/css/inner-area.css">
+<link rel="stylesheet" href="/ineuron/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/ineuron/css/isteven-multi-select.css">
+<link rel="stylesheet" href="/ineuron/css/bootstrap.min.css">
+<script src="/ineuron/js/angular.min.js"></script>
+<script src="/ineuron/js/isteven-multi-select.js"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../ineuron/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<div ng-controller="UserUpdateController as userUpdate">
+	<div class="message">角色权限修改</div>
+
+	<div class="template">
+		<hr class="hr20">
+		<hr class="hr20">
+		<form class="form-user" name="updateuser">
+			<table>
+				<tbody>
+					<tr>
+						<td class="labelformat">角色名：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="updateUsername" value="disabled" disabled required>
+						</td>
+					</tr>
+					
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">权限：</td>
+						<td>
+							<table>
+								<tr>
+									<td class="labelformat">功能</td>
+									<td class="labelformat">操作</td>
+								</tr>
+								<tr>
+									<td>用户管理</td>
+									<td>
+										<div isteven-multi-select input-model="userUpdate.useradminops"
+											output-model="newuseradminops" button-label="operationname"
+											item-label="operationname" tick-property="ticked"></div>
+									</td>
+								</tr>
+								<tr>
+									<td>产品管理</td>
+									<td>
+										<div isteven-multi-select input-model="userUpdate.prodadminops"
+											output-model="newprodadminops" button-label="operationname"
+											item-label="operationname" tick-property="ticked"></div>
+									</td>
+								</tr>
+								<tr>
+									<td>订单管理</td>
+									<td>
+										<div isteven-multi-select input-model="userUpdate.orderadminops"
+											output-model="neworderadminops" button-label="operationname"
+											item-label="operationname" tick-property="ticked"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-large btn-primary"
+											ng-disabled="!updateuser.$valid"
+											ng-click="userUpdate.updateUser()">
+											<span class="glyphicon glyphicon-upload"></span> 确定修改
+										</button></td>
+									<td><button class="btn btn-large btn-primary"
+											ng-disabled="!updateuser.$valid"
+											ng-click="userUpdate.addPermission()">
+											<span class="glyphicon glyphicon-trash"
+												style="color: rgb(255, 140, 60);"></span> 删除角色
+										</button></td>
+								</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+
+
+</div>
+<!-- /container -->

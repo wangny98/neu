@@ -22,12 +22,18 @@
 				<td><p ng-repeat="role in user.roleList">{{ role.rolename}}</p></td>
 				<td>{{ user.permissionFlag }}</td>
 				<td>
-					<!-- <a ui-sref="updateUser({username:user.username, userrole:user.role, userpermissionflag:user.permissionflag})">修改</a> -->
+					<button type="button"
+						ng-click="userList.updateUser($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>
+					<!-- 
 					<button type="button"
 						ui-sref="updateUser({username:user.username})"
 						class="btn btn-warning">
 						<i class="fa fa-edit"></i>
 					</button>
+					 -->
 				</td>
 				<!-- 
 					<td>

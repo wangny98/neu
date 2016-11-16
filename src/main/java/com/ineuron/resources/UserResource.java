@@ -98,7 +98,7 @@ public class UserResource {
 			
 		try {
 			String newApiToken = validateAndUpdateApiToken(httpHeader);		
-			LOGGER.info("user/list newApiToken=" + newApiToken);
+			LOGGER.info("user/update newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateUser(user);			
 				response.setSuccess(true);
@@ -114,6 +114,32 @@ public class UserResource {
 		}
 		return response;
 	}
+	
+	@Path("/delete")
+	@POST
+	@Timed
+	public INeuronResponse delete(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+			
+		try {
+			String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			LOGGER.info("user/delete newApiToken=" + newApiToken);
+			if(newApiToken != null){
+				userService.deleteUser(user);			
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+				response.setValue(null);
+			}
+			
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return response;
+	}
+
 
 	@Path("/list")
 	@GET
@@ -166,18 +192,20 @@ public class UserResource {
 	@Path("/user")
 	@POST
 	@Timed
-	public INeuronResponse getUserByUsername(String username, @Context HttpHeaders httpHeader) {
+	public INeuronResponse getUserByUsername(final String username, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		
+		System.out.println("in userResource: getUserByUsername. username:"
+				+ username);
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
-			LOGGER.info("user/user newApiToken=" + newApiToken);
-			if(newApiToken != null){
+			//String newApiToken = validateAndUpdateApiToken(httpHeader);
+			//LOGGER.info("user/user newApiToken=" + newApiToken);
+			//if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
-				response.setApiToken(newApiToken);
+				//response.setApiToken(newApiToken);
 				response.setValue(user);
-			}
+			//}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);

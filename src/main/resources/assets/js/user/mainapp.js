@@ -26,21 +26,16 @@ mainApp.config(function($stateProvider) {
 
 	var updateUserState = {
 		name : 'updateUser',
-		url : 'updateUser/{username}',
-		views : {
-			'' : {
-				templateUrl : '/ineuron/user/updateUser.html',
-				controller : 'UserUpdateController'
-			}
+		url : 'updateUser/:userStr',
+		templateUrl : '/ineuron/user/updateUser.html',
+		controller : 'UserUpdateController'
 		}
-	}
 	
 	var updateRoleState = {
 			name : 'updateRole',
 			url : 'updateRole/:roleStr',
 			templateUrl : '/ineuron/user/updateRole.html',
 			controller : 'RoleUpdateController'
-
 		}
 
 	$stateProvider.state(userManagementState);
@@ -54,7 +49,7 @@ mainApp.config(function($stateProvider) {
 mainApp.controller('NavMenuController', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	// var loginedUser = JSON.parse(loginedUserStr);  
+	//var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
@@ -85,9 +80,12 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		$http, $state, $cookies) {
-	var username = $stateParams.username;
+	var selectedUserStr = $stateParams.userStr;
+	//alert(selectedUserStr);
+	//var loginedUser = JSON.parse(loginedUserStr);  
+	var selectedUser = eval('(' + selectedUserStr + ')');
 		
-	$scope.updateUsername = $stateParams.username;
+	$scope.updateUsername = selectedUser.username;
 
 	var vm = this;
 	
@@ -111,11 +109,9 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   {	id: "3", operationname: "打印",ticked: false},	 
 	                   {	id: "4", operationname: "报表",ticked: false}
 	                   ];
-		
-	var loginedUserStr=$cookies.get('INeuron-User');
-	// var loginedUser = JSON.parse(loginedUserStr);  
-	var loginedUser = eval('(' + loginedUserStr + ')');
-	vm.userpermissions=loginedUser.permissionList;
+	
+	// set default value to permissions multi-select UI controls
+	vm.userpermissions=selectedUser.permissionList;
 	
 	for (var upermissions_index in vm.userpermissions){
 		
@@ -150,16 +146,9 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		   break;		   
 		};
 		};
+      //end of permission default set	
 	
-	
-	vm.updateUser = updateUser;
-	vm.addPermission= addPermission;
-	
-
-	function addPermission(){
-			
-		}
-	
+		
 	// Get Rolelist and set user.roles
 	$http({
 		url : '/user/rolelist',
@@ -167,36 +156,75 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.roles = data.value;
-		  for (var i in vm.roles){
-			for (var j in loginedUser.roleList){
-				if(vm.roles[i].id==loginedUser.roleList[j].id)
+			
+		for (var i in vm.roles){
+			vm.roles[i].ticked=false;
+			for (var j in selectedUser.roleList){
+				//alert("j= "+j+", selectedUser.roleList[j].id "+selectedUser.username+selectedUser.roleList[j].id);
+				if(vm.roles[i].id==selectedUser.roleList[j].id){
 					vm.roles[i].ticked=true;
+					break;
+				}
 			}
 		}
-	}).error(function(roledata) {
+	}).error(function(data) {
 		alert('error');
 		console.log("error:getrolelist");
 	});
 
+	
+	vm.updateUser = updateUser;
 	function updateUser() {
+		
+		// get updated roles
 		var strRoles = "";
-		var usernewops=$scope.mynewoperations;
-		alert("newop "+usernewops[0].operationname);
-		var usernewroles = $scope.newroles;
-		for ( var i in usernewroles) {
-			strRoles = strRoles.concat(usernewroles[i].rolename, "|");
-		}
-		;
+		for ( var i in $scope.newroles) {
+			strRoles = strRoles.concat($scope.newroles[i].id, "|");
+		};
 		strRoles = strRoles.substring(0, strRoles.length - 1);
 
-		alert(strRoles);
+		//alert("role: "+strRoles);
+		
+		// get updated permissions
+		var strPer="";
+		var empty=true;		
+		if (typeof($scope.newuseradminops)!="undefined"){
+			if (!empty) strPer=strPer.concat(",");
+			strPer=strPer.concat("1:");
+			for (var i in $scope.newuseradminops){
+				strPer=strPer.concat($scope.newuseradminops[i].id, "|");
+		};			
+		strPer = strPer.substring(0, strPer.length - 1);
+		empty=false;
+		};
+		
+		if (typeof($scope.newprodadminops)!="undefined"){
+		  if (!empty) strPer=strPer.concat(",");
+			strPer=strPer.concat("2:");
+			for (var i in $scope.newprodadminops){
+				strPer=strPer.concat($scope.newprodadminops[i].id, "|");
+		};			
+		strPer = strPer.substring(0, strPer.length - 1);		 
+		empty=false;
+		};
+		
+		if (typeof($scope.neworderadminops)!="undefined"){
+			  if (!empty) strPer=strPer.concat(",");
+				strPer=strPer.concat("3:");
+				for (var i in $scope.neworderadminops){
+					strPer=strPer.concat($scope.neworderadminops[i].id, "|");
+			};			
+			strPer = strPer.substring(0, strPer.length - 1);		 
+			empty=false;
+			};
 
 		$http({
 			url : '/user/update',
 			method : 'POST',
 			data : {
 				username : $scope.updateUsername,
-				role : $scope.updateRoleSelected
+				roles : strRoles,
+				permissions: strPer
 			}
 		}).success(function(data) {
 			validateApiToken(data, $cookies);
@@ -206,21 +234,37 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 			console.log("error");
 		})
 	}
+	
+	vm.deleteUser=deleteUser;
+	function deleteUser() {
+		//alert(vm.users[index]);
+		$http({
+			url : '/user/delete',
+			method : 'POST',
+			data : {
+				username : $scope.updateUsername
+			}
+		}).success(function(data) {
+			validateApiToken(data, $cookies);
+			$state.go("userManagement");
+		}).error(function(data) {
+			alert('error in delete');
+			console.log("error");
+		})
+	}
 
 });
 
 mainApp.controller('UserListController', function($http, $scope, $location,
-		$cookies, DTOptionsBuilder, DTColumnDefBuilder) {
+		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
+	
 	$http({
 		url : '/user/list',
 		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.users = data.value;
-		for (var i in vm.users.roleList){
-			vm.users.roles=vm.users.roles+vm.users.roleList[i];
-		}
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
@@ -231,22 +275,12 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 			DTColumnDefBuilder.newColumnDef(1),
 			DTColumnDefBuilder.newColumnDef(2),
-			DTColumnDefBuilder.newColumnDef(3).notSortable(),
-			DTColumnDefBuilder.newColumnDef(4).notSortable() ];
-	// vm.user2Add = _buildUser2Add(1);
-	vm.addUser = addUser;
-	vm.removeUser = removeUser;
-
-	function addUser(index) {
-		// vm.users.push(angular.copy(vm.person2Add));
-		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-		alert("add 1");
-		alert("add" + vm.users[index].username);
-	}
-
-	function removeUser(index) {
-		alert("remove");
-		alert(vm.users[index].username);
+			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
+	
+	vm.updateUser=updateUser;
+	function updateUser(index) {
+		//alert(vm.users[index]);
+		$state.go("updateUser", {userStr: JSON.stringify(vm.users[index])});
 	}
 });
 
@@ -287,9 +321,6 @@ mainApp.controller('RoleListController', function($http, $scope, $location,
 	}
 	
 	function updateRole(index) {
-		// vm.users.push(angular.copy(vm.person2Add));
-		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-
 		$state.go("updateRole", {roleStr: JSON.stringify(vm.roles[index])});
 	}
 });

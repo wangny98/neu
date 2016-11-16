@@ -47,6 +47,12 @@ public class User {
 		userRepository.updateUser(this);
 
 	}
+	
+	public void deleteUser(UserRepository userRepository) throws RepositoryException {
+
+		userRepository.deleteUser(this);
+
+	}
 
 	public User doAuthenticate(UserRepository userRepository) throws RepositoryException {
 

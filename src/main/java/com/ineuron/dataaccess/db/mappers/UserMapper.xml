@@ -34,7 +34,7 @@
   </insert>
   
   <update id="updateRole" >
-    update roles r set r.rolename = #{rolename}, r.permissions = #{permissions} where id = #{id}
+    update roles r set r.rolename = #{rolename}, r.description = #{description}, r.permissions = #{permissions} where id = #{id}
   </update>
   
   <delete id="deleteRole">

@@ -26,21 +26,16 @@ mainApp.config(function($stateProvider) {
 
 	var updateUserState = {
 		name : 'updateUser',
-		url : 'updateUser/{username}',
-		views : {
-			'' : {
-				templateUrl : '/ineuron/user/updateUser.html',
-				controller : 'UserUpdateController'
-			}
+		url : 'updateUser/:userStr',
+		templateUrl : '/ineuron/user/updateUser.html',
+		controller : 'UserUpdateController'
 		}
-	}
 	
 	var updateRoleState = {
 			name : 'updateRole',
 			url : 'updateRole/:roleStr',
 			templateUrl : '/ineuron/user/updateRole.html',
 			controller : 'RoleUpdateController'
-
 		}
 
 	$stateProvider.state(userManagementState);
@@ -85,9 +80,12 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		$http, $state, $cookies) {
-	var username = $stateParams.username;
+	var selectedUserStr = $stateParams.userStr;
+	//alert(selectedUserStr);
+	//var loginedUser = JSON.parse(loginedUserStr);  
+	var selectedUser = eval('(' + selectedUserStr + ')');
 		
-	$scope.updateUsername = $stateParams.username;
+	$scope.updateUsername = selectedUser.username;
 
 	var vm = this;
 	
@@ -112,76 +110,43 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   {	id: "4", operationname: "报表",ticked: false}
 	                   ];
 	
+	// set default value to permissions multi-select UI controls
+	vm.userpermissions=selectedUser.permissionList;
 	
-	//Get the selected user
-	alert("UI: "+username);
-	$http({
-		url : '/user/user',
-		method : 'POST',
-		data : username
-	}).success(function(data) {
-		//validateApiToken(data, $cookies);
-		if (data.success == true) {
-			var str = JSON.stringify(data.value.roles);  
-			$cookies.put('INeuron-selectedUserRoles', str, {
-				path : "/"
-			});
-			vm.userpermissions=data.value.permissionList;
-			
-			// set default value to permissions multi-select UI controls
-			for (var upermissions_index in vm.userpermissions){
-				
-				var funcStr=vm.userpermissions[upermissions_index].function;
-				var func=funcStr.split("|");
-				var ops=vm.userpermissions[upermissions_index].operations;
-				
-				switch(func[0]){
-				case "1": // for 用户管理 function
-					for (var op_index in ops){
-						var opid=ops[op_index].split("|");
-						for (var u_index in vm.useradminops){
-							if(opid[0]==vm.useradminops[u_index].id) {vm.useradminops[u_index].ticked=true; break;}	
-						};
-					}
-					break;
-				case "2": // 产品管理 func
-					for (var op_index in ops){
-						var opid=ops[op_index].split("|");
-						for (var u_index in vm.prodadminops){
-							if(opid[0]==vm.useradminops[u_index].id) {vm.prodadminops[u_index].ticked=true; break;}	
-						};
-					}
-				   break;
-				case "3": // 订单管理 func
-					for (var op_index in ops){
-						var opid=ops[op_index].split("|");
-						for (var u_index in vm.orderadminops){
-							if(opid[0]==vm.useradminops[u_index].id) {vm.orderadminops[u_index].ticked=true; break;}	
-						};
-					}
-				   break;		   
+	for (var upermissions_index in vm.userpermissions){
+		
+		var funcStr=vm.userpermissions[upermissions_index].function;
+		var func=funcStr.split("|");
+		var ops=vm.userpermissions[upermissions_index].operations;
+		
+		switch(func[0]){
+		case "1": // for 用户管理 function
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.useradminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.useradminops[u_index].ticked=true; break;}	
 				};
-				};
-		      //end of permission default set
-		}
-	}).error(function(data) {
-		alert('error');
-		console.log("error:getuser");
-	});
-	
-	var selectedUserRolesStr=$cookies.get('INeuron-SelectedUserRoles');
-	//var loginedUser = JSON.parse(loginedUserStr);  
-	var selectedUserRoles = eval('(' + selectedUserRolesStr + ')');
-	var strRole=selectedUserRoles.roles;
-	
-	/*
-	for (var u in userList){
-		if (userList[u].username==username){
-			selectedUser=userList[u];
+			}
 			break;
-		}
-	};
-	*/
+		case "2": // 产品管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.prodadminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.prodadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;
+		case "3": // 订单管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.orderadminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.orderadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;		   
+		};
+		};
+      //end of permission default set	
 	
 		
 	// Get Rolelist and set user.roles
@@ -218,13 +183,11 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		};
 		strRoles = strRoles.substring(0, strRoles.length - 1);
 
-		alert("role: "+strRoles);
+		//alert("role: "+strRoles);
 		
 		// get updated permissions
 		var strPer="";
-		var empty=true;
-		alert("start");
-		
+		var empty=true;		
 		if (typeof($scope.newuseradminops)!="undefined"){
 			if (!empty) strPer=strPer.concat(",");
 			strPer=strPer.concat("1:");
@@ -247,7 +210,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		
 		if (typeof($scope.neworderadminops)!="undefined"){
 			  if (!empty) strPer=strPer.concat(",");
-				strPer=strPer.concat("2:");
+				strPer=strPer.concat("3:");
 				for (var i in $scope.neworderadminops){
 					strPer=strPer.concat($scope.neworderadminops[i].id, "|");
 			};			
@@ -255,9 +218,6 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 			empty=false;
 			};
 
-		
-        alert("per "+strPer);
-        
 		$http({
 			url : '/user/update',
 			method : 'POST',
@@ -274,27 +234,37 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 			console.log("error");
 		})
 	}
+	
+	vm.deleteUser=deleteUser;
+	function deleteUser() {
+		//alert(vm.users[index]);
+		$http({
+			url : '/user/delete',
+			method : 'POST',
+			data : {
+				username : $scope.updateUsername
+			}
+		}).success(function(data) {
+			validateApiToken(data, $cookies);
+			$state.go("userManagement");
+		}).error(function(data) {
+			alert('error in delete');
+			console.log("error");
+		})
+	}
 
 });
 
 mainApp.controller('UserListController', function($http, $scope, $location,
-		$cookies, DTOptionsBuilder, DTColumnDefBuilder) {
+		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
+	
 	$http({
 		url : '/user/list',
 		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.users = data.value;
-		/*if (data.success == true) {
-			var str = JSON.stringify(data.value);  
-			$cookies.put('INeuron-UserList', str, {
-				path : "/"
-			});
-		};*/
-		for (var i in vm.users.roleList){
-			vm.users.roles=vm.users.roles+vm.users.roleList[i];
-		}
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
@@ -306,22 +276,12 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 			DTColumnDefBuilder.newColumnDef(1),
 			DTColumnDefBuilder.newColumnDef(2),
 			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
-			// DTColumnDefBuilder.newColumnDef(4).notSortable() ];
-	// vm.user2Add = _buildUser2Add(1);
-	/*vm.addUser = addUser;
-	vm.removeUser = removeUser;
-
-	function addUser(index) {
-		// vm.users.push(angular.copy(vm.person2Add));
-		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-		alert("add 1");
-		alert("add" + vm.users[index].username);
+	
+	vm.updateUser=updateUser;
+	function updateUser(index) {
+		//alert(vm.users[index]);
+		$state.go("updateUser", {userStr: JSON.stringify(vm.users[index])});
 	}
-
-	function removeUser(index) {
-		alert("remove");
-		alert(vm.users[index].username);
-	}*/
 });
 
 mainApp.controller('RoleListController', function($http, $scope, $location,
@@ -361,9 +321,6 @@ mainApp.controller('RoleListController', function($http, $scope, $location,
 	}
 	
 	function updateRole(index) {
-		// vm.users.push(angular.copy(vm.person2Add));
-		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-
 		$state.go("updateRole", {roleStr: JSON.stringify(vm.roles[index])});
 	}
 });

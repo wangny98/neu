@@ -98,7 +98,7 @@ public class UserResource {
 			
 		try {
 			String newApiToken = validateAndUpdateApiToken(httpHeader);		
-			LOGGER.info("user/list newApiToken=" + newApiToken);
+			LOGGER.info("user/update newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateUser(user);			
 				response.setSuccess(true);
@@ -114,6 +114,32 @@ public class UserResource {
 		}
 		return response;
 	}
+	
+	@Path("/delete")
+	@POST
+	@Timed
+	public INeuronResponse delete(final User user, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+			
+		try {
+			String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			LOGGER.info("user/delete newApiToken=" + newApiToken);
+			if(newApiToken != null){
+				userService.deleteUser(user);			
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+				response.setValue(null);
+			}
+			
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return response;
+	}
+
 
 	@Path("/list")
 	@GET

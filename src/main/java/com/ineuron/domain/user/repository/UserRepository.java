@@ -67,6 +67,17 @@ public class UserRepository {
 			session.close();
 		}
 	}
+	
+	public void deleteUser(User user) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.update("deleteUser", user);
+			session.commit();
+			System.out.println("delete user by using mybatis!");
+		} finally {
+			session.close();
+		}
+	}
 
 	public List<User> getUserList() throws RepositoryException,
 			INeuronException {

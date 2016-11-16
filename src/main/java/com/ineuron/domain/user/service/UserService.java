@@ -28,6 +28,10 @@ public class UserService {
 		user.updateUser(userRepository);
 	}
 	
+	public void deleteUser(User user) throws RepositoryException {
+		user.deleteUser(userRepository);
+	}
+	
 	public User doAuthenticate(User user) throws RepositoryException, INeuronException {
 		User founduser = user.doAuthenticate(userRepository);
 		founduser.getAllPermissions();

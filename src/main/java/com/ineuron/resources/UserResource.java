@@ -259,19 +259,44 @@ public class UserResource {
 	@Path("/updaterole")
 	@POST
 	@Timed
-	public INeuronResponse updateRole(final Role role, @Context final UriInfo uriInfo) {
+	public INeuronResponse updateRole(final Role role, @Context final UriInfo uriInfo,  @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			userService.updateRole(role);			
-			response.setSuccess(true);
-			response.setValue(role);
+			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			LOGGER.info("user/updaterole newApiToken=" + newApiToken);
+			if(newApiToken != null){
+				userService.updateRole(role);			
+				response.setSuccess(true);
+				response.setValue(role);
+				response.setApiToken(newApiToken);
+			}
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
 		}
+		return response;
+
+	}
+	
+	@Path("/deleterole")
+	@POST
+	@Timed
+	public INeuronResponse deleteRole(final Role role, @Context final UriInfo uriInfo) {
+		INeuronResponse response = new INeuronResponse();
+		try {
+			userService.deleteRole(role);			
+			response.setSuccess(true);
+			response.setValue(role);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} 
 		return response;
 
 	}
@@ -289,6 +314,28 @@ public class UserResource {
 			response.setValue(roles);
 			response.setSuccess(true);		
 			response.setApiToken(newApiToken);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		}
+		return response;
+
+	}
+	
+	@Path("/rolelist1")
+	@GET
+	@Timed
+	public INeuronResponse getRoleList1(@Context HttpHeaders httpHeader) {
+
+		INeuronResponse response = new INeuronResponse();
+
+		try {
+			List<Role> roles = userService.getRoleList();
+			response.setValue(roles);
+			response.setSuccess(true);		
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());

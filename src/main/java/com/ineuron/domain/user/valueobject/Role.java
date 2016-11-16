@@ -6,6 +6,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.repository.UserRepository;
 
@@ -17,10 +18,12 @@ public class Role {
 	private String description;
 	private Set<Permission> permissionList;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Role");
+	private static final Logger LOGGER = LoggerFactory.getLogger(Role.class);
 
-	public void addRole(UserRepository userRepository) throws RepositoryException {
+	public void addRole(UserRepository userRepository) throws RepositoryException, INeuronException {
 		userRepository.addRole(this);
+		RolesCache rc = RolesCache.getRolesCache();
+		rc.updateRole(this);
 	}
 
 	public void updateRole(UserRepository userRepository) throws RepositoryException {
@@ -59,6 +62,11 @@ public class Role {
 
 	}
 
+	public void deleteRole(UserRepository userRepository) throws RepositoryException {
+		userRepository.deleteRole(this);
+		
+	}
+	
 
 	public Integer getId() {
 		return id;
@@ -99,5 +107,7 @@ public class Role {
 	public void setPermissionList(Set<Permission> permissionList) {
 		this.permissionList = permissionList;
 	}
+
+
 
 }

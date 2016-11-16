@@ -70,5 +70,9 @@ public class UserService {
 		return rolesCache.getRoles();
 	}
 
+	public void deleteRole(Role role) throws RepositoryException {
+		role.deleteRole(userRepository);
+	}
+
 
 }

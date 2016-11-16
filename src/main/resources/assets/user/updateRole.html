@@ -16,19 +16,29 @@
 
 </head>
 
-<div ng-controller="UserUpdateController as userUpdate">
+<div ng-controller="RoleUpdateController as roleUpdate">
 	<div class="message">角色权限修改</div>
 
 	<div class="template">
 		<hr class="hr20">
 		<hr class="hr20">
-		<form class="form-user" name="updateuser">
+		<form class="form-role" name="updaterole">
 			<table>
 				<tbody>
 					<tr>
 						<td class="labelformat">角色名：</td>
 						<td><input class="input-block-level" type="text"
-							ng-model="updateUsername" value="disabled" disabled required>
+							ng-model="updateRolename" value="disabled" required>
+						</td>
+					</tr>
+					
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">备注：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="updateRoleDescription" value="">
 						</td>
 					</tr>
 					
@@ -46,15 +56,15 @@
 								<tr>
 									<td>用户管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.useradminops"
-											output-model="newuseradminops" button-label="operationname"
+										<div isteven-multi-select input-model="roleUpdate.roleadminops"
+											output-model="newroleadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
 								</tr>
 								<tr>
 									<td>产品管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.prodadminops"
+										<div isteven-multi-select input-model="roleUpdate.prodadminops"
 											output-model="newprodadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -62,7 +72,7 @@
 								<tr>
 									<td>订单管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.orderadminops"
+										<div isteven-multi-select input-model="roleUpdate.orderadminops"
 											output-model="neworderadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -75,13 +85,13 @@
 								</tr>
 								<tr>
 									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updateuser.$valid"
-											ng-click="userUpdate.updateUser()">
+											ng-disabled="!updaterole.$valid"
+											ng-click="roleUpdate.updateRole()">
 											<span class="glyphicon glyphicon-upload"></span> 确定修改
 										</button></td>
 									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updateuser.$valid"
-											ng-click="userUpdate.addPermission()">
+											ng-disabled="!updaterole.$valid"
+											ng-click="roleUpdate.addPermission()">
 											<span class="glyphicon glyphicon-trash"
 												style="color: rgb(255, 140, 60);"></span> 删除角色
 										</button></td>

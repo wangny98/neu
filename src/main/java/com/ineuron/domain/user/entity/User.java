@@ -119,8 +119,10 @@ public class User {
 	}
 
 	private void mergeToAllPermissions(Set<Permission> permissionList) {
-		for (Permission permission : permissionList) {
-			mergeToAllPermissions(permission);
+		if(permissionList != null){
+			for (Permission permission : permissionList) {
+				mergeToAllPermissions(permission);
+			}
 		}
 
 	}

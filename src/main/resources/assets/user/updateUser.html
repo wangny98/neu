@@ -23,12 +23,16 @@
 		<hr class="hr20">
 		<hr class="hr20">
 		<form class="form-user" name="updateuser">
-			<table>
+			<table class="functionarea">
 				<tbody>
+				<tr>
+						<td><hr class="hr15"></td>
+					</tr>
 					<tr>
 						<td class="labelformat">用户名：</td>
 						<td><label>{{userUpdate.user.username}}</label>
 						</td>
+						<td></td>
 					</tr>
 					<tr>
 						<td><hr class="hr15"></td>
@@ -39,8 +43,8 @@
 							<div isteven-multi-select input-model="userUpdate.roles"
 								output-model="newroles" button-label="rolename"
 								item-label="rolename" tick-property="ticked"></div>
-
 						</td>
+						<td></td>
 					</tr>
 					<tr>
 						<td><hr class="hr15"></td>
@@ -80,7 +84,8 @@
 								<tr>
 									<td><hr class="hr15"></td>
 								</tr>
-								<tr>
+								</table>
+                                <tr>
 									<td><hr class="hr15"></td>
 								</tr>
 								<tr>
@@ -96,6 +101,9 @@
 												style="color: rgb(255, 140, 60);"></span> 删除用户
 										</button></td>
 								</tr>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
 				</tbody>
 			</table>
 		</form>

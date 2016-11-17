@@ -88,7 +88,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	$scope.updateUsername = selectedUser.username;
 
 	var vm = this;
-	
+	vm.user=selectedUser;
 	vm.useradminops = [
 	                   {	id: "1", operationname: "查询",ticked: false},	            
 	                   {	id: "2", operationname: "编辑",ticked: false},	 

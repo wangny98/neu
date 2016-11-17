@@ -23,30 +23,33 @@
 		<hr class="hr20">
 		<hr class="hr20">
 		<form class="form-role" name="updaterole">
-			<table>
+			<table class="functionarea">
 				<tbody>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
 					<tr>
 						<td class="labelformat">角色名：</td>
 						<td><input class="input-block-level" type="text"
-							ng-model="updateRolename" value="disabled" required>
-						</td>
+							ng-model="updateRolename" value="disabled" required></td>
+						<td></td>
 					</tr>
-					
+
 					<tr>
 						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
 						<td class="labelformat">备注：</td>
 						<td><input class="input-block-level" type="text"
-							ng-model="updateRoleDescription" value="">
-						</td>
+							ng-model="updateRoleDescription" value=""></td>
+							<td></td>
 					</tr>
-					
+
 					<tr>
 						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
-						<td class="labelformat">权限：</td>
+						<td class="labelformat">特殊权限：</td>
 						<td>
 							<table>
 								<tr>
@@ -56,7 +59,8 @@
 								<tr>
 									<td>用户管理</td>
 									<td>
-										<div isteven-multi-select input-model="roleUpdate.roleadminops"
+										<div isteven-multi-select
+											input-model="roleUpdate.roleadminops"
 											output-model="newroleadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -64,7 +68,8 @@
 								<tr>
 									<td>产品管理</td>
 									<td>
-										<div isteven-multi-select input-model="roleUpdate.prodadminops"
+										<div isteven-multi-select
+											input-model="roleUpdate.prodadminops"
 											output-model="newprodadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -72,7 +77,8 @@
 								<tr>
 									<td>订单管理</td>
 									<td>
-										<div isteven-multi-select input-model="roleUpdate.orderadminops"
+										<div isteven-multi-select
+											input-model="roleUpdate.orderadminops"
 											output-model="neworderadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -80,7 +86,8 @@
 								<tr>
 									<td><hr class="hr15"></td>
 								</tr>
-								<tr>
+								</table>
+                                <tr>
 									<td><hr class="hr15"></td>
 								</tr>
 								<tr>
@@ -96,12 +103,11 @@
 												style="color: rgb(255, 140, 60);"></span> 删除角色
 										</button></td>
 								</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-
-
-
-</div>
-<!-- /container -->
+								<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								</tbody>
+							</table>
+							</form>
+			</div>
+</div> <!-- /container -->

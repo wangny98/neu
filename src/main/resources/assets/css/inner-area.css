@@ -53,6 +53,10 @@ a.logo{
     
 }
 
+.functionarea {
+	background-color: #e5eff3;
+}
+
 
 input[type=text],
 input[type=file],
@@ -121,8 +125,13 @@ hr.hr20 {
 .labelformat {
 	width:100px;
 	padding-left:0px;
-	text-align:left;
+	text-align:center;
 	font-weight:bold;
+}
+
+.tableborder {
+	width:15px;
+	padding-left:0px;
 }
 
 .copyright{

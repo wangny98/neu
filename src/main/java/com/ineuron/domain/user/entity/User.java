@@ -38,7 +38,7 @@ public class User {
 
 	public void addUser(UserRepository userRepository) throws RepositoryException {
 		// set default role
-		setRoles("user");
+		//setRoles("5");
 		userRepository.addUser(this);
 	}
 

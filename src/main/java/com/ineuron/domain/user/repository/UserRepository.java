@@ -150,4 +150,17 @@ public class UserRepository {
 		}
 	}
 
+	public void deleteRole(Role role) throws RepositoryException {
+		
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.update("deleteRole", role);
+			session.commit();
+			System.out.println("delete role by using mybatis!");
+		} finally {
+			session.close();
+		}
+		
+	}
+
 }

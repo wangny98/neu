@@ -1,5 +1,6 @@
 package com.ineuron.domain.user.valueobject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,6 @@ import com.ineuron.domain.user.repository.UserRepository;
 public class RolesCache {
 	
 	private static RolesCache rolesCache;
-	
-	private List<Role> roles;
 	
 	private Map<Integer, Role> rolesMap;
 	
@@ -28,10 +27,9 @@ public class RolesCache {
 			for(Role role : roles){
 				role.translatePermissionsToPermissionList();
 			}
-			rolesCache.setRoles(roles);
 			
 			Map<Integer, Role> rolesMap = new HashMap<Integer, Role>();
-			for(Role role : rolesCache.getRoles()){
+			for(Role role : roles){
 				rolesMap.put(role.getId(), role);
 			}
 			rolesCache.setRolesMap(rolesMap);
@@ -45,24 +43,28 @@ public class RolesCache {
 		return rolesCache;
 	}
 	
+	public List<Role> getRoles() throws INeuronException {
+		if(rolesMap == null){
+			throw new INeuronException("rolesMap is not initiallized!", null);
+		}
+		List<Role> roles = new ArrayList<Role>();
+		for(Role role : rolesMap.values()){
+			roles.add(role);
+		}
+		return roles;
+	}
+	
 	public void addRole(Role role){
 		role.translatePermissionsToPermissionList();
-		roles.add(role);
 		rolesMap.put(role.getId(), role);
 	}
 	
 	public void updateRole(Role role) {
+		role.translatePermissionsToPermissionList();
 		rolesMap.put(role.getId(), role);	
 	}
 	
-	public List<Role> getRoles(){
-		return roles;
-	}
 	
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
 	public Map<Integer, Role> getRolesMap() {
 		return rolesMap;
 	}
@@ -71,5 +73,4 @@ public class RolesCache {
 		this.rolesMap = rolesMap;
 	}
 
-	
 }

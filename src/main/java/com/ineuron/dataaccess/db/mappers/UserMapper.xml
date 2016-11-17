@@ -34,8 +34,12 @@
   </insert>
   
   <update id="updateRole" >
-    update roles r set r.rolename = #{rolename}, r.permissions = #{permissions} where id = #{id}
+    update roles r set r.rolename = #{rolename}, r.description = #{description}, r.permissions = #{permissions} where id = #{id}
   </update>
+  
+  <delete id="deleteRole">
+    delete from roles where rolename = #{rolename}
+  </delete>
   
   <select id="getRoles" resultType="com.ineuron.domain.user.valueobject.Role">
     select * from roles

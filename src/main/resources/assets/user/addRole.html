@@ -17,7 +17,7 @@
 </head>
 
 <div ng-controller="RoleUpdateController as roleUpdate">
-	<div class="message">角色权限修改</div>
+	<div class="message">添加角色</div>
 
 	<div class="template">
 		<hr class="hr20">
@@ -31,7 +31,7 @@
 					<tr>
 						<td class="labelformat">角色名：</td>
 						<td><input class="input-block-level" type="text"
-							ng-model="updateRolename" value="disabled" required></td>
+							ng-model="updateRolename" required></td>
 						<td></td>
 					</tr>
 
@@ -102,15 +102,10 @@
 								<tr>
 									<td><button class="btn btn-large btn-primary"
 											ng-disabled="!updaterole.$valid"
-											ng-click="roleUpdate.updateRole()">
-											<span class="glyphicon glyphicon-upload"></span> 确定修改
+											ng-click="roleUpdate.addRole()">
+											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
-									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updaterole.$valid"
-											ng-click="roleUpdate.deleteRole()">
-											<span class="glyphicon glyphicon-trash"
-												style="color: rgb(255, 140, 60);"></span> 删除角色
-										</button></td>
+									<td></td>
 								</tr>
 								<tr>
 									<td><hr class="hr15"></td>

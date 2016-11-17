@@ -81,7 +81,7 @@ public class UserResource {
 		try {
 			userService.doRegister(user);
 			response.setSuccess(true);
-			response.setValue(user);
+			response.setValue(null);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());

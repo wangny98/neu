@@ -76,7 +76,7 @@ userApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
 				password : $scope.password
 			}
 		}).success(function(data) {
-			alert(data.message);
+			//alert(data.message);
 			$location.path("/login");
 			console.log("success!");
 

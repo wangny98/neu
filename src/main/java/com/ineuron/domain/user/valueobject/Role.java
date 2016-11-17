@@ -1,5 +1,6 @@
 package com.ineuron.domain.user.valueobject;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,9 +22,11 @@ public class Role {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Role.class);
 
 	public void addRole(UserRepository userRepository) throws RepositoryException, INeuronException {
+		if(this.id == null || this.id == 0){
+			this.id = (int) new Date().getTime();
+		}
 		userRepository.addRole(this);
-		RolesCache rc = RolesCache.getRolesCache();
-		rc.updateRole(this);
+		
 	}
 
 	public void updateRole(UserRepository userRepository) throws RepositoryException {

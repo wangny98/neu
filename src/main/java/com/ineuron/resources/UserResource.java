@@ -239,16 +239,22 @@ public class UserResource {
 	@Path("/createrole")
 	@POST
 	@Timed
-	public INeuronResponse createRole(final Role role, @Context final UriInfo uriInfo) {
+	public INeuronResponse createRole(final Role role, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
+			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			LOGGER.info("user/createrole newApiToken=" + newApiToken);
 			userService.createRole(role);
 			response.setSuccess(true);
 			response.setValue(role);
+			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (INeuronException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
@@ -287,13 +293,18 @@ public class UserResource {
 	@Path("/deleterole")
 	@POST
 	@Timed
-	public INeuronResponse deleteRole(final Role role, @Context final UriInfo uriInfo) {
+	public INeuronResponse deleteRole(final Role role, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
+			String newApiToken = validateAndUpdateApiToken(httpHeader);
 			userService.deleteRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
+			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} 

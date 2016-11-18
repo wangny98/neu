@@ -37,18 +37,19 @@ mainApp.config(function($stateProvider) {
 			templateUrl : '/ineuron/user/updateRole.html',
 			controller : 'RoleUpdateController'
 		}
-	var addRoleState = {
-			name : 'addRole',
-			url : 'addRole',
-			templateUrl : '/ineuron/user/addRole.html',
-			controller : 'RoleAddController'
+	
+	var createRoleState = {
+			name : 'createRole',
+			url : 'createRole',
+			templateUrl : '/ineuron/user/createRole.html',
+			controller : 'RoleCreateController'
 		}
 
 	$stateProvider.state(userManagementState);
 	$stateProvider.state(roleManagementState);
 	$stateProvider.state(updateUserState);
 	$stateProvider.state(updateRoleState);
-	$stateProvider.state(addRoleState);
+	$stateProvider.state(createRoleState);
 	$stateProvider.state(aboutState);
 
 });
@@ -334,11 +335,11 @@ mainApp.controller('RoleListController', function($http, $scope, $location,
 			DTColumnDefBuilder.newColumnDef(1),
 			DTColumnDefBuilder.newColumnDef(2).notSortable() ];
 
-	vm.addRole = addRole;
+	vm.createRole = createRole;
 	vm.updateRole = updateRole;
 
-	function addRole() {
-		$state.go("addRole");
+	function createRole() {
+		$state.go("createRole");
 	}
 	
 	function updateRole(index) {
@@ -497,7 +498,7 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 				url : '/user/deleterole',
 				method : 'POST',
 				data : {
-					rolename : $scope.updateRolename
+					id : selectedRole.id
 				}
 			}).success(function(data) {
 				validateApiToken(data, $cookies);
@@ -510,7 +511,7 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 
 });
 
-mainApp.controller('RoleAddController', function($scope, $stateParams,
+mainApp.controller('RoleCreateController', function($scope, $stateParams,
 		$http, $state, $cookies) {
 
 	var vm = this;
@@ -545,8 +546,8 @@ mainApp.controller('RoleAddController', function($scope, $stateParams,
 
 	
 		
-		vm.addRole = addRole;
-		function addRole() {
+		vm.createRole = createRole;
+		function createRole() {
 			// get updated permissions
 			var strPer="";
 			var empty=true;		

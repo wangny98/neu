@@ -154,7 +154,7 @@ public class UserRepository {
 		
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			session.update("deleteRole", role);
+			session.delete("deleteRole", role);
 			session.commit();
 			System.out.println("delete role by using mybatis!");
 		} finally {

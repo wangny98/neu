@@ -70,8 +70,10 @@ public class UserService {
 		return rolesCache.getRoles();
 	}
 
-	public void deleteRole(Role role) throws RepositoryException {
+	public void deleteRole(Role role) throws RepositoryException, INeuronException {
 		role.deleteRole(userRepository);
+		RolesCache rolesCache = RolesCache.getRolesCache();
+		rolesCache.deleteRole(role);
 	}
 
 

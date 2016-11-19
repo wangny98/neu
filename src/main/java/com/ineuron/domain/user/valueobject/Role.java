@@ -1,8 +1,8 @@
 package com.ineuron.domain.user.valueobject;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import com.ineuron.domain.user.repository.UserRepository;
 
 public class Role {
 
-	private Integer id;
+	private String id;
 	private String rolename;
 	private String permissions;
 	private String description;
@@ -22,8 +22,8 @@ public class Role {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Role.class);
 
 	public void addRole(UserRepository userRepository) throws RepositoryException, INeuronException {
-		if(this.id == null || this.id == 0){
-			this.id = (int) new Date().getTime();
+		if(this.id == null){
+			this.id = UUID.randomUUID().toString();
 		}
 		userRepository.addRole(this);
 		
@@ -71,11 +71,11 @@ public class Role {
 	}
 	
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

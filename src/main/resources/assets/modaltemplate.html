@@ -1,0 +1,16 @@
+<meta charset="utf-8">
+<div>
+		<div class="modal-header" style="text-align:center;font-weight:bold;font-size:large;" ng-show="title"> {{title}}
+		</div>
+		<div class="modal-body" ng-show="content">{{content}}
+		</div>
+ <div ng-hide="1==1">{{clickok}}</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="ok()">
+			确认
+			</button>
+			<button class="btn btn-warning" ng-click="cancel()">退出</button>
+		</div>
+
+	</div>
+</html>

@@ -13,7 +13,7 @@ public class RolesCache {
 	
 	private static RolesCache rolesCache;
 	
-	private Map<Integer, Role> rolesMap;
+	private Map<String, Role> rolesMap;
 	
 	private RolesCache(){
 		
@@ -28,7 +28,7 @@ public class RolesCache {
 				role.translatePermissionsToPermissionList();
 			}
 			
-			Map<Integer, Role> rolesMap = new HashMap<Integer, Role>();
+			Map<String, Role> rolesMap = new HashMap<String, Role>();
 			for(Role role : roles){
 				rolesMap.put(role.getId(), role);
 			}
@@ -64,12 +64,16 @@ public class RolesCache {
 		rolesMap.put(role.getId(), role);	
 	}
 	
+	public void deleteRole(Role role) {
+		rolesMap.remove(role.getId());
+	}
 	
-	public Map<Integer, Role> getRolesMap() {
+	
+	public Map<String, Role> getRolesMap() {
 		return rolesMap;
 	}
 
-	public void setRolesMap(Map<Integer, Role> rolesMap) {
+	public void setRolesMap(Map<String, Role> rolesMap) {
 		this.rolesMap = rolesMap;
 	}
 

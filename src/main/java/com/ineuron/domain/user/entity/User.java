@@ -67,9 +67,9 @@ public class User {
 			if (this.roles != null) {
 				String[] roles = this.roles.split("\\|");
 				RolesCache rolesCache = RolesCache.getRolesCache();
-				Map<Integer, Role> rolesMap = rolesCache.getRolesMap();
+				Map<String, Role> rolesMap = rolesCache.getRolesMap();
 				for (String role : roles) {
-					Role roleObj = rolesMap.get(Integer.valueOf(role));
+					Role roleObj = rolesMap.get(role);
 					if (roleObj != null) {
 						mergeToAllPermissions(roleObj.getPermissionList());
 						roleList.add(roleObj);

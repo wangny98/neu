@@ -1,6 +1,6 @@
 //define the package as userApp
 var mainApp = angular.module('mainApp', [ 'ui.router', 'ngCookies',
-		'datatables', 'isteven-multi-select' ]);
+		'datatables', 'isteven-multi-select','ui.bootstrap' ]);
 
 mainApp.config(function($stateProvider) {
 
@@ -37,18 +37,19 @@ mainApp.config(function($stateProvider) {
 			templateUrl : '/ineuron/user/updateRole.html',
 			controller : 'RoleUpdateController'
 		}
-	var addRoleState = {
-			name : 'addRole',
-			url : 'addRole',
-			templateUrl : '/ineuron/user/addRole.html',
-			controller : 'RoleAddController'
+	
+	var createRoleState = {
+			name : 'createRole',
+			url : 'createRole',
+			templateUrl : '/ineuron/user/createRole.html',
+			controller : 'RoleCreateController'
 		}
 
 	$stateProvider.state(userManagementState);
 	$stateProvider.state(roleManagementState);
 	$stateProvider.state(updateUserState);
 	$stateProvider.state(updateRoleState);
-	$stateProvider.state(addRoleState);
+	$stateProvider.state(createRoleState);
 	$stateProvider.state(aboutState);
 
 });
@@ -56,7 +57,7 @@ mainApp.config(function($stateProvider) {
 mainApp.controller('NavMenuController', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
@@ -86,10 +87,10 @@ mainApp.controller('NavMenuController', function($scope, $cookies) {
 });
 
 mainApp.controller('UserUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies) {
+		$http, $state, $cookies,$rootScope,$modal) {
 	var selectedUserStr = $stateParams.userStr;
-	//alert(selectedUserStr);
-	//var loginedUser = JSON.parse(loginedUserStr);  
+	// alert(selectedUserStr);
+	// var loginedUser = JSON.parse(loginedUserStr);  
 	var selectedUser = eval('(' + selectedUserStr + ')');
 		
 	$scope.updateUsername = selectedUser.username;
@@ -167,7 +168,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		   break;
 		};
 		};
-      //end of permission default set	
+      // end of permission default set
 	
 		
 	// Get Rolelist and set user.roles
@@ -181,7 +182,8 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		for (var i in vm.roles){
 			vm.roles[i].ticked=false;
 			for (var j in selectedUser.roleList){
-				//alert("j= "+j+", selectedUser.roleList[j].id "+selectedUser.username+selectedUser.roleList[j].id);
+				// alert("j= "+j+", selectedUser.roleList[j].id
+				// "+selectedUser.username+selectedUser.roleList[j].id);
 				if(vm.roles[i].id==selectedUser.roleList[j].id){
 					vm.roles[i].ticked=true;
 					break;
@@ -204,7 +206,7 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		};
 		strRoles = strRoles.substring(0, strRoles.length - 1);
 
-		//alert("role: "+strRoles);
+		// alert("role: "+strRoles);
 		
 		// get updated permissions
 		var strPer="";
@@ -265,25 +267,48 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 		})
 	}
 	
-	vm.deleteUser=deleteUser;
-	function deleteUser() {
-		//alert(vm.users[index]);
-		$http({
-			url : '/user/delete',
-			method : 'POST',
-			data : {
-				username : $scope.updateUsername
+	////
+	var scope = $rootScope.$new();
+	scope.data = {
+			title:"提示",
+			content:"确定要删除吗？"
+	   }
+	vm.clickok=false;   
+	vm.deleteUserModal=deleteUserModal;   
+	function deleteUserModal(size){ 
+		var modalInstance = $modal.open({
+			templateUrl : 'modaltemplate.html',  
+			controller : 'ModalInstanceCtrl',
+			size : size, //default:middle; sm, lg
+			scope:scope,
+			resolve : {
+				body : function(){
+					return $scope.clickok;
+				}
 			}
-		}).success(function(data) {
-			validateApiToken(data, $cookies);
-			$state.go("userManagement");
-		}).error(function(data) {
-			alert('error in delete');
-			console.log("error");
 		})
+		modalInstance.result.then(function(clickok){  
+			$scope.clickok = clickok;
+			//alert($scope.clickok);
+			if($scope.clickok){
+				 $http({
+					url : '/user/delete',
+					method : 'POST',
+					data : {
+						username : $scope.updateUsername
+					}
+				}).success(function(data) {
+					validateApiToken(data, $cookies);
+					$state.go("userManagement");
+				}).error(function(data) {
+					alert('error in delete');
+					console.log("error");
+				})
+			}
+		});
 	}
 
-});
+}); //end of controller
 
 mainApp.controller('UserListController', function($http, $scope, $location,
 		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
@@ -309,7 +334,7 @@ mainApp.controller('UserListController', function($http, $scope, $location,
 	
 	vm.updateUser=updateUser;
 	function updateUser(index) {
-		//alert(vm.users[index]);
+		// alert(vm.users[index]);
 		$state.go("updateUser", {userStr: JSON.stringify(vm.users[index])});
 	}
 });
@@ -334,11 +359,11 @@ mainApp.controller('RoleListController', function($http, $scope, $location,
 			DTColumnDefBuilder.newColumnDef(1),
 			DTColumnDefBuilder.newColumnDef(2).notSortable() ];
 
-	vm.addRole = addRole;
+	vm.createRole = createRole;
 	vm.updateRole = updateRole;
 
-	function addRole() {
-		$state.go("addRole");
+	function createRole() {
+		$state.go("createRole");
 	}
 	
 	function updateRole(index) {
@@ -492,12 +517,12 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 		
 		vm.deleteRole=deleteRole;
 		function deleteRole() {
-			//alert(vm.roles[index]);
+			// alert(vm.roles[index]);
 			$http({
 				url : '/user/deleterole',
 				method : 'POST',
 				data : {
-					rolename : $scope.updateRolename
+					id : selectedRole.id
 				}
 			}).success(function(data) {
 				validateApiToken(data, $cookies);
@@ -510,7 +535,23 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 
 });
 
-mainApp.controller('RoleAddController', function($scope, $stateParams,
+
+mainApp.controller('ModalInstanceCtrl',function($scope,$modalInstance,body){
+		$scope.title = $scope.data.title;
+	    $scope.content=$scope.data.content;
+	
+		$scope.ok = function(){  
+			$scope.clickok=true;
+			$modalInstance.close($scope.clickok); 
+		};
+		$scope.cancel = function(){
+			$scope.clickok=false;
+			$modalInstance.close($scope.clickok); 
+		}
+	});
+
+
+mainApp.controller('RoleCreateController', function($scope, $stateParams,
 		$http, $state, $cookies) {
 
 	var vm = this;
@@ -545,8 +586,8 @@ mainApp.controller('RoleAddController', function($scope, $stateParams,
 
 	
 		
-		vm.addRole = addRole;
-		function addRole() {
+		vm.createRole = createRole;
+		function createRole() {
 			// get updated permissions
 			var strPer="";
 			var empty=true;		
@@ -607,3 +648,4 @@ mainApp.controller('RoleAddController', function($scope, $stateParams,
 		}
 		
 });
+

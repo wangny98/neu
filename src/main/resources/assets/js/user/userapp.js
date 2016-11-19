@@ -1,5 +1,5 @@
 //define the package as userApp
-var userApp = angular.module('userApp', [ 'ngRoute', 'ngCookies' ]);
+var userApp = angular.module('userApp', [ 'ngRoute', 'ngCookies','ui.bootstrap' ]);
 
 userApp.config(function($routeProvider) {
 
@@ -28,7 +28,9 @@ userApp.config(function($routeProvider) {
 });
 
 userApp.controller('UserLoginController', function($scope, $http, $location,
-		$cookies) {
+		$cookies,$rootScope,$modal) {
+	$scope.invalidUserPwd=false;
+	
 	$scope.login = function(isValid) {
 		$http({
 			url : '/user/authenticate',
@@ -53,7 +55,8 @@ userApp.controller('UserLoginController', function($scope, $http, $location,
 								});
 						window.location.href = "/ineuron/main.html";
 					} else {
-						alert(data.message+"不正确的用户名或者密码！");
+						//alert("不正确的用户名或者密码！");
+						$scope.invalidUserPwd=true;
 					}
 
 				}).error(function(data) {
@@ -63,6 +66,7 @@ userApp.controller('UserLoginController', function($scope, $http, $location,
 	};
 
 });
+
 
 userApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
 	$scope.submitReg = function() {

@@ -16,13 +16,13 @@
 
 </head>
 
-<div ng-controller="RoleUpdateController as roleUpdate">
+<div ng-controller="RoleCreateController as roleCreate">
 	<div class="message">添加角色</div>
 
 	<div class="template">
 		<hr class="hr20">
 		<hr class="hr20">
-		<form class="form-role" name="updaterole">
+		<form class="form-role" name="createrole">
 			<table class="functionarea">
 				<tbody>
 					<tr>
@@ -60,7 +60,7 @@
 									<td>用户管理</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleUpdate.useradminops"
+											input-model="roleCreate.useradminops"
 											output-model="newuseradminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -69,7 +69,7 @@
 									<td>产品管理</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleUpdate.prodadminops"
+											input-model="roleCreate.prodadminops"
 											output-model="newprodadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -78,7 +78,7 @@
 									<td>订单管理</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleUpdate.orderadminops"
+											input-model="roleCreate.orderadminops"
 											output-model="neworderadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -87,7 +87,7 @@
 									<td>角色管理</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleUpdate.roleadminops"
+											input-model="roleCreate.roleadminops"
 											output-model="newroleadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -101,8 +101,8 @@
 								</tr>
 								<tr>
 									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updaterole.$valid"
-											ng-click="roleUpdate.addRole()">
+											ng-disabled="!createrole.$valid"
+											ng-click="roleCreate.createRole()">
 											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
 									<td></td>

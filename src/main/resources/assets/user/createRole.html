@@ -16,36 +16,35 @@
 
 </head>
 
-<div ng-controller="UserUpdateController as userUpdate">
-	<div class="message">用户权限修改</div>
+<div ng-controller="RoleCreateController as roleCreate">
+	<div class="message">添加角色</div>
 
 	<div class="template">
 		<hr class="hr20">
 		<hr class="hr20">
-		<form class="form-user" name="updateuser">
+		<form class="form-role" name="createrole">
 			<table class="functionarea">
 				<tbody>
-				<tr>
-						<td><hr class="hr15"></td>
-					</tr>
-					<tr>
-						<td class="labelformat">用户名：</td>
-						<td><label>{{userUpdate.user.username}}</label>
-						</td>
-						<td></td>
-					</tr>
 					<tr>
 						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
-						<td class="labelformat">角色：</td>
-						<td>
-							<div isteven-multi-select input-model="userUpdate.roles"
-								output-model="newroles" button-label="rolename"
-								item-label="rolename" tick-property="ticked"></div>
-						</td>
+						<td class="labelformat">角色名：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="updateRolename" required></td>
 						<td></td>
 					</tr>
+
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">备注：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="updateRoleDescription" value=""></td>
+							<td></td>
+					</tr>
+
 					<tr>
 						<td><hr class="hr15"></td>
 					</tr>
@@ -60,7 +59,8 @@
 								<tr>
 									<td>用户管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.useradminops"
+										<div isteven-multi-select
+											input-model="roleCreate.useradminops"
 											output-model="newuseradminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -68,7 +68,8 @@
 								<tr>
 									<td>产品管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.prodadminops"
+										<div isteven-multi-select
+											input-model="roleCreate.prodadminops"
 											output-model="newprodadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -76,7 +77,8 @@
 								<tr>
 									<td>订单管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.orderadminops"
+										<div isteven-multi-select
+											input-model="roleCreate.orderadminops"
 											output-model="neworderadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -84,7 +86,8 @@
 								<tr>
 									<td>角色管理</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.roleadminops"
+										<div isteven-multi-select
+											input-model="roleCreate.roleadminops"
 											output-model="newroleadminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
@@ -98,26 +101,17 @@
 								</tr>
 								<tr>
 									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updateuser.$valid"
-											ng-click="userUpdate.updateUser()">
-											<span class="glyphicon glyphicon-upload"></span> 确定修改
+											ng-disabled="!createrole.$valid"
+											ng-click="roleCreate.createRole()">
+											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
-									<td><button class="btn btn-large btn-primary"
-											ng-disabled="!updateuser.$valid"
-											ng-click="userUpdate.deleteUserModal('sm')">
-											<span class="glyphicon glyphicon-trash"
-												style="color: rgb(255, 140, 60);"></span> 删除用户
-										</button></td>
+									<td></td>
 								</tr>
-					<tr>
-						<td><hr class="hr15"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-
-
-
-</div>
-<!-- /container -->
+								<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								</tbody>
+							</table>
+							</form>
+			</div>
+</div> <!-- /container -->

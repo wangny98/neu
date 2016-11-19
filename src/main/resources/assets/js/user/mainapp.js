@@ -37,11 +37,19 @@ mainApp.config(function($stateProvider) {
 			templateUrl : '/ineuron/user/updateRole.html',
 			controller : 'RoleUpdateController'
 		}
+	
+	var createRoleState = {
+			name : 'createRole',
+			url : 'createRole',
+			templateUrl : '/ineuron/user/createRole.html',
+			controller : 'RoleCreateController'
+		}
 
 	$stateProvider.state(userManagementState);
 	$stateProvider.state(roleManagementState);
 	$stateProvider.state(updateUserState);
 	$stateProvider.state(updateRoleState);
+	$stateProvider.state(createRoleState);
 	$stateProvider.state(aboutState);
 
 });
@@ -109,6 +117,12 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 	                   {	id: "3", operationname: "打印",ticked: false},	 
 	                   {	id: "4", operationname: "报表",ticked: false}
 	                   ];
+	vm.roleadminops=[
+			        {	id: "1", operationname: "查询",ticked: false},	            
+			        {	id: "2", operationname: "编辑",ticked: false},	 
+			        {	id: "3", operationname: "打印",ticked: false},	 
+			        {	id: "4", operationname: "报表",ticked: false}
+			        ];
 	
 	// set default value to permissions multi-select UI controls
 	vm.userpermissions=selectedUser.permissionList;
@@ -143,7 +157,15 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 					if(opid[0]==vm.useradminops[u_index].id) {vm.orderadminops[u_index].ticked=true; break;}	
 				};
 			}
-		   break;		   
+		   break;
+		case "5": // 角色管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.roleadminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.roleadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;
 		};
 		};
       // end of permission default set
@@ -218,7 +240,16 @@ mainApp.controller('UserUpdateController', function($scope, $stateParams,
 			strPer = strPer.substring(0, strPer.length - 1);		 
 			empty=false;
 			};
-
+		if (typeof($scope.newroleadminops)!="undefined"){
+			  if (!empty) strPer=strPer.concat(",");
+				strPer=strPer.concat("5:");
+				for (var i in $scope.newroleadminops){
+					strPer=strPer.concat($scope.newroleadminops[i].id, "|");
+			};			
+			strPer = strPer.substring(0, strPer.length - 1);		 
+			empty=false;
+			};
+			
 		$http({
 			url : '/user/update',
 			method : 'POST',
@@ -328,20 +359,11 @@ mainApp.controller('RoleListController', function($http, $scope, $location,
 			DTColumnDefBuilder.newColumnDef(1),
 			DTColumnDefBuilder.newColumnDef(2).notSortable() ];
 
-	vm.addRole = addRole;
-	vm.removeRole = removeRole;
+	vm.createRole = createRole;
 	vm.updateRole = updateRole;
 
-	function addRole(index) {
-		// vm.users.push(angular.copy(vm.person2Add));
-		// vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-		alert("add 1");
-		alert("add" + vm.roles[index].rolename);
-	}
-
-	function removeRole(index) {
-		alert("remove");
-		alert(vm.roles[index].rolename);
+	function createRole() {
+		$state.go("createRole");
 	}
 	
 	function updateRole(index) {
@@ -359,7 +381,7 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 
 	var vm = this;
 	
-	vm.roleadminops = [
+	vm.useradminops = [
 	                   {	id: "1", operationname: "查询",ticked: false},	            
 	                   {	id: "2", operationname: "编辑",ticked: false},	 
 	                   {	id: "3", operationname: "打印",ticked: false},	 
@@ -379,6 +401,12 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 	                   {	id: "3", operationname: "打印",ticked: false},	 
 	                   {	id: "4", operationname: "报表",ticked: false}
 	                   ];
+	vm.roleadminops=[
+			        {	id: "1", operationname: "查询",ticked: false},	            
+			        {	id: "2", operationname: "编辑",ticked: false},	 
+			        {	id: "3", operationname: "打印",ticked: false},	 
+			        {	id: "4", operationname: "报表",ticked: false}
+			        ];
 	
 	// set default value to permissions multi-select UI controls
 	vm.rolepermissions=selectedRole.permissionList;
@@ -393,8 +421,8 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 		case "1": // for 用户管理 function
 			for (var op_index in ops){
 				var opid=ops[op_index].split("|");
-				for (var u_index in vm.roleadminops){
-					if(opid[0]==vm.roleadminops[u_index].id) {vm.roleadminops[u_index].ticked=true; break;}	
+				for (var u_index in vm.useradminops){
+					if(opid[0]==vm.useradminops[u_index].id) {vm.useradminops[u_index].ticked=true; break;}	
 				};
 			}
 			break;
@@ -413,12 +441,153 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 					if(opid[0]==vm.roleadminops[u_index].id) {vm.orderadminops[u_index].ticked=true; break;}	
 				};
 			}
-		   break;		   
+		   break;
+		case "5": // 角色管理 func
+			for (var op_index in ops){
+				var opid=ops[op_index].split("|");
+				for (var u_index in vm.roleadminops){
+					if(opid[0]==vm.roleadminops[u_index].id) {vm.roleadminops[u_index].ticked=true; break;}	
+				};
+			}
+		   break;
 		};
 		};
 		
 		vm.updateRole = updateRole;
 		function updateRole() {
+			// get updated permissions
+			var strPer="";
+			var empty=true;		
+			if (typeof($scope.newuseradminops)!="undefined"){
+				if (!empty) strPer=strPer.concat(",");
+				strPer=strPer.concat("1:");
+				for (var i in $scope.newuseradminops){
+					strPer=strPer.concat($scope.newuseradminops[i].id, "|");
+			};			
+			strPer = strPer.substring(0, strPer.length - 1);
+			empty=false;
+			};
+			
+			if (typeof($scope.newprodadminops)!="undefined"){
+			  if (!empty) strPer=strPer.concat(",");
+				strPer=strPer.concat("2:");
+				for (var i in $scope.newprodadminops){
+					strPer=strPer.concat($scope.newprodadminops[i].id, "|");
+			};			
+			strPer = strPer.substring(0, strPer.length - 1);		 
+			empty=false;
+			};
+			
+			if (typeof($scope.neworderadminops)!="undefined"){
+				  if (!empty) strPer=strPer.concat(",");
+					strPer=strPer.concat("3:");
+					for (var i in $scope.neworderadminops){
+						strPer=strPer.concat($scope.neworderadminops[i].id, "|");
+				};			
+				strPer = strPer.substring(0, strPer.length - 1);		 
+				empty=false;
+				};
+			if (typeof($scope.newroleadminops)!="undefined"){
+				  if (!empty) strPer=strPer.concat(",");
+					strPer=strPer.concat("5:");
+					for (var i in $scope.newroleadminops){
+						strPer=strPer.concat($scope.newroleadminops[i].id, "|");
+				};			
+				strPer = strPer.substring(0, strPer.length - 1);		 
+				empty=false;
+				};
+
+			$http({
+				url : '/user/updaterole',
+				method : 'POST',
+				data : {
+					id : selectedRole.id,
+					rolename : $scope.updateRolename,
+					description : $scope.updateRoleDescription,
+					permissions: strPer
+				}
+			}).success(function(data) {
+				validateApiToken(data, $cookies);
+				$state.go("roleManagement");
+			}).error(function(data) {
+				alert('error');
+				console.log("error");
+			})
+		}
+		
+		vm.deleteRole=deleteRole;
+		function deleteRole() {
+			// alert(vm.roles[index]);
+			$http({
+				url : '/user/deleterole',
+				method : 'POST',
+				data : {
+					id : selectedRole.id
+				}
+			}).success(function(data) {
+				validateApiToken(data, $cookies);
+				$state.go("roleManagement");
+			}).error(function(data) {
+				alert('error in delete');
+				console.log("error");
+			})
+		}
+
+});
+
+
+mainApp.controller('ModalInstanceCtrl',function($scope,$modalInstance,body){
+		$scope.title = $scope.data.title;
+	    $scope.content=$scope.data.content;
+	
+		$scope.ok = function(){  
+			$scope.clickok=true;
+			$modalInstance.close($scope.clickok); 
+		};
+		$scope.cancel = function(){
+			$scope.clickok=false;
+			$modalInstance.close($scope.clickok); 
+		}
+	});
+
+
+mainApp.controller('RoleCreateController', function($scope, $stateParams,
+		$http, $state, $cookies) {
+
+	var vm = this;
+	
+	vm.useradminops = [
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];	
+	
+	vm.prodadminops = [
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];
+	
+	vm.orderadminops=[
+	                   {	id: "1", operationname: "查询",ticked: false},	            
+	                   {	id: "2", operationname: "编辑",ticked: false},	 
+	                   {	id: "3", operationname: "打印",ticked: false},	 
+	                   {	id: "4", operationname: "报表",ticked: false}
+	                   ];
+	vm.roleadminops=[
+			        {	id: "1", operationname: "查询",ticked: false},	            
+			        {	id: "2", operationname: "编辑",ticked: false},	 
+			        {	id: "3", operationname: "打印",ticked: false},	 
+			        {	id: "4", operationname: "报表",ticked: false}
+			        ];
+	
+
+	
+		
+		vm.createRole = createRole;
+		function createRole() {
 			// get updated permissions
 			var strPer="";
 			var empty=true;		
@@ -451,12 +620,20 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 				strPer = strPer.substring(0, strPer.length - 1);		 
 				empty=false;
 				};
+			if (typeof($scope.newroleadminops)!="undefined"){
+				  if (!empty) strPer=strPer.concat(",");
+					strPer=strPer.concat("5:");
+					for (var i in $scope.newroleadminops){
+						strPer=strPer.concat($scope.newroleadminops[i].id, "|");
+				};			
+				strPer = strPer.substring(0, strPer.length - 1);		 
+				empty=false;
+				};
 
 			$http({
-				url : '/user/updaterole',
+				url : '/user/createrole',
 				method : 'POST',
 				data : {
-					id : selectedRole.id,
 					rolename : $scope.updateRolename,
 					description : $scope.updateRoleDescription,
 					permissions: strPer
@@ -470,37 +647,5 @@ mainApp.controller('RoleUpdateController', function($scope, $stateParams,
 			})
 		}
 		
-		vm.deleteRole=deleteRole;
-		function deleteRole() {
-			// alert(vm.roles[index]);
-			$http({
-				url : '/user/deleterole',
-				method : 'POST',
-				data : {
-					rolename : $scope.updateRolename
-				}
-			}).success(function(data) {
-				validateApiToken(data, $cookies);
-				$state.go("roleManagement");
-			}).error(function(data) {
-				alert('error in delete');
-				console.log("error");
-			})
-		}
-
 });
-
-mainApp.controller('ModalInstanceCtrl',function($scope,$modalInstance,body){
-		$scope.title = $scope.data.title;
-	    $scope.content=$scope.data.content;
-	
-		$scope.ok = function(){  
-			$scope.clickok=true;
-			$modalInstance.close($scope.clickok); 
-		};
-		$scope.cancel = function(){
-			$scope.clickok=false;
-			$modalInstance.close($scope.clickok); 
-		}
-	});
 

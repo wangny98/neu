@@ -29,8 +29,8 @@
   <!-- mappers for roles -->
 
  <insert id="addRole">
-    insert into roles (rolename,permissions) 
-	values(#{rolename},#{permissions})  
+    insert into roles (id, rolename, permissions, description) 
+	values(#{id},#{rolename},#{permissions},#{description})  
   </insert>
   
   <update id="updateRole" >
@@ -38,7 +38,7 @@
   </update>
   
   <delete id="deleteRole">
-    delete from roles where rolename = #{rolename}
+    delete from roles where id = #{id}
   </delete>
   
   <select id="getRoles" resultType="com.ineuron.domain.user.valueobject.Role">

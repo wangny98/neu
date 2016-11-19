@@ -60,8 +60,8 @@
 									<td>用户管理</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleUpdate.roleadminops"
-											output-model="newroleadminops" button-label="operationname"
+											input-model="roleUpdate.useradminops"
+											output-model="newuseradminops" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
 								</tr>
@@ -84,6 +84,15 @@
 									</td>
 								</tr>
 								<tr>
+									<td>角色管理</td>
+									<td>
+										<div isteven-multi-select
+											input-model="roleUpdate.roleadminops"
+											output-model="newroleadminops" button-label="operationname"
+											item-label="operationname" tick-property="ticked"></div>
+									</td>
+								</tr>
+								<tr>
 									<td><hr class="hr15"></td>
 								</tr>
 								</table>
@@ -98,7 +107,7 @@
 										</button></td>
 									<td><button class="btn btn-large btn-primary"
 											ng-disabled="!updaterole.$valid"
-											ng-click="roleUpdate.addPermission()">
+											ng-click="roleUpdate.deleteRole()">
 											<span class="glyphicon glyphicon-trash"
 												style="color: rgb(255, 140, 60);"></span> 删除角色
 										</button></td>

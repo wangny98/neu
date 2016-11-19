@@ -57,35 +57,12 @@
 									<td class="labelformat">功能</td>
 									<td class="labelformat">操作</td>
 								</tr>
-								<tr>
-									<td>用户管理</td>
+								<tr ng-repeat="func in userUpdate.funcs">
+									<td>{{func.name}}</td>
 									<td>
-										<div isteven-multi-select input-model="userUpdate.useradminops"
-											output-model="newuseradminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>产品管理</td>
-									<td>
-										<div isteven-multi-select input-model="userUpdate.prodadminops"
-											output-model="newprodadminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>订单管理</td>
-									<td>
-										<div isteven-multi-select input-model="userUpdate.orderadminops"
-											output-model="neworderadminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>角色管理</td>
-									<td>
-										<div isteven-multi-select input-model="userUpdate.roleadminops"
-											output-model="newroleadminops" button-label="operationname"
+										<div isteven-multi-select
+											input-model="func.ops"
+											output-model="func.output" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
 								</tr>

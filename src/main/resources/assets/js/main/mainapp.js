@@ -54,7 +54,7 @@ ineuronApp.config(function($stateProvider) {
 
 });
 
-ineuronApp.controller('NavMenuController', function($scope, $cookies) {
+ineuronApp.controller('NavMenuController', ['$scope', '$cookies', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
 	// var loginedUser = JSON.parse(loginedUserStr);  
@@ -83,4 +83,4 @@ ineuronApp.controller('NavMenuController', function($scope, $cookies) {
 	     }
         return false;
 	}
-});
+}]);

@@ -1,7 +1,7 @@
-//define the package as userApp
-var userApp = angular.module('userApp', [ 'ngRoute', 'ngCookies','ui.bootstrap' ]);
+//define the package as loginApp
+var loginApp = angular.module('loginApp', [ 'ngRoute', 'ngCookies','ui.bootstrap' ]);
 
-userApp.config(function($routeProvider) {
+loginApp.config(function($routeProvider) {
 
 	$routeProvider.when('/login', {
 
@@ -27,7 +27,7 @@ userApp.config(function($routeProvider) {
 
 });
 
-userApp.controller('UserLoginController', function($scope, $http, $location,
+loginApp.controller('UserLoginController', function($scope, $http, $location,
 		$cookies,$rootScope,$modal) {
 	$scope.invalidUserPwd=false;
 	
@@ -68,7 +68,7 @@ userApp.controller('UserLoginController', function($scope, $http, $location,
 });
 
 
-userApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
+loginApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
 	$scope.submitReg = function() {
 		$http({
 			url : '/user/register',

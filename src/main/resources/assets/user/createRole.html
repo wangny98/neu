@@ -56,42 +56,16 @@
 									<td class="labelformat">功能</td>
 									<td class="labelformat">操作</td>
 								</tr>
-								<tr>
-									<td>用户管理</td>
+								<tr ng-repeat="func in roleCreate.funcs">
+									<td>{{func.name}}</td>
 									<td>
 										<div isteven-multi-select
-											input-model="roleCreate.useradminops"
-											output-model="newuseradminops" button-label="operationname"
+											input-model="func.ops"
+											output-model="func.output" button-label="operationname"
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
 								</tr>
-								<tr>
-									<td>产品管理</td>
-									<td>
-										<div isteven-multi-select
-											input-model="roleCreate.prodadminops"
-											output-model="newprodadminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>订单管理</td>
-									<td>
-										<div isteven-multi-select
-											input-model="roleCreate.orderadminops"
-											output-model="neworderadminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>角色管理</td>
-									<td>
-										<div isteven-multi-select
-											input-model="roleCreate.roleadminops"
-											output-model="newroleadminops" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
-									</td>
-								</tr>
+								
 								<tr>
 									<td><hr class="hr15"></td>
 								</tr>

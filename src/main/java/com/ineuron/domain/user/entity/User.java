@@ -1,7 +1,6 @@
 package com.ineuron.domain.user.entity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -84,7 +83,7 @@ public class User {
 
 	public void translateAndMergePermissionsToAllPermissions() {
 
-		if (this.permissions != null && permissionList == null) {
+		if (permissions != null && !"".equals(permissions) && permissionList == null) {
 			permissionList = new HashSet<Permission>();
 			permissionFlag = "有";
 			String[] permissions = this.permissions.split(",");

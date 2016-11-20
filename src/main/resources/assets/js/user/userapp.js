@@ -1,7 +1,7 @@
 
 
 ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies,$rootScope,$modal) {
+		$http, $state, $cookies, $rootScope, $modal) {
 	var selectedUserStr = $stateParams.userStr;
 	// alert(selectedUserStr);  
 	var selectedUser = eval('(' + selectedUserStr + ')');
@@ -105,8 +105,33 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 		})
 	}
 	
+	vm.deleteUserModal=deleteUserModal;   
+	function deleteUserModal(){ 
+		ineuronApp.confirm("sdf","sdf", 'sm', $rootScope, $modal).modalInstance.result.then(function(clickok){  
+			alert(clickok);
+			if(clickok){
+				 $http({
+					url : '/user/delete',
+					method : 'POST',
+					data : {
+						username : $scope.updateUsername
+					}
+				}).success(function(data) {
+					validateApiToken(data, $cookies);
+					$state.go("userManagement");
+				}).error(function(data) {
+					alert('error in delete');
+					console.log("error");
+				})
+			}
+		});
+		
+		
+	}
+	
+	
 	// //
-	var scope = $rootScope.$new();
+	/*var scope = $rootScope.$new();
 	scope.data = {
 			title:"提示",
 			content:"确定要删除吗？"
@@ -144,7 +169,7 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 				})
 			}
 		});
-	}
+	}*/
 
 }); // end of controller
 
@@ -298,21 +323,6 @@ ineuronApp.controller('RoleUpdateController', function($scope, $stateParams,
 	}
 
 });
-
-
-ineuronApp.controller('ModalInstanceCtrl',function($scope,$modalInstance,body){
-		$scope.title = $scope.data.title;
-	    $scope.content=$scope.data.content;
-	
-		$scope.ok = function(){  
-			$scope.clickok=true;
-			$modalInstance.close($scope.clickok); 
-		};
-		$scope.cancel = function(){
-			$scope.clickok=false;
-			$modalInstance.close($scope.clickok); 
-		}
-	});
 
 
 ineuronApp.controller('RoleCreateController', function($scope, $stateParams,

@@ -61,7 +61,6 @@ ineuronApp.controller('NavMenuController', function($scope, $cookies) {
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {
-
 		var userManagementMenu="用户管理";
 		for (index in allPermissions){
 			var permission = allPermissions[index];

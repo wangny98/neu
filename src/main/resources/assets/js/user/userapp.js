@@ -1,7 +1,7 @@
 
 
 ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies,$rootScope,$modal) {
+		$http, $state, $cookies, $rootScope, $modal) {
 	var selectedUserStr = $stateParams.userStr;
 	// alert(selectedUserStr);  
 	var selectedUser = eval('(' + selectedUserStr + ')');
@@ -85,8 +85,7 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 				strPer = strPer.concat(func.id, ":", strOps, ",");
 			}			
 					
-		}
-		
+		}	
 			
 		$http({
 			url : '/user/update',
@@ -105,30 +104,10 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 		})
 	}
 	
-	// //
-	var scope = $rootScope.$new();
-	scope.data = {
-			title:"提示",
-			content:"确定要删除吗？"
-	   }
-	vm.clickok=false;   
 	vm.deleteUserModal=deleteUserModal;   
-	function deleteUserModal(size){ 
-		var modalInstance = $modal.open({
-			templateUrl : 'modaltemplate.html',  
-			controller : 'ModalInstanceCtrl',
-			size : size, // default:middle; sm, lg
-			scope:scope,
-			resolve : {
-				body : function(){
-					return $scope.clickok;
-				}
-			}
-		})
-		modalInstance.result.then(function(clickok){  
-			$scope.clickok = clickok;
-			// alert($scope.clickok);
-			if($scope.clickok){
+	function deleteUserModal(){ 
+		ineuronApp.confirm("提示","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+			if(clickok){
 				 $http({
 					url : '/user/delete',
 					method : 'POST',
@@ -143,7 +122,8 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 					console.log("error");
 				})
 			}
-		});
+		});		
+		
 	}
 
 }); // end of controller
@@ -210,7 +190,7 @@ ineuronApp.controller('RoleListController', function($http, $scope, $location,
 });
 
 ineuronApp.controller('RoleUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies) {
+		$http, $state, $cookies, $rootScope, $modal) {
 	var roleStr = $stateParams.roleStr;
 	var selectedRole = eval('(' + roleStr + ')');
 		
@@ -281,38 +261,26 @@ ineuronApp.controller('RoleUpdateController', function($scope, $stateParams,
 		
 	vm.deleteRole=deleteRole;
 	function deleteRole() {
-		// alert(vm.roles[index]);
-		$http({
-			url : '/user/deleterole',
-			method : 'POST',
-			data : {
-				id : selectedRole.id
+		ineuronApp.confirm("提示","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+			if(clickok){
+				$http({
+					url : '/user/deleterole',
+					method : 'POST',
+					data : {
+						id : selectedRole.id
+					}
+				}).success(function(data) {
+					validateApiToken(data, $cookies);
+					$state.go("roleManagement");
+				}).error(function(data) {
+					alert('error in delete');
+					console.log("error");
+				})
 			}
-		}).success(function(data) {
-			validateApiToken(data, $cookies);
-			$state.go("roleManagement");
-		}).error(function(data) {
-			alert('error in delete');
-			console.log("error");
-		})
+		});				
 	}
 
 });
-
-
-ineuronApp.controller('ModalInstanceCtrl',function($scope,$modalInstance,body){
-		$scope.title = $scope.data.title;
-	    $scope.content=$scope.data.content;
-	
-		$scope.ok = function(){  
-			$scope.clickok=true;
-			$modalInstance.close($scope.clickok); 
-		};
-		$scope.cancel = function(){
-			$scope.clickok=false;
-			$modalInstance.close($scope.clickok); 
-		}
-	});
 
 
 ineuronApp.controller('RoleCreateController', function($scope, $stateParams,

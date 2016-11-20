@@ -20,6 +20,7 @@ ineuronApp.confirm = function(title, message, size, $rootScope, $modal){
 			}
 		}
 	})
+	return modalInstance;
 }
 
 

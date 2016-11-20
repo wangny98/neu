@@ -27,8 +27,8 @@ loginApp.config(function($routeProvider) {
 
 });
 
-loginApp.controller('UserLoginController', function($scope, $http, $location,
-		$cookies,$rootScope,$modal) {
+loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$cookies', '$rootScope', '$modal',
+	function($scope, $http, $location, $cookies,$rootScope,$modal) {
 	$scope.invalidUserPwd=false;
 	
 	$scope.login = function(isValid) {
@@ -65,10 +65,11 @@ loginApp.controller('UserLoginController', function($scope, $http, $location,
 		})
 	};
 
-});
+}]);
 
 
-loginApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
+loginApp.controller('UserRegisterCtrl', ['$scope', '$http', '$location',
+	function($scope, $http, $location) {
 	$scope.submitReg = function() {
 		$http({
 			url : '/user/register',
@@ -89,4 +90,4 @@ loginApp.controller('UserRegisterCtrl', function($scope, $http, $location) {
 		})
 	};
 
-});
+}]);

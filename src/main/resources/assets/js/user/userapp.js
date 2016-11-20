@@ -1,7 +1,7 @@
 
 
-ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies, $rootScope, $modal) {
+ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal', 
+	function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
 	var selectedUserStr = $stateParams.userStr;
 	// alert(selectedUserStr);  
 	var selectedUser = eval('(' + selectedUserStr + ')');
@@ -126,10 +126,10 @@ ineuronApp.controller('UserUpdateController', function($scope, $stateParams,
 		
 	}
 
-}); // end of controller
+}]); // end of controller
 
-ineuronApp.controller('UserListController', function($http, $scope, $location,
-		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+ineuronApp.controller('UserListController', ['$http', '$scope', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	
 	$http({
@@ -155,10 +155,10 @@ ineuronApp.controller('UserListController', function($http, $scope, $location,
 		// alert(vm.users[index]);
 		$state.go("updateUser", {userStr: JSON.stringify(vm.users[index])});
 	}
-});
+}]);
 
-ineuronApp.controller('RoleListController', function($http, $scope, $location,
-		$cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	$http({
 		url : '/user/rolelist',
@@ -187,10 +187,10 @@ ineuronApp.controller('RoleListController', function($http, $scope, $location,
 	function updateRole(index) {
 		$state.go("updateRole", {roleStr: JSON.stringify(vm.roles[index])});
 	}
-});
+}]);
 
-ineuronApp.controller('RoleUpdateController', function($scope, $stateParams,
-		$http, $state, $cookies, $rootScope, $modal) {
+ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
+	function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
 	var roleStr = $stateParams.roleStr;
 	var selectedRole = eval('(' + roleStr + ')');
 		
@@ -280,11 +280,11 @@ ineuronApp.controller('RoleUpdateController', function($scope, $stateParams,
 		});				
 	}
 
-});
+}]);
 
 
-ineuronApp.controller('RoleCreateController', function($scope, $stateParams,
-		$http, $state, $cookies) {
+ineuronApp.controller('RoleCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies',
+	function($scope, $stateParams, $http, $state, $cookies) {
 
 	var vm = this;
 	
@@ -323,5 +323,5 @@ ineuronApp.controller('RoleCreateController', function($scope, $stateParams,
 		})
 	}
 		
-});
+}]);
 

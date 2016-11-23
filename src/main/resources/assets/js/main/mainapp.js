@@ -45,11 +45,21 @@ ineuronApp.config(function($stateProvider) {
 			controller : 'RoleCreateController'
 		}
 
+	var createProductState = {
+			name : 'createProduct',
+			url : 'createProduct',
+			templateUrl : '/ineuron/product/createProduct.html',
+			controller : 'ProductCreateController'
+		}
+
 	$stateProvider.state(userManagementState);
 	$stateProvider.state(roleManagementState);
 	$stateProvider.state(updateUserState);
 	$stateProvider.state(updateRoleState);
 	$stateProvider.state(createRoleState);
+	
+	$stateProvider.state(createProductState);
+	
 	$stateProvider.state(aboutState);
 
 });
@@ -57,7 +67,7 @@ ineuronApp.config(function($stateProvider) {
 ineuronApp.controller('NavMenuController', ['$scope', '$cookies', function($scope, $cookies) {
 	
 	var loginedUserStr=$cookies.get('INeuron-User');
-	// var loginedUser = JSON.parse(loginedUserStr);  
+	// var loginedUser = JSON.parse(loginedUserStr);
 	var loginedUser = eval('(' + loginedUserStr + ')');
 	var allPermissions = loginedUser.allPermissions;
 	$scope.ShowUserManagementMenu = function() {

@@ -97,7 +97,7 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 			
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);		
 			LOGGER.info("user/update newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateUser(user);			
@@ -122,7 +122,7 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 			
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);		
 			LOGGER.info("user/delete newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.deleteUser(user);			
@@ -147,7 +147,7 @@ public class UserResource {
 	public INeuronResponse getUserList(@Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);	
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				List<User> users = userService.getUserList();
@@ -242,7 +242,7 @@ public class UserResource {
 	public INeuronResponse createRole(final Role role, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);
 			LOGGER.info("user/createrole newApiToken=" + newApiToken);
 			userService.createRole(role);
 			response.setSuccess(true);
@@ -268,7 +268,7 @@ public class UserResource {
 	public INeuronResponse updateRole(final Role role, @Context final UriInfo uriInfo,  @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);
 			LOGGER.info("user/updaterole newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				userService.updateRole(role);			
@@ -296,7 +296,7 @@ public class UserResource {
 	public INeuronResponse deleteRole(final Role role, @Context final UriInfo uriInfo, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);
 			userService.deleteRole(role);			
 			response.setSuccess(true);
 			response.setValue(role);
@@ -320,7 +320,7 @@ public class UserResource {
 		INeuronResponse response = new INeuronResponse();
 
 		try {
-			String newApiToken = validateAndUpdateApiToken(httpHeader);
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);
 			List<Role> roles = userService.getRoleList();
 			response.setValue(roles);
 			response.setSuccess(true);		
@@ -415,20 +415,5 @@ public class UserResource {
 		return response;
 	}
 	
-
-	private String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
-		Map<String, Cookie> cookies = httpHeader.getCookies();
-		
-		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
-		Cookie usernameCookie = cookies.get("INeuron-UserName");
-		
-		String apiToken = apiTokenCookie.getValue();
-		apiToken = UriEncoder.decode(apiToken);
-		String username = usernameCookie.getValue();
-		LOGGER.info("user/update apiToken=" + apiToken);
-		LOGGER.info("user/update userName=" + username);
-		
-		return securityService.validateAndUpdateApiToken(apiToken, username);
-	}
 
 }

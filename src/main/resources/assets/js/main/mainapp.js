@@ -51,6 +51,13 @@ ineuronApp.config(function($stateProvider) {
 			templateUrl : '/ineuron/product/createProduct.html',
 			controller : 'ProductCreateController'
 		}
+	
+	var productManagementState = {
+			name : 'productList',
+			url : 'productList',
+			templateUrl : '/ineuron/product/list.html',
+			controller : 'ProductListController'
+		}
 
 	$stateProvider.state(userManagementState);
 	$stateProvider.state(roleManagementState);
@@ -58,6 +65,7 @@ ineuronApp.config(function($stateProvider) {
 	$stateProvider.state(updateRoleState);
 	$stateProvider.state(createRoleState);
 	
+	$stateProvider.state(productManagementState);
 	$stateProvider.state(createProductState);
 	
 	$stateProvider.state(aboutState);

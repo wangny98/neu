@@ -22,5 +22,11 @@ public class ProductService {
 	public void doCreateProduct(Product product) throws RepositoryException {
 		product.addProduct(productRepository);
 	}
+	
+	public List<Product> getProductList() throws RepositoryException, INeuronException{
+		
+		List<Product> productList = productRepository.getProductList();
+		return productList;
+	}
 
 }

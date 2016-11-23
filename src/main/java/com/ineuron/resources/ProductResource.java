@@ -36,6 +36,9 @@ public class ProductResource {
 
 	@Inject
 	private ProductService productService;
+	
+	@Inject
+	private SecurityService securityService;
 		
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 
@@ -47,14 +50,18 @@ public class ProductResource {
 	@Path("/createproduct")
 	@POST
 	@Timed
-	public INeuronResponse createProduct(final Product product, @Context final UriInfo uriInfo) {
+	public INeuronResponse createProduct(final Product product, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			//String newApiToken = validateAndUpdateApiToken(httpHeader);		
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
 			productService.doCreateProduct(product);
 			response.setSuccess(true);
 			response.setValue(null);
+			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
@@ -62,5 +69,29 @@ public class ProductResource {
 
 	}
 
+	@Path("/list")
+	@GET
+	@Timed
+	public INeuronResponse productList( @Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+		try {
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);			
+			List<Product> products = productService.getProductList();
+			response.setSuccess(true);
+			response.setValue(products);
+			response.setApiToken(newApiToken);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (INeuronException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		}
+		return response;
+
+	}
 
 }

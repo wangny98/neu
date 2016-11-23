@@ -20,5 +20,6 @@
 	</environments>
 	<mappers>
 		<mapper resource="com/ineuron/dataaccess/db/mappers/UserMapper.xml" />
+		<mapper resource="com/ineuron/dataaccess/db/mappers/ProductMapper.xml" />
 	</mappers>
 </configuration>

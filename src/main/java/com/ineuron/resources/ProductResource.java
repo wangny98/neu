@@ -8,6 +8,8 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.service.ProductService;
+import com.ineuron.domain.user.entity.User;
+import com.ineuron.domain.user.service.SecurityService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,6 +50,7 @@ public class ProductResource {
 	public INeuronResponse createProduct(final Product product, @Context final UriInfo uriInfo) {
 		INeuronResponse response = new INeuronResponse();
 		try {
+			//String newApiToken = validateAndUpdateApiToken(httpHeader);		
 			productService.doCreateProduct(product);
 			response.setSuccess(true);
 			response.setValue(null);

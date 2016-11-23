@@ -7,7 +7,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 	
 	vm.createProduct = createProduct;
 	function createProduct() {
-	   alert("to createProduct");
+	   //alert("to createProduct");
 		$http({
 			url : '/product/createproduct',
 			method : 'POST',
@@ -17,7 +17,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 				description : $scope.productDescription
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			//validateApiToken(data, $cookies);
 			$state.go("productManagement");
 		}).error(function(data) {
 			alert('error');

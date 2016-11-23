@@ -24,6 +24,7 @@ public class ProductRepository {
 	public void addProduct(Product product) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
+			//System.out.println("product: "+product.getProductname());
 			session.insert("addProduct", product);
 			session.commit();
 			System.out.println("insert product by using mybatis!");

@@ -83,19 +83,30 @@
 					<li class="active"><a href="#"> <i
 							class="glyphicon glyphicon-th-large"></i> 首页
 					</a></li>
-					<li><a href="#systemSetting" class="nav-header collapsed"
+					<li>
+						<a href="#systemSetting" class="nav-header collapsed"
 						data-toggle="collapse"> <i class="glyphicon glyphicon-cog"></i>
 							系统管理 <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-					</a>
+						</a>
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
 							<li><a ui-sref="userManagement" ui-sref-active="active" ng-show="ShowUserManagementMenu()">
 							<i class="glyphicon glyphicon-user"></i>用户管理</a></li>
 							<li><a ui-sref="roleManagement" ui-sref-active="active" ng-show="ShowRoleManagementMenu()">
-							<i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>
-						</ul></li>
-					<li><a href="./plans.html"><i
-							class="glyphicon glyphicon-credit-card"></i> 产品管理 </a></li>
+							<i class="glyphicon glyphicon-asterisk"></i>角色管理</a></li>							
+						</ul>
+					</li>
+					<li>
+						<a href="#productManagement" class="nav-header collapsed"
+						data-toggle="collapse"><i class="glyphicon glyphicon-credit-card"></i>
+						产品管理  <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="productManagement" class="nav nav-list collapse secondmenu"
+							style="height: 0px;">
+							<li><a ui-sref="createProduct" ui-sref-active="active">
+							<i class="glyphicon glyphicon-plus"></i>添加新产品</a></li>							
+						</ul>
+						</li>
 					<li><a href="#"><i class="glyphicon glyphicon-th-list"></i>
 							订单管理 </a></li>
 					<li><a href="#"><i class="glyphicon glyphicon-wrench"></i>

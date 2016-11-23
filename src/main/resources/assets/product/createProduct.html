@@ -1,0 +1,71 @@
+<meta charset="utf-8">
+<head>
+<!-- Le styles -->
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap.css">
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap-responsive.css">
+<link rel="stylesheet" href="/ineuron/css/lib/isteven-multi-select.css">
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap.min.css">
+<link rel="stylesheet" href="/ineuron/css/inner-area.css">
+<script src="/ineuron/js/lib/angular.min.js"></script>
+<script src="/ineuron/js/lib/isteven-multi-select.js"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../ineuron/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<div ng-controller="ProductCreateController as productCreate">
+	<div class="message">添加产品</div>
+
+	<div class="template">
+		<hr class="hr20">
+		<hr class="hr20">
+		<form class="form-product" name="createProduct">
+			<table class="functionarea">
+				<tbody>
+					<tr>
+						<td><hr class="hr15"></td>
+					</tr>
+					<tr>
+						<td class="labelformat">产品名：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="productName" required></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="labelformat">编码：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="productCode" required></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="labelformat">描述：</td>
+						<td><input class="input-block-level" type="text"
+							ng-model="productDescription" value=""></td>
+							<td></td>
+					</tr>
+
+							<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+                                <tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-large btn-primary"
+											ng-disabled="!productCreate.$valid"
+											ng-click="productCreate.createProduct()">
+											<span class="glyphicon glyphicon-upload"></span> 提交
+										</button></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><hr class="hr15"></td>
+								</tr>
+								</tbody>
+							</table>
+							</form>
+			</div>
+</div> <!-- /container -->

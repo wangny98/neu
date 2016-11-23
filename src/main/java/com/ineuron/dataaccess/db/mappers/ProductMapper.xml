@@ -10,4 +10,8 @@
 	values(#{productname},#{productcode},#{description})  
   </insert>
   
+  <select id="getProducts" resultType="com.ineuron.domain.product.entity.Product">
+    select * from products
+  </select>
+  
 </mapper>

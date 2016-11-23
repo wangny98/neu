@@ -24,7 +24,7 @@ public class ProductRepository {
 	public void addProduct(Product product) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			//System.out.println("product: "+product.getProductname());
+			System.out.println("product: "+product.getProductname());
 			session.insert("addProduct", product);
 			session.commit();
 			System.out.println("insert product by using mybatis!");
@@ -34,5 +34,15 @@ public class ProductRepository {
 	}
 
 	
+	public List<Product> getProductList() throws RepositoryException, INeuronException {
 
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Product> products = session.selectList("getProducts");
+			return products;
+		} finally {
+			session.close();
+		}
+
+	}
 }

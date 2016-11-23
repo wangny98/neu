@@ -1,10 +1,15 @@
 package com.ineuron.domain.user.service;
 
 import java.util.Date;
+import java.util.Map;
+
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import com.ineuron.domain.user.util.DesUtil;
 
 public class SecurityService {
@@ -15,6 +20,20 @@ public class SecurityService {
 	final private String seperatorForUsernameAndTime = "---I-Neuron---";
 	
 	static final Logger LOGGER = LoggerFactory.getLogger(SecurityService.class);
+	
+	public String validateAndUpdateApiToken(HttpHeaders httpHeader) throws Exception {
+		Map<String, Cookie> cookies = httpHeader.getCookies();
+		
+		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
+		Cookie usernameCookie = cookies.get("INeuron-UserName");
+		
+		String apiToken = apiTokenCookie.getValue();
+		apiToken = UriEncoder.decode(apiToken);
+		String username = usernameCookie.getValue();
+		
+		return validateAndUpdateApiToken(apiToken, username);
+	}
+	
 
 	public String validateAndUpdateApiToken(String apiToken, String username) throws Exception {
 

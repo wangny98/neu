@@ -1,7 +1,6 @@
 package com.ineuron.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.INeuronException;
@@ -19,7 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
@@ -46,6 +44,29 @@ public class UserResource {
 
 	public UserResource() {
 		super();
+	}
+	
+	@Path("/validateloginstatus")
+	@GET
+	@Timed
+	public INeuronResponse validateLoginStatus(@Context HttpHeaders httpHeader) {
+		INeuronResponse response = new INeuronResponse();
+		try {
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			LOGGER.info("user/validateloginstatus newApiToken=" + newApiToken);
+			if(newApiToken != null){		
+				response.setSuccess(true);
+				response.setApiToken(newApiToken);
+				response.setValue(null);
+			}
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		}
+		return response;
 	}
 
 	@Path("/authenticate")
@@ -136,6 +157,7 @@ public class UserResource {
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
 		}
 		return response;
 	}

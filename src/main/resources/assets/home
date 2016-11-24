@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html ng-app="homeApp">
+<head>
+<meta charset="UTF-8">
+<title>琥崧智能工厂运营与控制系统</title>
+<script src="/ineuron/js/lib/angular.min.js"></script>
+<script src="/ineuron/js/lib/angular-cookies.min.js"></script>
+<script src="/ineuron/js/main/home.js"></script>
+</head>
+<body>
+<div ng-controller="HomeController">
+</body>
+</html>

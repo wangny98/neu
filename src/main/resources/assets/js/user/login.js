@@ -29,17 +29,17 @@ loginApp.config(function($routeProvider) {
 
 loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$cookies', '$rootScope', '$modal',
 	function($scope, $http, $location, $cookies,$rootScope,$modal) {
-	$scope.invalidUserPwd=false;
-	
-	$scope.login = function(isValid) {
-		$http({
-			url : '/user/authenticate',
-			method : 'POST',
-			data : {
-				username : $scope.username,
-				password : $scope.password
-			}
-		}).success(
+		$scope.invalidUserPwd=false;
+		
+		$scope.login = function(isValid) {
+			$http({
+				url : '/user/authenticate',
+				method : 'POST',
+				data : {
+					username : $scope.username,
+					password : $scope.password
+				}
+			}).success(
 				function(data) {
 					if (data.success == true) {
 						$cookies.put('INeuron-UserName', $scope.username, {

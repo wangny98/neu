@@ -33,6 +33,7 @@ public class INeuronApplication extends Application<INeuronConfiguration> {
 	public void initialize(Bootstrap<INeuronConfiguration> bootstrap) {
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/ineuron/"));
 		
+		
 		//Guice是Google开发的一个轻量级，基于Java5（主要运用泛型与注释特性）的依赖注入框架(IOC)。
 		GuiceBundle<INeuronConfiguration> guiceBundle = GuiceBundle.<INeuronConfiguration>newBuilder()
 				.addModule(new INeuronModule())

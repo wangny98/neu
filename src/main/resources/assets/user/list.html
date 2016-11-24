@@ -7,13 +7,13 @@
 	 -->
 	 <div>
 	<table datatable="ng" dt-options="userList.dtOptions"
-		dt-column-defs="userList.dtColumnDefs" class="row-border hover">
+		dt-column-defs="userList.dtColumnDefs" class="row-border hover" id="gradient-style">
 		<thead>
 			<tr>
-				<th><pre>用户名</pre></th>
-				<th><pre>角色</pre></th>
-				<th><pre>特殊权限</pre></th>
-				<th><pre>查看/修改</pre></th>
+				<th>用户名</th>
+				<th>角色</th>
+				<th>特殊权限</th>
+				<th>查看/修改</th>
 				<!-- <th><pre>查看</pre></th>  -->
 			</tr>
 		</thead>
@@ -21,7 +21,7 @@
 			<tr ng-repeat="user in userList.users">
 			   <!-- <td><input class="input-block-level" type="text" ng-model="user.username" value="disabled" required></td> -->
 				<td>{{user.username}}</td>
-				<td><p ng-repeat="role in user.roleList">{{ role.rolename}}</p></td>
+				<td><nobr ng-repeat="role in user.roleList">{{$index+1}}{{ role.rolename}}; </nobr></td>
 				<td>{{ user.permissionFlag }}</td>
 				<td>
 					<button type="button"

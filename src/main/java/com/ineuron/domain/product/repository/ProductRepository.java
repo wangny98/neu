@@ -4,6 +4,7 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.product.entity.*;
+import com.ineuron.domain.user.entity.User;
 
 import java.util.List;
 
@@ -33,6 +34,16 @@ public class ProductRepository {
 		}
 	}
 
+	public void updateProduct(Product product) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			session.update("updateProduct", product);
+			session.commit();
+			System.out.println("update product by using mybatis!");
+		} finally {
+			session.close();
+		}
+	}
 	
 	public List<Product> getProductList() throws RepositoryException, INeuronException {
 

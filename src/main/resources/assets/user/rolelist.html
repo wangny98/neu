@@ -10,12 +10,12 @@
 		</button>
 	</div>
 	<table datatable="ng" dt-options="roleList.dtOptions"
-		dt-column-defs="roleList.dtColumnDefs" class="row-border hover">
+		dt-column-defs="roleList.dtColumnDefs" class="row-border hover" id="gradient-style">
 		<thead>
 			<tr>
-				<th><pre>角色名</pre></th>
-				<th><pre>描述</pre></th>
-				<th><pre>查看/修改</pre></th>
+				<th>角色名</th>
+				<th>描述</th>
+				<th>查看/修改</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,7 +24,7 @@
 				<td>{{ role.description }}</td>
 				<td>
 					<button type="button" ng-click="roleList.updateRole($index)"
-						class="btn btn-warning">
+						class="btn btn-warning" ng-disabled="role.rolename=='系统管理员'">
 						<i class="fa fa-edit"></i>
 					</button>
 				</td>

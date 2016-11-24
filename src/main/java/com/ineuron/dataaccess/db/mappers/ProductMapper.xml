@@ -14,4 +14,8 @@
     select * from products
   </select>
   
+  <update id="updateProduct">
+    update products p set p.productname = #{productname}, p.productcode = #{productcode}, p.description=#{description} where id = #{id}
+  </update>
+  
 </mapper>

@@ -47,14 +47,14 @@ public class ProductResource {
 	}
 
 
-	@Path("/createproduct")
+	@Path("/create")
 	@POST
 	@Timed
 	public INeuronResponse createProduct(final Product product, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
 			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
-			productService.doCreateProduct(product);
+			productService.createProduct(product);
 			response.setSuccess(true);
 			response.setValue(null);
 			response.setApiToken(newApiToken);

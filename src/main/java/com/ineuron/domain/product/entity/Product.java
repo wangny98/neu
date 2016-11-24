@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.repository.ProductRepository;
+import com.ineuron.domain.user.repository.UserRepository;
 
 public class Product {
 
@@ -28,6 +29,11 @@ public class Product {
 		productRepository.addProduct(this);
 	}
 
+	public void updateProduct(ProductRepository productRepository) throws RepositoryException {
+
+		productRepository.updateProduct(this);
+
+	}
 	
 	public Integer getId() {
 		return id;

@@ -9,7 +9,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 	function createProduct() {
 	   //alert("to createProduct");
 		$http({
-			url : '/product/createproduct',
+			url : '/product/create',
 			method : 'POST',
 			data : {
 				productname : $scope.productName,

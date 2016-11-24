@@ -10,6 +10,7 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.repository.ProductRepository;
+import com.ineuron.domain.user.entity.User;
 
 
 public class ProductService {
@@ -19,8 +20,12 @@ public class ProductService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 	
-	public void doCreateProduct(Product product) throws RepositoryException {
+	public void createProduct(Product product) throws RepositoryException {
 		product.addProduct(productRepository);
+	}
+	
+	public void updateProduct(Product product) throws RepositoryException {
+		product.updateProduct(productRepository);
 	}
 	
 	public List<Product> getProductList() throws RepositoryException, INeuronException{

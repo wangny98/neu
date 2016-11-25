@@ -59,9 +59,6 @@ public class UserResource {
 				response.setApiToken(newApiToken);
 				response.setValue(null);
 			}
-		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -166,10 +163,10 @@ public class UserResource {
 	@Path("/list")
 	@GET
 	@Timed
-	public INeuronResponse getUserList(@Context HttpHeaders httpHeader) {
+	public INeuronResponse getUserList(@Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
 		INeuronResponse response = new INeuronResponse();
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);	
 			LOGGER.info("user/list newApiToken=" + newApiToken);
 			if(newApiToken != null){
 				List<User> users = userService.getUserList();
@@ -189,45 +186,24 @@ public class UserResource {
 		return response;
 	}
 	
-	@Path("/testlist")
-	@GET
-	@Timed
-	public INeuronResponse getTestUserList() {
-		LOGGER.info("user/testlist");
-		List<User> users = null;
-		INeuronResponse response = new INeuronResponse();
-		try {
-				users = userService.getUserList();
-				LOGGER.info("users.size() = " + users.size());
-				response.setValue(users);
-				response.setSuccess(true);
-				
-		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return response;
-	}
 
 	@Path("/user")
 	@POST
 	@Timed
-	public INeuronResponse getUserByUsername(final String username, @Context HttpHeaders httpHeader) {
+	public INeuronResponse getUserByUsername(final String username, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
 		INeuronResponse response = new INeuronResponse();
 		
-		System.out.println("in userResource: getUserByUsername. username:"
+		LOGGER.info("in userResource: getUserByUsername. username:"
 				+ username);
 		try {
-			//String newApiToken = validateAndUpdateApiToken(httpHeader);
-			//LOGGER.info("user/user newApiToken=" + newApiToken);
-			//if(newApiToken != null){
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);
+			LOGGER.info("user/user newApiToken=" + newApiToken);
+			if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
-				//response.setApiToken(newApiToken);
+				response.setApiToken(newApiToken);
 				response.setValue(user);
-			//}
+			}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
@@ -238,25 +214,6 @@ public class UserResource {
 		return response;
 	}
 
-	@Path("/testuser")
-	@GET
-	@Timed
-	public INeuronResponse getUserByUsername1(@QueryParam("username") String username, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
-		
-		try {
-				User user=userService.getUserByUsername(username);			
-				response.setSuccess(true);
-				response.setValue(user);
-		} catch (RepositoryException e) {
-			response.setMessage(e.getMessage());
-			LOGGER.error(e.getMessage(), e);
-		} catch (Exception e) {
-			response.setMessage(e.getMessage());
-			LOGGER.error(e.getMessage(), e);
-		}
-		return response;
-	}
 	
 	@Path("/createrole")
 	@POST

@@ -74,10 +74,9 @@ ineuronApp.config(function($stateProvider) {
 
 ineuronApp.controller('NavMenuController', ['$scope', '$cookies', function($scope, $cookies) {
 	
-	var loginedUserStr=$cookies.get('INeuron-User');
-	// var loginedUser = JSON.parse(loginedUserStr);
-	var loginedUser = eval('(' + loginedUserStr + ')');
-	var allPermissions = loginedUser.allPermissions;
+	var allPermissionsStr=$cookies.get('INeuron-allPermissions');
+
+	var allPermissions = eval('(' + allPermissionsStr + ')');
 	$scope.ShowUserManagementMenu = function() {
 		var userManagementMenu="用户管理";
 		for (index in allPermissions){
@@ -102,3 +101,13 @@ ineuronApp.controller('NavMenuController', ['$scope', '$cookies', function($scop
         return false;
 	}
 }]);
+
+ineuronApp.controller('LogoutController', ['$scope', '$cookies', function($scope, $cookies) {
+	
+	$scope.logout = function() {
+		$cookies.remove("INeuron-ApiToken", {path : "/"});
+		window.location.href = "/ineuron/user/index.html/#/login";
+	}
+	
+}]);
+

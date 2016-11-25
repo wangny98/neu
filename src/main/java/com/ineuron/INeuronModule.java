@@ -20,18 +20,11 @@ public class INeuronModule extends AbstractModule {
 	}
 
 	
-
 	@Provides
-	@Named("template")
-	public String provideText(INeuronConfiguration configuration) {
-		return configuration.getText();
+	@Named("environment")
+	public String provideEnvironment(INeuronConfiguration configuration) {
+		return configuration.getEnvironment();
 
-	}
-
-	@Provides
-	@Named("defaultName")
-	public String provideDefaultName(INeuronConfiguration configuration) {
-		return configuration.getDefaultName();
 	}
 	
 	@Provides

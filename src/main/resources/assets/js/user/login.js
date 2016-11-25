@@ -45,14 +45,20 @@ loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$co
 						$cookies.put('INeuron-UserName', $scope.username, {
 							path : "/"
 						});
-						var str = JSON.stringify(data.value);  
-						$cookies.put('INeuron-User', str, {
-							path : "/"
-						});
 						$cookies.put('INeuron-ApiToken',
 								encodeURI(encodeURI(data.apiToken)), {
 									path : "/"
 								});
+						
+						var allPermissions = JSON.stringify(data.value.allPermissions); 
+						var roleList = JSON.stringify(data.value.roleList);  
+						$cookies.put('INeuron-roleList', roleList, {
+							path : "/"
+						});
+						$cookies.put('INeuron-allPermissions', allPermissions, {
+							path : "/"
+						});
+						
 						window.location.href = "/ineuron/main.html";
 					} else {
 						//alert("不正确的用户名或者密码！");

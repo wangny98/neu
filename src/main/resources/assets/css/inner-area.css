@@ -15,7 +15,6 @@ body,html{
 }
 body{
     background-size: cover;
-    background:url(../images/logo_bg.png) repeat center;
 }
 a{
     color:#27A9E3;

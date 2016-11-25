@@ -26,35 +26,22 @@
 			<table class="functionarea">
 				<tbody>
 					<tr>
-						<td><hr class="hr15"></td>
-					</tr>
-					<tr>
-						<td class="labelformat">角色名：</td>
+						<th class="labelformat">角色名：</th>
 						<td><input class="input-block-level" type="text"
 							ng-model="updateRolename" value="disabled" required></td>
-						<td></td>
-					</tr>
-
-					<tr>
-						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
-						<td class="labelformat">备注：</td>
+						<th class="labelformat">备注：</th>
 						<td><input class="input-block-level" type="text"
 							ng-model="updateRoleDescription" value=""></td>
-							<td></td>
-					</tr>
-
-					<tr>
-						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
-						<td class="labelformat">特殊权限：</td>
+						<th class="labelformat">特殊权限：</th>
 						<td>
 							<table>
 								<tr>
-									<td class="labelformat">功能</td>
-									<td class="labelformat">操作</td>
+									<th class="labelformat">功能</th>
+									<th class="labelformat">操作</th>
 								</tr>
 								<tr ng-repeat="func in roleUpdate.funcs">
 									<td>{{func.name}}</td>
@@ -65,28 +52,22 @@
 											item-label="operationname" tick-property="ticked"></div>
 									</td>
 								</tr>
-								<tr>
-									<td><hr class="hr15"></td>
-								</tr>
 								</table>
-                                <tr>
-									<td><hr class="hr15"></td>
-								</tr>
 								<tr>
-									<td><button class="btn btn-large btn-primary"
+									<td></td>
+									<td>
+									<button class="btn btn-large btn-primary"
 											ng-disabled="!updaterole.$valid"
 											ng-click="roleUpdate.updateRole()">
 											<span class="glyphicon glyphicon-upload"></span> 确定修改
-										</button></td>
-									<td><button class="btn btn-large btn-primary"
+										</button>
+									<button class="btn btn-large btn-primary"
 											ng-disabled="!updaterole.$valid"
 											ng-click="roleUpdate.deleteRole()">
 											<span class="glyphicon glyphicon-trash"
 												style="color: rgb(255, 140, 60);"></span> 删除角色
-										</button></td>
-								</tr>
-								<tr>
-									<td><hr class="hr15"></td>
+										</button>
+									</td>
 								</tr>
 								</tbody>
 							</table>

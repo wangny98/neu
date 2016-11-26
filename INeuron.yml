@@ -1,5 +1,4 @@
-text: '%s'
-defaultName: Stranger
+environment: dev
 
 logging:
 

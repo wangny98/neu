@@ -7,10 +7,7 @@
 <link href="/ineuron/css/table-style.css" rel="stylesheet">
 <link rel="stylesheet" href="/ineuron/css/lib/isteven-multi-select.css">
 <link rel="stylesheet" href="/ineuron/css/lib/bootstrap.min.css">
-
-<link href="/ineuron/css/lib/tablecloth.css" rel="stylesheet" type="text/css" media="screen" />
-<script type="text/javascript" src="/ineuron/js/lib/tablecloth.js"></script>
-
+ 
 <!-- for DataTable -->
 <link rel="stylesheet" href="/ineuron/css/lib/bootstrap.min.css">
 <link rel="stylesheet"
@@ -67,10 +64,10 @@
 <body>
 	<div class="navbar navbar-duomi navbar-static-top" role="navigation">
 		<div class="container-fluid">
-			<div class="navbar-header"> 	
+			<div class="navbar-header" ng-controller="LogoutController"> 	
 					<img alt="" src="/ineuron/images/logo.png">
 					<label class="title">琥崧智能工厂运营与控制系统</label>
-					<div class="right-align" ng-controller="LogoutController"><a href="" ng-click="logout()">退出系统</a></div>						
+					<a class="right-align" href="" ng-click="logout()">退出</a>						
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8" />
+<title>Example - range input</title>
+<script src="/ineuron/js/lib/jquery-3.1.1.min.js"></script>
+<script src="/ineuron/js/lib/jquery-ui-1.12.1.min.js"></script>
+<script src="/ineuron/js/lib/angular.min.js"></script>
+<script src="/ineuron/js/lib/sortable.js"></script>
+<script src="/ineuron/js/lib/ui-bootstrap-tpls.js"></script>
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap.min.css">
+<style>
+pre {
+	overflow: auto;
+	word-wrap: normal;
+	white-space: pre;
+}
+</style>
+<script>
+    angular.module('myApp', ['ui.bootstrap','ui.sortable'])
+      .controller('myCtrl', ['$scope',
+        function($scope) {
+
+    	  $scope.model = {rows: [
+        	  {"id":1, "name":"name1", "item":106},
+        	  {"id":2, "name":"name2", "item":106},
+        	  {"id":3, "name":"name3", "item":106},
+        	  {"id":4, "name":"name4", "item":107},
+        	  {"id":5, "name":"name5", "item":107},
+        	  {"id":6, "name":"name6", "item":110},
+        	  {"id":7, "name":"name7", "item":110}
+        	  ],
+        	  selected: {}
+        	  };
+          
+          $scope.items = [
+            'The first choice!',
+            'And another choice for you.',
+            'but wait! A third!'
+          ];
+
+          var data = {
+        	    "myOptions": [
+        	        {
+        	            "id": 106,
+        	            "group": "Group 1",
+        	            "label": "Item 1"
+        	        },
+        	        {
+        	            "id": 107,
+        	            "group": "Group 1",
+        	            "label": "Item 2"
+        	        },
+        	        {
+        	            "id": 110,
+        	            "group": "Group 2",
+        	            "label": "Item 3"
+        	        }]
+        	}
+        	$scope.myOptions = data.myOptions;
+        	
+        	
+        	 // gets the template to ng-include for a table row / item
+            $scope.getTemplate = function (row) {
+                if (row.id === $scope.model.selected.id) return 'edit';
+                else return 'display';
+            };
+            
+            $scope.editContact = function (row) {
+                $scope.model.selected = angular.copy(row);
+            };
+
+            $scope.saveContact = function (idx) {
+                console.log("Saving contact");
+                $scope.rows[idx] = angular.copy($scope.model.selected);
+                $scope.reset();
+            };
+
+            $scope.reset = function () {
+                $scope.model.selected = {};
+            };
+
+        }
+      ]);
+    
+    
+    
+  </script>
+</head>
+
+<body ng-app="myApp">
+	<div class="container" ng-controller="myCtrl">
+		<h1>angular bootstrap dropdown in a table cell</h1>
+		<br /> <br /> <br />
+		<div class="row">
+			<div class="col-xs-12">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Index</th>
+							<th>Id</th>
+							<th>name</th>
+							<th>Item</th>
+						</tr>
+					</thead>
+					<tbody ui-sortable="sortableOptions" ng-model="model.rows" class="list">
+						<tr ng-repeat="row in model.rows" ng-include="getTemplate(row)" class="item" style="cursor: move;">
+						</tr>
+					</tbody>
+				</table>
+		<script type="text/ng-template" id="display">
+			  <td>{{$index}}</td>
+              <td>{{row.id}}</td>
+				<td>{{row.name}}</td>
+              <td>
+                <select
+    				ng-model="row.item"
+    				ng-options="value.id as value.label group by value.group for value in myOptions">
+					
+    				<option>----</option>
+
+				</select>
+              </td>
+			<td>
+            	<button ng-click="editContact(row)">Edit</button>
+       		</td>
+		</script>
+				<script type="text/ng-template" id="edit">
+        	<td>{{$index}}</td>
+			<td>{{row.id}}</td>
+            <td><input type="text" ng-model="model.selected.name" /></td>
+              <td>
+               <select
+    				ng-model="row.item"
+    				ng-options="value.id as value.label group by value.group for value in myOptions">
+					
+    				<option>----</option>
+
+				</select>
+              </td>
+        	<td>
+            	<button ng-click="saveContact($index)">Save</button>
+            	<button ng-click="reset()">Cancel</button>
+        	</td>
+    	</script>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

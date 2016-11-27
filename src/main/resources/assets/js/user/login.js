@@ -42,22 +42,13 @@ loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$co
 			}).success(
 				function(data) {
 					if (data.success == true) {
-						$cookies.put('INeuron-UserName', $scope.username, {
-							path : "/"
-						});
-						$cookies.put('INeuron-ApiToken',
-								encodeURI(encodeURI(data.apiToken)), {
-									path : "/"
-								});
+						$cookies.put('INeuron-UserName', $scope.username, {path : "/"});
+						$cookies.put('INeuron-ApiToken',encodeURI(encodeURI(data.apiToken)), {path : "/"});
 						
 						var allPermissions = JSON.stringify(data.value.allPermissions); 
 						var roleList = JSON.stringify(data.value.roleList);  
-						$cookies.put('INeuron-roleList', roleList, {
-							path : "/"
-						});
-						$cookies.put('INeuron-allPermissions', allPermissions, {
-							path : "/"
-						});
+						$cookies.put('INeuron-roleList', roleList, {path : "/"});
+						$cookies.put('INeuron-allPermissions', allPermissions, {path : "/"});
 						
 						window.location.href = "/ineuron/main.html";
 					} else {

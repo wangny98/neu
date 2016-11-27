@@ -7,7 +7,7 @@
 	 -->
 	 <div>
 	<table datatable="ng" dt-options="userList.dtOptions"
-		dt-column-defs="userList.dtColumnDefs" class="row-border hover">
+		dt-column-defs="userList.dtColumnDefs" class="row-border hover" id="table-style">
 		<thead>
 			<tr>
 				<th>用户名</th>
@@ -21,7 +21,7 @@
 			<tr ng-repeat="user in userList.users">
 			   <!-- <td><input class="input-block-level" type="text" ng-model="user.username" value="disabled" required></td> -->
 				<td>{{user.username}}</td>
-				<td><nobr ng-repeat="role in user.roleList">{{$index+1}}{{ role.rolename}}; </nobr></td>
+				<td><nobr ng-repeat="role in user.roleList">{{$index+1}}.{{ role.rolename}}; </nobr></td>
 				<td>{{ user.permissionFlag }}</td>
 				<td>
 					<button type="button"

@@ -20,41 +20,26 @@
 	<div class="message">添加角色</div>
 
 	<div class="template">
-		<hr class="hr20">
-		<hr class="hr20">
 		<form class="form-role" name="createrole">
-			<table class="functionarea">
+			<table class="functionarea" id="table-style">
 				<tbody>
 					<tr>
-						<td><hr class="hr15"></td>
-					</tr>
-					<tr>
-						<td class="labelformat">角色名：</td>
+						<th class="labelformat">角色名</td>
 						<td><input class="input-block-level" type="text"
-							ng-model="updateRolename" required></td>
-						<td></td>
-					</tr>
-
-					<tr>
-						<td><hr class="hr15"></td>
+							ng-model="updateRolename" required></td><td style="color:red">*</td>
 					</tr>
 					<tr>
-						<td class="labelformat">备注：</td>
+						<th class="labelformat">备注</td>
 						<td><input class="input-block-level" type="text"
 							ng-model="updateRoleDescription" value=""></td>
-							<td></td>
-					</tr>
-
-					<tr>
-						<td><hr class="hr15"></td>
 					</tr>
 					<tr>
-						<td class="labelformat">特殊权限：</td>
+						<th class="labelformat">权限</td>
 						<td>
 							<table>
 								<tr>
-									<td class="labelformat">功能</td>
-									<td class="labelformat">操作</td>
+									<th class="labelformat">功能</td>
+									<th class="labelformat">操作</td>
 								</tr>
 								<tr ng-repeat="func in roleCreate.funcs">
 									<td>{{func.name}}</td>
@@ -62,17 +47,10 @@
 										<div isteven-multi-select
 											input-model="func.ops"
 											output-model="func.output" button-label="operationname"
-											item-label="operationname" tick-property="ticked"></div>
+											item-label="operationname" tick-property="ticked" orientation="horizontal"></div>
 									</td>
 								</tr>
-								
-								<tr>
-									<td><hr class="hr15"></td>
-								</tr>
 								</table>
-                                <tr>
-									<td><hr class="hr15"></td>
-								</tr>
 								<tr>
 									<td><button class="btn btn-large btn-primary"
 											ng-disabled="!createrole.$valid"
@@ -80,9 +58,6 @@
 											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
 									<td></td>
-								</tr>
-								<tr>
-									<td><hr class="hr15"></td>
 								</tr>
 								</tbody>
 							</table>

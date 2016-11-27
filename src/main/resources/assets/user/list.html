@@ -21,7 +21,7 @@
 			<tr ng-repeat="user in userList.users">
 			   <!-- <td><input class="input-block-level" type="text" ng-model="user.username" value="disabled" required></td> -->
 				<td>{{user.username}}</td>
-				<td><nobr ng-repeat="role in user.roleList">{{$index+1}}{{ role.rolename}}; </nobr></td>
+				<td><nobr ng-repeat="role in user.roleList">{{$index+1}}.{{ role.rolename}}; </nobr></td>
 				<td>{{ user.permissionFlag }}</td>
 				<td>
 					<button type="button"

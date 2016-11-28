@@ -22,6 +22,8 @@ pre {
       .controller('myCtrl', ['$scope',
         function($scope) {
 
+    	  var vm = this;
+    	  
     	  $scope.model = {rows: [
         	  {"id":1, "name":"name1", "item":106},
         	  {"id":2, "name":"name2", "item":106},
@@ -33,12 +35,7 @@ pre {
         	  ],
         	  selected: {}
         	  };
-          
-          $scope.items = [
-            'The first choice!',
-            'And another choice for you.',
-            'but wait! A third!'
-          ];
+      
 
           var data = {
         	    "myOptions": [
@@ -80,6 +77,14 @@ pre {
             $scope.reset = function () {
                 $scope.model.selected = {};
             };
+            
+            $scope.addRow = addRow;
+            function addRow() {
+                var row = {"id":0, "name":"", "item":0};
+
+                $scope.model.rows.push(row);
+                $scope.model.selected = row;
+              }; 
 
         }
       ]);
@@ -93,6 +98,12 @@ pre {
 	<div class="container" ng-controller="myCtrl">
 		<h1>angular bootstrap dropdown in a table cell</h1>
 		<br /> <br /> <br />
+		<button type="button"
+						ng-click="addRow()"
+						class="btn btn-warning">
+						<span class="glyphicon glyphicon-upload"></span> 增加步骤
+					</button>	
+		<button ng-click="addRow()">Cancel</button>
 		<div class="row">
 			<div class="col-xs-12">
 				<table class="table">
@@ -114,7 +125,7 @@ pre {
               <td>{{row.id}}</td>
 				<td>{{row.name}}</td>
               <td>
-                <select
+                <select disabled
     				ng-model="row.item"
     				ng-options="value.id as value.label group by value.group for value in myOptions">
 					

@@ -18,16 +18,14 @@
 
 <div ng-controller="UserUpdateController as userUpdate">
 	<div class="message">用户权限修改</div>
-
-	<div class="template">
-		<form class="form-user" name="updateuser">
-			<table class="functionarea" id="table-style">
+	<form class="form-user" name="updateuser">
+	<div>
+			<table id="table-style" style="margin:50px auto">
 				<tbody>
 					<tr>
 						<th class="labelformat">用户名</th>
 						<td><label class="labelformat">{{userUpdate.user.username}}</label>
 						</td>
-						<td></td>
 					</tr>
 					<tr>
 						<th class="labelformat">角色</th>
@@ -75,10 +73,7 @@
 					
 				</tbody>
 			</table>
+			</div>
 		</form>
-	</div>
-
-
-
 </div>
 <!-- /container -->

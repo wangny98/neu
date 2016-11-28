@@ -62,14 +62,11 @@ color: #fff;
 	display: inline-block;
 	font-size:x-large;
 	font-weight:bold;
-	margin-left:300px;
-    margin-top:5px;	
 	color:aqua;
 }
 
 
 .right-align{
-	margin-left:420px;
 	font-weight:bold;
 	font-size:medium;
 }

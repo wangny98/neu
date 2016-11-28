@@ -1,5 +1,4 @@
 *{
-    font: 13px/1.5 '微软雅黑', Verdana, Helvetica, Arial, sans-serif;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -box-sizing: border-box;
@@ -22,15 +21,7 @@ a{
     cursor:pointer;
 }
 .template{
-    margin: 20px auto 0 auto;
-    /* min-height: 420px;
-    max-width: 420px; 
-    padding: 40px; */
-    margin-left: 100px;
-    margin-right: auto;
-    border-radius: 4px;
-    /* overflow-x: hidden; */
-    box-sizing: border-box;
+    margin: 50px auto;
 }
 a.logo{
     display: block;
@@ -40,15 +31,14 @@ a.logo{
     background-size: 167px 42px;
 }
 .message {
-	margin: 0px 0 0 300px;
+	margin: auto;
 	align-self: center;
 	padding: 8px 8px 8px 8px;
-	background: #75adde;
+	color: #328aa4;
 	position: relative;
-	color: #fff;
-	font-size: 14px;
+	font-weight: bold;
+	font-size: large;
 	text-align: center;
-	width:300px;
     
 }
 

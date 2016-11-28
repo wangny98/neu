@@ -48,7 +48,7 @@ ineuronApp.config(function($stateProvider) {
 	var createProductState = {
 			name : 'createProduct',
 			url : 'createProduct',
-			templateUrl : '/ineuron/product/createProduct.html',
+			templateUrl : '/ineuron/product/create.html',
 			controller : 'ProductCreateController'
 		}
 	

@@ -13,7 +13,9 @@
 				<th>产品编号</th>
 				<th>产品名称</th>
 				<th>描述</th>
-				<th>查看/修改</th>
+				<th style="width:100px">查看/修改</th>
+				<th style="width:100px">属性</th>
+				<th style="width:100px">生产工序</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,11 +26,24 @@
 				<td>{{product.description}}</td>
 				<td>
 					<button type="button"
+						ng-click="productList.updateProduct($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>					
+				</td>				
+				<td>
+					<button type="button"
+						ng-click="productList.updateProductAttributes($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>					
+				</td>
+				<td>
+					<button type="button"
 						ng-click="productList.updateManufacturingProcess($index)"
 						class="btn btn-warning">
 						<i class="fa fa-edit"></i>
-					</button>
-					
+					</button>					
 				</td>
 			</tr>
 		</tbody>

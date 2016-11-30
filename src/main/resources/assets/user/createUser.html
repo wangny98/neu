@@ -1,0 +1,96 @@
+<meta charset="utf-8">
+<head>
+<!-- Le styles -->
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap.css">
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap-responsive.css">
+<link rel="stylesheet" href="/ineuron/css/lib/isteven-multi-select.css">
+<link rel="stylesheet" href="/ineuron/css/lib/bootstrap.min.css">
+<link rel="stylesheet" href="/ineuron/css/inner-area.css">
+<script src="/ineuron/js/lib/angular.min.js"></script>
+<script src="/ineuron/js/lib/isteven-multi-select.js"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../ineuron/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<div ng-controller="UserCreateController as userCreate">
+	<div class="message">添加用户</div>
+
+	<div class="template">
+		<form class="form-user" name="createuser">
+			<table id="table-style" style="margin: 50px auto">
+				<tbody>
+					<tr>
+						<th class="labelformat">用户名
+						</th>
+						<td><input class="input-block-level" type="text"
+							ng-model="createUsername" ng-change="usernameCheck()" required></td>
+						<td style="color: red">*</td>
+					</tr>
+					<tr>
+					<td></td>
+					<td><label ng-show="existedUsername" style="text-align:center;font-weight:bold;color:red">重复的用户名！请重新输入。</label>
+					</td>
+					<td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">姓
+						</th>
+						<td><input class="input-block-level" type="text"
+							ng-model="createUserLastname" value=""></td>
+                            <td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">名
+						</th>
+						<td><input class="input-block-level" type="text"
+							ng-model="createUserFirstname" value=""></td><td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">密码
+						</th>
+						<td><input class="input-block-level" type="password"
+							ng-model="createUserPassword" ng-change="pwdConsistenceCheck()" required></td>
+						<td style="color: red">*</td>
+					</tr>
+					<tr>
+						<th class="labelformat">重复密码
+						</th>
+						<td><input class="input-block-level" type="password"
+							ng-model="createUserPassword2" ng-change="pwdConsistenceCheck()" required></td>
+						<td style="color: red">*</td>
+					</tr>
+					<tr><td></td>
+					<td><label ng-show="inconsistentPwd"
+						style="text-align: center; font-weight: bold; color: red">密码不一致！请重新输入。</label>
+					</td><td></td>
+				</tr>
+					<!-- 
+					<tr>
+						<th class="labelformat">角色
+						</td>
+						<td>
+							<div isteven-multi-select input-model="userCreate.roles"
+								output-model="createUserRole" button-label="rolename"
+								item-label="rolename" tick-property="ticked"></div>
+						</td>
+						</tr>
+					-->
+					<tr>
+						<td></td>
+						<td><button class="btn btn-large btn-primary"
+								ng-disabled="!createuser.$valid"
+								ng-click="userCreate.createUser()">
+								<span class="glyphicon glyphicon-upload"></span> 提交
+							</button></td>
+                        <td></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+<!-- /container -->

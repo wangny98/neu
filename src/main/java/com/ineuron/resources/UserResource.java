@@ -196,14 +196,14 @@ public class UserResource {
 		LOGGER.info("in userResource: getUserByUsername. username:"
 				+ username);
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);
-			LOGGER.info("user/user newApiToken=" + newApiToken);
-			if(newApiToken != null){
+			//String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);
+			//LOGGER.info("user/user newApiToken=" + newApiToken);
+			//if(newApiToken != null){
 				User user=userService.getUserByUsername(username);			
 				response.setSuccess(true);
-				response.setApiToken(newApiToken);
+				//response.setApiToken(newApiToken);
 				response.setValue(user);
-			}
+			//}
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);

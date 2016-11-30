@@ -104,10 +104,10 @@ public class UserRepository {
 			foundUser = session.selectOne("getUserByUsername", username);
 			if (foundUser == null) {
 				LOGGER.error("failed to select user by using getUserByUsername!"
-						+ "found, username:" + username);
+						+ "not found, username:" + username);
 			} else {
 				LOGGER.info("select user by using getUserByUsername!"
-						+ "found, username:" + username);
+						+ " found, username:" + username);
 			}
 
 		} finally {

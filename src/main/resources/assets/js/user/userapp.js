@@ -106,7 +106,7 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 	
 	vm.deleteUserModal=deleteUserModal;   
 	function deleteUserModal(){ 
-		ineuronApp.confirm("提示","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+		ineuronApp.confirm("确认","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
 			if(clickok){
 				 $http({
 					url : '/user/delete',
@@ -138,6 +138,11 @@ ineuronApp.controller('UserListController', ['$http', '$scope', '$location', '$c
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.users = data.value;
+		/*var usernameList=new Array();
+		for (var i in vm.users){
+			usernameList[i]=vm.users[i].username;
+		}
+		$cookies.put('INeuron-UserNameList', usernameList, {path : "/"});*/
 	}).error(function(data) {
 		alert('error');
 		console.log("error");
@@ -155,7 +160,67 @@ ineuronApp.controller('UserListController', ['$http', '$scope', '$location', '$c
 		// alert(vm.users[index]);
 		$state.go("updateUser", {userStr: JSON.stringify(vm.users[index])});
 	}
+	
+	vm.createUser = createUser;
+	function createUser() {
+		$state.go("createUser");
+	}
 }]);
+
+
+ineuronApp.controller('UserCreateController', ['$scope', '$rootScope', '$modal', '$stateParams', '$http', '$state', '$cookies',
+	function($scope, $rootScope, $modal, $stateParams, $http, $state, $cookies) {
+
+	var vm = this;
+	
+	$scope.usernameCheck=function(){
+		//alert("checkusername");
+		$http({
+			url : '/user/user',
+			method : 'POST',
+			data :  $scope.createUsername
+		}).success(function(data) {
+			var user = data.value;
+			if(user==null) $scope.existedUsername=false; 
+			 else $scope.existedUsername=true;
+		}).error(function(data) {
+			alert('error');
+			console.log("error to get user");
+		});				
+	}
+	
+	$scope.pwdConsistenceCheck=function(){
+		if($scope.createUserPassword!=$scope.createUserPassword2) $scope.inconsistentPwd=true;
+		else $scope.inconsistentPwd=false;
+	}
+	
+	vm.createUser = createUser;
+	function createUser() {	
+		
+		$http({
+			url : '/user/register',
+			method : 'POST',
+			data : {
+				username : $scope.createUsername,
+				firstname : $scope.createUserFirstname,
+				lastname : $scope.createUserLastname,
+				password : $scope.createUserPassword				
+			}
+		}).success(function(data) {
+			ineuronApp.confirm("提示","新用户已添加！", 'sm', $rootScope, $modal).result.then(function(clickok){  
+				if(clickok){
+				}
+			});		
+			$state.go("userManagement");
+			console.log("success in User Create!");
+
+		}).error(function(data) {
+			console.log("error");
+		})
+	}
+		
+}]);
+
 
 ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
 	function($http, $scope, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
@@ -261,7 +326,7 @@ ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http'
 		
 	vm.deleteRole=deleteRole;
 	function deleteRole() {
-		ineuronApp.confirm("提示","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+		ineuronApp.confirm("确认","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
 			if(clickok){
 				$http({
 					url : '/user/deleterole',

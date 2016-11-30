@@ -32,9 +32,10 @@
 						<th class="labelformat">备注</td>
 						<td><input class="input-block-level" type="text"
 							ng-model="updateRoleDescription" value=""></td>
+                            <td></td>
 					</tr>
 					<tr>
-						<th class="labelformat">权限</td>
+						<th class="labelformat">权限</th>
 						<td>
 							<table>
 								<tr>
@@ -51,13 +52,16 @@
 									</td>
 								</tr>
 								</table>
+                                <td></td>
+                                </tr>
 								<tr>
+									<td></td>
 									<td><button class="btn btn-large btn-primary"
 											ng-disabled="!createrole.$valid"
 											ng-click="roleCreate.createRole()">
 											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
-									<td></td>
+                                        <td></td>
 								</tr>
 								</tbody>
 							</table>

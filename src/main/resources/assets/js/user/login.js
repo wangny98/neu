@@ -1,7 +1,7 @@
-//define the package as loginApp
-var loginApp = angular.module('loginApp', [ 'ngRoute', 'ngCookies','ui.bootstrap' ]);
 
-loginApp.config(function($routeProvider) {
+var ineuronApp = angular.module('ineuronApp', [ 'ngRoute', 'ngCookies','ui.bootstrap' ]);
+
+ineuronApp.config(function($routeProvider) {
 
 	$routeProvider.when('/login', {
 
@@ -27,7 +27,7 @@ loginApp.config(function($routeProvider) {
 
 });
 
-loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$cookies', '$rootScope', '$modal',
+ineuronApp.controller('UserLoginController', ['$scope', '$http', '$location', '$cookies', '$rootScope', '$modal',
 	function($scope, $http, $location, $cookies,$rootScope,$modal) {
 		$scope.invalidUserPwd=false;
 		
@@ -65,8 +65,30 @@ loginApp.controller('UserLoginController', ['$scope', '$http', '$location', '$co
 }]);
 
 
-loginApp.controller('UserRegisterCtrl', ['$scope', '$http', '$location',
-	function($scope, $http, $location) {
+ineuronApp.controller('UserRegisterCtrl', ['$scope', '$rootScope', '$modal', '$http', '$location', 
+	function($scope, $rootScope, $modal, $http, $location) {
+
+	$scope.usernameCheck=function(){
+		//alert("checkusername");
+		$http({
+			url : '/user/user',
+			method : 'POST',
+			data :  $scope.username
+		}).success(function(data) {
+			var user = data.value;
+			if(user==null) $scope.existedUsername=false; 
+			 else $scope.existedUsername=true;
+		}).error(function(data) {
+			alert('error');
+			console.log("error to get user");
+		});				
+	}
+	
+	$scope.pwdConsistenceCheck=function(){
+		if($scope.password!=$scope.password2) $scope.inconsistentPwd=true;
+		else $scope.inconsistentPwd=false;
+	}
+	
 	$scope.submitReg = function() {
 		$http({
 			url : '/user/register',
@@ -78,7 +100,10 @@ loginApp.controller('UserRegisterCtrl', ['$scope', '$http', '$location',
 				password : $scope.password
 			}
 		}).success(function(data) {
-			//alert(data.message);
+			ineuronApp.confirm("提示","注册成功！请登录。", 'sm', $rootScope, $modal).result.then(function(clickok){  
+				if(clickok){
+				}
+			});		
 			$location.path("/login");
 			console.log("success!");
 

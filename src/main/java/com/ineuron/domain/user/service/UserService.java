@@ -49,7 +49,7 @@ public class UserService {
 	
 	public User getUserByUsername(String username) throws RepositoryException, INeuronException {
 		User user = userRepository.getUserByUsername(username);
-		user.getAllPermissions();
+		if (user!=null)user.getAllPermissions();
 		return user;
 	}
 	

@@ -4,6 +4,8 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.product.entity.*;
+import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.user.valueobject.Operation;
 
 import java.util.List;
 
@@ -54,5 +56,37 @@ public class ProductRepository {
 			session.close();
 		}
 
+	}
+
+
+	public List<Process> getProcessList(Integer productId) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Process> processes = session.selectList("getProcesses", productId);
+			return processes;
+		} finally {
+			session.close();
+		}
+	}
+
+
+	public List<Operation> getOperationList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Operation> operations = session.selectList("getOperations");
+			return operations;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<Material> getMaterialList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Material> materials = session.selectList("getMaterials");
+			return materials;
+		} finally {
+			session.close();
+		}
 	}
 }

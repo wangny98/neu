@@ -79,11 +79,16 @@ pre {
             };
             
             $scope.addRow = addRow;
+            $scope.removeRow = removeRow;
             function addRow() {
                 var row = {"id":0, "name":"", "item":0};
 
                 $scope.model.rows.push(row);
                 $scope.model.selected = row;
+              }; 
+              
+              function removeRow(index){
+            	  $scope.model.rows.splice(index, 1);
               }; 
 
         }
@@ -103,7 +108,6 @@ pre {
 						class="btn btn-warning">
 						<span class="glyphicon glyphicon-upload"></span> 增加步骤
 					</button>	
-		<button ng-click="addRow()">Cancel</button>
 		<div class="row">
 			<div class="col-xs-12">
 				<table class="table">
@@ -135,6 +139,7 @@ pre {
               </td>
 			<td>
             	<button ng-click="editContact(row)">Edit</button>
+				<button ng-click="removeRow($index)">Remove</button>
        		</td>
 		</script>
 				<script type="text/ng-template" id="edit">

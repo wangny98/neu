@@ -18,4 +18,16 @@
     update products p set p.productname = #{productname}, p.productcode = #{productcode}, p.description=#{description} where id = #{id}
   </update>
   
+  <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.Process">
+    select * from productManufacturingProcess where productId = #{productId}
+  </select>
+  
+  <select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
+    select * from operations
+  </select>
+  
+  <select id="getMaterials" resultType="com.ineuron.domain.product.valueobject.Material">
+    select * from materials
+  </select>
+  
 </mapper>

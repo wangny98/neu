@@ -10,6 +10,8 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.repository.ProductRepository;
+import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.user.valueobject.Operation;
 
 public class ProductService {
 
@@ -30,6 +32,21 @@ public class ProductService {
 		
 		List<Product> productList = productRepository.getProductList();
 		return productList;
+	}
+
+	public List<Process> getProcessList(Integer productId) throws RepositoryException {
+		List<Process> processes = productRepository.getProcessList(productId);
+		return processes;
+	}
+
+	public List<Operation> getOperations() throws RepositoryException {
+		List<Operation> operationList = productRepository.getOperationList();
+		return operationList;
+	}
+	
+	public List<Material> getMaterials() throws RepositoryException {
+		List<Material> materialList = productRepository.getMaterialList();
+		return materialList;
 	}
 
 }

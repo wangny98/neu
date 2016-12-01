@@ -10,7 +10,7 @@ ineuronApp.confirm = function(title, message, size, $rootScope, $modal){
 	   }
 	
 	var modalInstance = $modal.open({
-		templateUrl : 'modaltemplate.html',  
+		templateUrl : '/ineuron/modaltemplate.html',  
 		controller : 'ModalInstanceCtrl',
 		size : size, // default:middle; sm, lg
 		scope:scope,
@@ -27,6 +27,9 @@ ineuronApp.confirm = function(title, message, size, $rootScope, $modal){
 ineuronApp.controller('ModalInstanceCtrl',function($scope, $modalInstance, $modal, body){
 	$scope.title = $scope.data.title;
     $scope.content=$scope.data.content;
+    //alert("title: "+$scope.data.title);
+    if($scope.data.title=="确认") 	$scope.showCancelButton=true;
+     else $scope.showCancelButton=false;
 
 	$scope.ok = function(){  
 		ineuronApp.clickok=true;

@@ -2,9 +2,13 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="UserListController as userList">
-	<!-- 
-	<form class="form-inline" ng-submit="userList.addUser($index)">
-	 -->
+	<div class="right-align">
+		<button class="custombutton" style="float:right;background-color:#88bdea;border-color:#88bdea;width:200px;"
+			ng-click="userList.createUser()">
+			<span class="glyphicon glyphicon-new"
+				style="font-weight:bold;color: rgb(255, 140, 60);"></span> 新增用户
+		</button>
+	</div>
 	 <div>
 	<table datatable="ng" dt-options="userList.dtOptions"
 		dt-column-defs="userList.dtColumnDefs" class="row-border hover" id="table-style">

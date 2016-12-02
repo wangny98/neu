@@ -10,6 +10,7 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.repository.ProductRepository;
+import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
 import com.ineuron.domain.user.valueobject.Operation;
 
@@ -34,8 +35,8 @@ public class ProductService {
 		return productList;
 	}
 
-	public List<Process> getProcessList(Integer productId) throws RepositoryException {
-		List<Process> processes = productRepository.getProcessList(productId);
+	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {
+		List<ManufacturingProcess> processes = productRepository.getProcessList(productId);
 		return processes;
 	}
 
@@ -47,6 +48,13 @@ public class ProductService {
 	public List<Material> getMaterials() throws RepositoryException {
 		List<Material> materialList = productRepository.getMaterialList();
 		return materialList;
+	}
+
+	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
+		
+		productRepository.saveProcesses(processes);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

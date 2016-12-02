@@ -7,6 +7,7 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.service.ProductService;
+import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
 import com.ineuron.domain.user.service.SecurityService;
 import com.ineuron.domain.user.valueobject.Operation;
@@ -97,9 +98,34 @@ public class ProductResource {
 		INeuronResponse response = new INeuronResponse();
 		try {
 			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
-			List<Process> processes = productService.getProcessList(id);
+			List<ManufacturingProcess> processes = productService.getProcessList(id);
 			response.setSuccess(true);
 			response.setValue(processes);
+			response.setApiToken(newApiToken);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (INeuronException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		}
+		return response;
+
+	}
+	
+	@Path("/saveprocesses")
+	@POST
+	@Timed
+	public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
+		
+		INeuronResponse response = new INeuronResponse();
+		try {
+			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
+			productService.saveProcesses(processes);
+			response.setSuccess(true);
 			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);

@@ -18,9 +18,18 @@
     update products p set p.productname = #{productname}, p.productcode = #{productcode}, p.description=#{description} where id = #{id}
   </update>
   
-  <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.Process">
+  <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
     select * from productManufacturingProcess where productId = #{productId}
   </select>
+  
+  <delete id="deleteProcesses" >
+    delete from productManufacturingProcess where productId = #{productId}
+  </delete>
+  
+  <insert id="insertProcess">
+      insert into productManufacturingProcess (productId,orderId,operationId,materialId,materialQuantity,equipmentId) 
+      values (#{productId},#{orderId},#{operationId},#{materialId},#{materialQuantity},#{equipmentId})     
+  </insert>
   
   <select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
     select * from operations

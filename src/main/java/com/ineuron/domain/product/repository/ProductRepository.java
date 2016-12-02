@@ -4,6 +4,7 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.product.entity.*;
+import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
 import com.ineuron.domain.user.valueobject.Operation;
 
@@ -59,10 +60,10 @@ public class ProductRepository {
 	}
 
 
-	public List<Process> getProcessList(Integer productId) throws RepositoryException {
+	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			List<Process> processes = session.selectList("getProcesses", productId);
+			List<ManufacturingProcess> processes = session.selectList("getProcesses", productId);
 			return processes;
 		} finally {
 			session.close();
@@ -85,6 +86,25 @@ public class ProductRepository {
 		try {
 			List<Material> materials = session.selectList("getMaterials");
 			return materials;
+		} finally {
+			session.close();
+		}
+	}
+
+
+	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			if(processes != null && processes.size() > 0){
+				session.delete("deleteProcesses", processes.get(0).getProductId());
+				for(int i = 0; i < processes.size(); i ++){
+					ManufacturingProcess process = processes.get(i);
+					process.setOrderId(i);
+					session.insert("insertProcess", process);
+				}
+				session.commit();
+			}
+			
 		} finally {
 			session.close();
 		}

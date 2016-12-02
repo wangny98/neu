@@ -1,6 +1,6 @@
 package com.ineuron.domain.product.valueobject;
 
-public class Process {
+public class ManufacturingProcess {
 	
 	private Integer stepId;
 	private Integer productId;

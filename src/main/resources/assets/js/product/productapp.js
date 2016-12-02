@@ -154,6 +154,8 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 			
 			$scope.addRow = addRow;
 			$scope.removeRow = removeRow;
+			$scope.saveProcesses = saveProcesses;
+			
 			function addRow() {
 				var newProcess = clone(emptyProcess);
 
@@ -164,5 +166,25 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 			function removeRow(index) {
 				$scope.model.rows.splice(index, 1);
 			};
+			
+			function saveProcesses(){
+				//alert(JSON.stringify($scope.model.rows));
+				$http({
+					url : '/product/saveprocesses',
+					method : 'POST',
+					data : $scope.model.rows
+				}).success(function(data) {
+					validateApiToken(data, $cookies);
+					if(data.success == true){
+						alert("保存成功！");
+					}
+					else{
+						alert("保存失败！");
+					}
+				}).error(function(data) {
+					alert("保存失败！");
+					console.log("error");
+				})
+			}
 
 		} ]);

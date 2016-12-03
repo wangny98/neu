@@ -226,10 +226,12 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 		'$location',
 		'$cookies',
 		'$state',
+		'$rootScope', 
+		'$modal',
 		'DTOptionsBuilder',
 		'DTColumnDefBuilder',
-		function($http, $stateParams, $scope, $location, $cookies, $state, DTOptionsBuilder,
-				DTColumnDefBuilder) {
+		function($http, $stateParams, $scope, $location, $cookies, $state, $rootScope, $modal,
+				DTOptionsBuilder, DTColumnDefBuilder) {
 			var vm = this;
 
 			var productStr = $stateParams.productStr;
@@ -331,13 +333,13 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				}).success(function(data) {
 					validateApiToken(data, $cookies);
 					if(data.success == true){
-						alert("保存成功！");
+						ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
 					}
 					else{
-						alert("保存失败！");
+						ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
 					}
 				}).error(function(data) {
-					alert("保存失败！");
+					ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
 					console.log("error");
 				})
 			}

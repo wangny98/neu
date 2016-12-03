@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<div ng-controller="ProductAttributesController as productAttributes">
+	<div class="message">产品属性</div>
+	<form class="form-attribute" name="attributes">
+	<div>
+		<table id="table-style">
+			<tbody>
+				<tr>
+					<th>产品名</th>
+					<td>{{productAttributes.product.productname}}</td>
+				</tr>
+				<tr>
+					<th>产品编码</th>
+					<td>{{productAttributes.product.productcode}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<hr class="hr15">
+	
+	<table datatable="ng" dt-options="productAttributes.dtOptions"
+		dt-column-defs="productAttributes.dtColumnDefs" class="row-border hover" id="table-style">
+		<thead>
+			<tr>
+				<th>产品属性</th>
+				<th style="width:100px">编辑</th>
+			</tr>
+			<tr>
+			<td><label>
+                <input type="text" ng-model="productAttributes.newAttribute" value="">
+                </label>
+             </td>
+            <td><button type="button" ng-click="productAttributes.addAttribute()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            </td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="attribute in productAttributes.attributes">
+			   <td><input class="editableinput" type="text" ng-model="attribute.attribute" required /></td>
+				<td>
+					<button type="button"
+						ng-click="productAttributes.updateAttribute($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button type="button"
+						ng-click="productAttributes.deleteAttribute($index)"
+						class="btn btn-danger">
+						<i class="fa fa-times"></i>
+					</button>					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	</form>
+</div>

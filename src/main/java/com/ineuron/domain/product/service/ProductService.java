@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
+import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
@@ -29,10 +30,32 @@ public class ProductService {
 		product.updateProduct(productRepository);
 	}
 	
-	public List<Product> getProductList() throws RepositoryException, INeuronException{
+	public void deleteProduct(Product product) throws RepositoryException {
+		product.deleteProduct(productRepository);
+	}
+	
+	public List<Product> getProductList() throws RepositoryException{
 		
 		List<Product> productList = productRepository.getProductList();
 		return productList;
+	}
+	
+	public void createAttribute(Attribute attribute) throws RepositoryException {
+		attribute.addAttribute(productRepository);
+	}
+	
+	public void updateAttribute(Attribute attribute) throws RepositoryException {
+		attribute.updateAttribute(productRepository);
+	}
+	
+	public void deleteAttribute(Attribute attribute) throws RepositoryException {
+		attribute.deleteAttibute(productRepository);
+	}
+
+	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException{
+		
+		List<Attribute> attributeList = productRepository.getAttributeList(productid);
+		return attributeList;
 	}
 
 	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {

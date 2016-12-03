@@ -92,8 +92,7 @@ public class UserRepository {
 
 	}
 
-	public User getUserByUsername(String username) throws RepositoryException,
-			INeuronException {
+	public User getUserByUsername(String username) throws RepositoryException {
 
 		User foundUser;
 

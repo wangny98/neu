@@ -1,11 +1,21 @@
 package com.ineuron.api;
 
+import javax.ws.rs.core.HttpHeaders;
+
+import com.ineuron.domain.user.service.SecurityService;
+
 public class INeuronResponse {
 	
 	boolean success = false;
 	String message;
 	String apiToken;
 	Object value;
+	
+	public INeuronResponse(){}
+	
+	public INeuronResponse(SecurityService securityService, HttpHeaders httpHeader, boolean isDebug){
+		apiToken = securityService.validateAndUpdateApiToken(httpHeader, isDebug);
+	}
 	
 	public boolean isSuccess() {
 		return success;

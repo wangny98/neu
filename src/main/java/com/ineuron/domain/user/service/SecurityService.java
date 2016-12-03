@@ -32,7 +32,7 @@ public class SecurityService {
 	/**
 	 * this method is used to support debug mode, and skip the apiToken validation 
 	 */
-	public String validateAndUpdateApiToken(HttpHeaders httpHeader, Boolean debug) throws Exception {
+	public String validateAndUpdateApiToken(HttpHeaders httpHeader, Boolean debug) {
 		
 		String newApiToken = validateAndUpdateApiToken(httpHeader);
 		LOGGER.info("environment = " + environment + "; debug = " + debug); 

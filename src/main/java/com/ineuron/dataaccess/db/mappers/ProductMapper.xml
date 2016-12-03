@@ -18,6 +18,27 @@
     update products p set p.productname = #{productname}, p.productcode = #{productcode}, p.description=#{description} where id = #{id}
   </update>
   
+  <update id="deleteProduct">
+    delete from products where productname = #{productname}
+  </update>
+  
+  <insert id="addAttribute">
+    insert into productattributes (productid,attribute) 
+	values(#{productid},#{attribute})
+  </insert>
+  
+  <update id="updateAttribute">
+    update productattributes a set a.attribute = #{attribute} where id = #{id}
+  </update>
+  
+   <delete id="deleteAttribute">
+    delete from productattributes where id = #{id}
+  </delete>
+  
+  <select id="getAttributesByProductID" resultType="com.ineuron.domain.product.valueobject.Attribute">
+    select * from productattributes where productid=#{productid}
+  </select>
+  
   <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
     select * from productManufacturingProcess where productId = #{productId}
   </select>

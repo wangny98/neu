@@ -3,7 +3,6 @@ package com.ineuron.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
-import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.Attribute;
@@ -48,13 +47,12 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse createProduct(final Product product, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.createProduct(product);
-			response.setSuccess(true);
 			response.setValue(product);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -70,13 +68,11 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse deleteProduct(final Product product, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.deleteProduct(product);
 			response.setSuccess(true);
-			response.setValue(null);
-			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -92,13 +88,12 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse updateProduct(final Product product, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.updateProduct(product);
-			response.setSuccess(true);
 			response.setValue(product);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -115,13 +110,12 @@ public class ProductResource {
 	@GET
 	@Timed
 	public INeuronResponse productList( @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);			
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			List<Product> products = productService.getProductList();
-			response.setSuccess(true);
 			response.setValue(products);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -136,13 +130,12 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse attributeList(final Integer productid, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			List<Attribute> attributes =productService.getAttributeList(productid);
-			response.setSuccess(true);
 			response.setValue(attributes);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -158,13 +151,12 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse createAttribute(final Attribute attribute, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.createAttribute(attribute);
-			response.setSuccess(true);
 			response.setValue(attribute);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -180,13 +172,12 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse updateAttribute(final Attribute attribute, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.updateAttribute(attribute);
-			response.setSuccess(true);
 			response.setValue(attribute);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -202,13 +193,11 @@ public class ProductResource {
 	@POST
 	@Timed
 	public INeuronResponse deleteAttribute(final Attribute attribute, @Context HttpHeaders httpHeader) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.deleteAttribute(attribute);
 			response.setSuccess(true);
-			response.setValue(null);
-			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -224,18 +213,13 @@ public class ProductResource {
 	@GET
 	@Timed
 	public INeuronResponse manufacturing(@QueryParam("id") Integer id, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
-		System.out.println("productId = " + id);
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			List<ManufacturingProcess> processes = productService.getProcessList(id);
-			response.setSuccess(true);
 			response.setValue(processes);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -251,16 +235,12 @@ public class ProductResource {
 	@Timed
 	public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
 		
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			productService.saveProcesses(processes);
 			response.setSuccess(true);
-			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -276,17 +256,13 @@ public class ProductResource {
 	@GET
 	@Timed
 	public INeuronResponse operations(@Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			List<Operation> operations = productService.getOperations();
-			response.setSuccess(true);
 			response.setValue(operations);
-			response.setApiToken(newApiToken);
+			response.setSuccess(true);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -296,23 +272,18 @@ public class ProductResource {
 		return response;
 	}
 	
-
 	
 	@Path("/materials")
 	@GET
 	@Timed
 	public INeuronResponse materials(@Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
-		INeuronResponse response = new INeuronResponse();
+		INeuronResponse response = null;
 		try {
-			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
-			List<Material> processes = productService.getMaterials();
+			response = new INeuronResponse(securityService, httpHeader, false); 
+			List<Material> materials = productService.getMaterials();
+			response.setValue(materials);
 			response.setSuccess(true);
-			response.setValue(processes);
-			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -320,7 +291,6 @@ public class ProductResource {
 			response.setMessage(e.getMessage());
 		}
 		return response;
-
 	}
 	
 }

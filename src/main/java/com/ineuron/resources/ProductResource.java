@@ -50,6 +50,7 @@ public class ProductResource {
 	public INeuronResponse createProduct(final Product product, @Context HttpHeaders httpHeader) {
 		INeuronResponse response = new INeuronResponse();
 		try {
+			response = new INeuronResponse(securityService, httpHeader, false); 
 			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader);	
 			productService.createProduct(product);
 			response.setSuccess(true);
@@ -224,7 +225,6 @@ public class ProductResource {
 	@GET
 	@Timed
 	public INeuronResponse manufacturing(@QueryParam("id") Integer id, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
-		System.out.println("productId = " + id);
 		INeuronResponse response = new INeuronResponse();
 		try {
 			String newApiToken = securityService.validateAndUpdateApiToken(httpHeader, debug);			
@@ -233,9 +233,6 @@ public class ProductResource {
 			response.setValue(processes);
 			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -258,9 +255,6 @@ public class ProductResource {
 			response.setSuccess(true);
 			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {
@@ -286,9 +280,6 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
@@ -310,9 +301,6 @@ public class ProductResource {
 			response.setValue(processes);
 			response.setApiToken(newApiToken);
 		} catch (RepositoryException e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
-		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		} catch (Exception e) {

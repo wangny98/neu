@@ -49,11 +49,11 @@ public class SecurityService {
 		Cookie apiTokenCookie = cookies.get("INeuron-ApiToken");
 		Cookie usernameCookie = cookies.get("INeuron-UserName");
 		
-		String apiToken = apiTokenCookie.getValue();
-		apiToken = UriEncoder.decode(apiToken);
-		String username = usernameCookie.getValue();
 		String newApiToken = null;
 		try {
+			String apiToken = apiTokenCookie.getValue();
+			apiToken = UriEncoder.decode(apiToken);
+			String username = usernameCookie.getValue();
 			newApiToken = validateAndUpdateApiToken(apiToken, username);
 		} catch (Exception e) {
 			LOGGER.error("Failed to validate And Update ApiToken: " + e.getMessage());

@@ -31,12 +31,33 @@
     update productattributes a set a.attribute = #{attribute} where id = #{id}
   </update>
   
-   <update id="deleteAttribute">
+   <delete id="deleteAttribute">
     delete from productattributes where id = #{id}
-  </update>
+  </delete>
   
   <select id="getAttributesByProductID" resultType="com.ineuron.domain.product.valueobject.Attribute">
     select * from productattributes where productid=#{productid}
+  </select>
+  
+  <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
+    select * from productManufacturingProcess where productId = #{productId}
+  </select>
+  
+  <delete id="deleteProcesses" >
+    delete from productManufacturingProcess where productId = #{productId}
+  </delete>
+  
+  <insert id="insertProcess">
+      insert into productManufacturingProcess (productId,orderId,operationId,materialId,materialQuantity,equipmentId) 
+      values (#{productId},#{orderId},#{operationId},#{materialId},#{materialQuantity},#{equipmentId})     
+  </insert>
+  
+  <select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
+    select * from operations
+  </select>
+  
+  <select id="getMaterials" resultType="com.ineuron.domain.product.valueobject.Material">
+    select * from materials
   </select>
   
 </mapper>

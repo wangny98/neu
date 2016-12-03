@@ -11,6 +11,9 @@ import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.repository.ProductRepository;
+import com.ineuron.domain.product.valueobject.ManufacturingProcess;
+import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.user.valueobject.Operation;
 
 public class ProductService {
 
@@ -31,13 +34,13 @@ public class ProductService {
 		product.deleteProduct(productRepository);
 	}
 	
-	public List<Product> getProductList() throws RepositoryException, INeuronException{
+	public List<Product> getProductList() throws RepositoryException{
 		
 		List<Product> productList = productRepository.getProductList();
 		return productList;
 	}
 	
-	public void createAttribute(Attribute attribute) throws RepositoryException, INeuronException {
+	public void createAttribute(Attribute attribute) throws RepositoryException {
 		attribute.addAttribute(productRepository);
 	}
 	
@@ -49,10 +52,32 @@ public class ProductService {
 		attribute.deleteAttibute(productRepository);
 	}
 
-	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException, INeuronException{
+	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException{
 		
 		List<Attribute> attributeList = productRepository.getAttributeList(productid);
 		return attributeList;
+	}
+
+	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {
+		List<ManufacturingProcess> processes = productRepository.getProcessList(productId);
+		return processes;
+	}
+
+	public List<Operation> getOperations() throws RepositoryException {
+		List<Operation> operationList = productRepository.getOperationList();
+		return operationList;
+	}
+	
+	public List<Material> getMaterials() throws RepositoryException {
+		List<Material> materialList = productRepository.getMaterialList();
+		return materialList;
+	}
+
+	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
+		
+		productRepository.saveProcesses(processes);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

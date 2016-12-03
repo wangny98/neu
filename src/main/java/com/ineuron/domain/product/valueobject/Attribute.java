@@ -19,7 +19,7 @@ public class Attribute {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Attribute.class);
 
-	public void addAttribute(ProductRepository productRepository) throws RepositoryException, INeuronException {
+	public void addAttribute(ProductRepository productRepository) throws RepositoryException {
 		productRepository.addAttribute(this);
 		
 	}

@@ -1,6 +1,6 @@
 //define the package as ineuronApp
 var ineuronApp = angular.module('ineuronApp', [ 'ui.router', 'ngCookies',
-		'datatables', 'isteven-multi-select','ui.bootstrap' ]);
+		'datatables', 'isteven-multi-select','ui.bootstrap','ui.sortable' ]);
 
 ineuronApp.config(function($stateProvider) {
 
@@ -75,7 +75,7 @@ ineuronApp.config(function($stateProvider) {
 	
 	var productManufacturingProcess = {
 			name : 'productManufacturingProcess',
-			url : 'productManufacturingProcess',
+			url : 'productManufacturingProcess/:productStr',
 			templateUrl : '/ineuron/product/manufacturingprocess.html',
 			controller : 'ProductManufacturingProcessController'
 		}

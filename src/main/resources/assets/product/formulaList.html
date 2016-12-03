@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<div ng-controller="FormulaListController as formulaList">
+
+	<div>
+		<table datatable="ng" dt-options="formulaList.dtOptions"
+			dt-column-defs="formulaList.dtColumnDefs" class="row-border hover"
+			id="table-style">
+			<thead>
+				<tr>
+					<th>配方名称</th>
+					<th>描述</th>
+					<th style="width: 100px">修改</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="formula in formulaList.formulas">
+					<td><input class="editableinput" type="text"
+						ng-model="formula.name" required /></td>
+					<td><textarea style="resize: none; min-width: 200px"
+							class="editableinput" type="text" ng-model="formula.description" /></td>
+					<td>
+						<button type="button" ng-click="formulaList.updateFormula($index)"
+							class="btn btn-warning">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

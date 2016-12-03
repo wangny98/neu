@@ -2,6 +2,7 @@ package com.ineuron.api;
 
 import javax.ws.rs.core.HttpHeaders;
 
+import com.ineuron.common.exception.InvalidAPITokenException;
 import com.ineuron.domain.user.service.SecurityService;
 
 public class INeuronResponse {
@@ -13,8 +14,11 @@ public class INeuronResponse {
 	
 	public INeuronResponse(){}
 	
-	public INeuronResponse(SecurityService securityService, HttpHeaders httpHeader, boolean isDebug){
+	public INeuronResponse(SecurityService securityService, HttpHeaders httpHeader, boolean isDebug) throws InvalidAPITokenException{
 		apiToken = securityService.validateAndUpdateApiToken(httpHeader, isDebug);
+		if(apiToken == null){
+			throw new InvalidAPITokenException("Failed to validate And Update ApiToken!", null);
+		}
 	}
 	
 	public boolean isSuccess() {

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.ineuron.common.exception.INeuronException;
 import com.ineuron.domain.user.util.DesUtil;
 
 public class SecurityService {
@@ -94,9 +95,13 @@ public class SecurityService {
 
 	}
 	
-	public String createApiToken(String username) throws Exception{	
+	public String createApiToken(String username) throws INeuronException {	
 		Long now = new Date().getTime();
-		return DesUtil.encrypt(username + seperatorForUsernameAndTime + now);
+		try {
+			return DesUtil.encrypt(username + seperatorForUsernameAndTime + now);
+		} catch (Exception e) {
+			throw new INeuronException("Failed to create API Token!", e);
+		}
 	}
 
 }

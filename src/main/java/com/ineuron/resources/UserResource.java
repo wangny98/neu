@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.INeuronException;
+import com.ineuron.common.exception.InvalidAPITokenException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.user.entity.User;
 import com.ineuron.domain.user.service.SecurityService;
@@ -53,8 +54,7 @@ public class UserResource {
 			}
 			LOGGER.info("user/validateloginstatus newApiToken=" + response.getApiToken());
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			response.setMessage(e.getMessage());
+			response = new INeuronResponse();
 		}
 		return response;
 	}
@@ -77,8 +77,8 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		} catch (INeuronException e) {
+			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -116,10 +116,11 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
-		}
+		} 
 		return response;
 	}
 	
@@ -137,8 +138,9 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -159,8 +161,12 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -182,9 +188,13 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-		} catch (Exception e) {
+		} catch (INeuronException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
 		}
 		return response;
 	}
@@ -206,6 +216,9 @@ public class UserResource {
 			response.setMessage(e.getMessage());
 		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -229,6 +242,10 @@ public class UserResource {
 		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
 		}
 		return response;
 
@@ -247,8 +264,12 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		} 
 		return response;
@@ -268,8 +289,12 @@ public class UserResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (INeuronException e) {
 			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;

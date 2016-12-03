@@ -3,11 +3,13 @@ package com.ineuron.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
+import com.ineuron.common.exception.InvalidAPITokenException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 import com.ineuron.domain.product.service.ProductService;
 import com.ineuron.domain.user.service.SecurityService;
@@ -56,8 +58,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -76,8 +79,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -97,8 +101,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -119,8 +124,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -139,8 +145,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -160,8 +167,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -181,8 +189,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -201,8 +210,9 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -212,18 +222,19 @@ public class ProductResource {
 	@Path("/manufacturing")
 	@GET
 	@Timed
-	public INeuronResponse manufacturing(@QueryParam("id") Integer id, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
+	public INeuronResponse manufacturing(@QueryParam("id") Integer id, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 		INeuronResponse response = null;
 		try {
-			response = new INeuronResponse(securityService, httpHeader, false); 
+			response = new INeuronResponse(securityService, httpHeader, debug); 
 			List<ManufacturingProcess> processes = productService.getProcessList(id);
 			response.setValue(processes);
 			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -233,18 +244,19 @@ public class ProductResource {
 	@Path("/saveprocesses")
 	@POST
 	@Timed
-	public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
+	public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 		
 		INeuronResponse response = null;
 		try {
-			response = new INeuronResponse(securityService, httpHeader, false); 
+			response = new INeuronResponse(securityService, httpHeader, debug); 
 			productService.saveProcesses(processes);
 			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -255,18 +267,19 @@ public class ProductResource {
 	@Path("/operations")
 	@GET
 	@Timed
-	public INeuronResponse operations(@Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
+	public INeuronResponse operations(@Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 		INeuronResponse response = null;
 		try {
-			response = new INeuronResponse(securityService, httpHeader, false); 
+			response = new INeuronResponse(securityService, httpHeader, debug); 
 			List<Operation> operations = productService.getOperations();
 			response.setValue(operations);
 			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;
@@ -276,7 +289,7 @@ public class ProductResource {
 	@Path("/materials")
 	@GET
 	@Timed
-	public INeuronResponse materials(@Context HttpHeaders httpHeader, @QueryParam("debug") Boolean debug) {
+	public INeuronResponse materials(@Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 		INeuronResponse response = null;
 		try {
 			response = new INeuronResponse(securityService, httpHeader, false); 
@@ -286,8 +299,30 @@ public class ProductResource {
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);
 			response.setMessage(e.getMessage());
-		} catch (Exception e) {
+		} catch (InvalidAPITokenException e) {
 			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
+	@Path("/formulas")
+	@GET
+	@Timed
+	public INeuronResponse formulas(@Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+		INeuronResponse response = null;
+		try {
+			response = new INeuronResponse(securityService, httpHeader, debug); 
+			List<ProductFormula> formulas = productService.getFormulas();
+			response.setValue(formulas);
+			response.setSuccess(true);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
 			response.setMessage(e.getMessage());
 		}
 		return response;

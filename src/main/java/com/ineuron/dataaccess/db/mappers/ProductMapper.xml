@@ -60,4 +60,9 @@
     select * from materials
   </select>
   
+  <select id="getFormulas" resultType="com.ineuron.domain.product.valueobject.ProductFormula">
+    select * from productFormulas
+  </select>
+  
+  
 </mapper>

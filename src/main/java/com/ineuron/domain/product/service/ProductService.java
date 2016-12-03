@@ -13,6 +13,7 @@ import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 
 public class ProductService {
@@ -72,11 +73,15 @@ public class ProductService {
 		List<Material> materialList = productRepository.getMaterialList();
 		return materialList;
 	}
+	
+	public List<ProductFormula> getFormulas() throws RepositoryException {
+		List<ProductFormula> formulaList = productRepository.getFormulaList();
+		return formulaList;
+	}
 
 	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
 		
 		productRepository.saveProcesses(processes);
-		// TODO Auto-generated method stub
 		
 	}
 

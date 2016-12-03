@@ -7,6 +7,7 @@ import com.ineuron.domain.product.entity.*;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
+import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 
 import java.util.List;
@@ -149,6 +150,16 @@ public class ProductRepository {
 		try {
 			List<Material> materials = session.selectList("getMaterials");
 			return materials;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<ProductFormula> getFormulaList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<ProductFormula> formulas = session.selectList("getFormulas");
+			return formulas;
 		} finally {
 			session.close();
 		}

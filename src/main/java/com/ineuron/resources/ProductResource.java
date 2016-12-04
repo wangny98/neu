@@ -5,11 +5,12 @@ import com.google.inject.Inject;
 import com.ineuron.api.INeuronResponse;
 import com.ineuron.common.exception.InvalidAPITokenException;
 import com.ineuron.common.exception.RepositoryException;
+import com.ineuron.domain.product.entity.Formula;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.Attribute;
+import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 import com.ineuron.domain.product.service.ProductService;
 import com.ineuron.domain.user.service.SecurityService;
@@ -314,8 +315,71 @@ public class ProductResource {
 		INeuronResponse response = null;
 		try {
 			response = new INeuronResponse(securityService, httpHeader, debug); 
-			List<ProductFormula> formulas = productService.getFormulas();
+			List<Formula> formulas = productService.getFormulas();
 			response.setValue(formulas);
+			response.setSuccess(true);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
+	@Path("/formulamaterials")
+	@GET
+	@Timed
+	public INeuronResponse formulaMaterials(@QueryParam("id") int formulaId, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+		INeuronResponse response = null;
+		try {
+			response = new INeuronResponse(securityService, httpHeader, debug); 
+			List<FormulaMaterial> materials = productService.getFormulaMaterials(formulaId);
+			response.setValue(materials);
+			response.setSuccess(true);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
+	@Path("/createformula")
+	@POST
+	@Timed
+	public INeuronResponse createFormula(final Formula formula, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+		
+		INeuronResponse response = null;
+		try {
+			response = new INeuronResponse(securityService, httpHeader, debug); 
+			productService.addFormula(formula);
+			response.setSuccess(true);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
+	@Path("/updateformula")
+	@POST
+	@Timed
+	public INeuronResponse updateFormula(final Formula formula, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+		LOGGER.info("updateformula:" + formula);
+		INeuronResponse response = null;
+		try {
+			response = new INeuronResponse(securityService, httpHeader, debug); 
+			productService.updateFormula(formula);
 			response.setSuccess(true);
 		} catch (RepositoryException e) {
 			LOGGER.error(e.getMessage(), e);

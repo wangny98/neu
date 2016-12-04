@@ -5,9 +5,9 @@ import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
 import com.ineuron.domain.product.entity.*;
 import com.ineuron.domain.product.valueobject.Attribute;
+import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 
 import java.util.List;
@@ -155,10 +155,10 @@ public class ProductRepository {
 		}
 	}
 	
-	public List<ProductFormula> getFormulaList() throws RepositoryException {
+	public List<Formula> getFormulaList() throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			List<ProductFormula> formulas = session.selectList("getFormulas");
+			List<Formula> formulas = session.selectList("getFormulas");
 			return formulas;
 		} finally {
 			session.close();
@@ -182,5 +182,64 @@ public class ProductRepository {
 		} finally {
 			session.close();
 		}
+	}
+
+
+	public void addFormula(Formula formula)  throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		
+		try{
+			if(formula != null){
+				session.update("addFormula", formula);
+				List<FormulaMaterial> materials = formula.getMaterials();
+				if(materials != null && materials.size() > 0){
+					for(FormulaMaterial material : materials){
+						session.insert("addFormulaMaterial", material);
+					}
+				}
+				session.commit();
+			}
+			
+		} finally {
+			session.close();
+		}
+		
+	}
+
+
+	public void updateFormula(Formula formula) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		
+		try{
+			if(formula != null){
+				session.update("updateFormula", formula);
+				session.delete("deleteFormulaMaterial", formula);
+				List<FormulaMaterial> materials = formula.getMaterials();
+				if(materials != null && materials.size() > 0){
+					for(FormulaMaterial material : materials){
+						session.insert("addFormulaMaterial", material);
+					}
+				}
+				session.commit();
+			}
+			
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql!", e);
+		} finally {
+			session.close();
+		}
+		
+	}
+
+
+	public List<FormulaMaterial> getFormulaMaterialList(Formula formula) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<FormulaMaterial> formulaMaterials = session.selectList("getFormulaMaterials", formula);
+			return formulaMaterials;
+		} finally {
+			session.close();
+		}
+		
 	}
 }

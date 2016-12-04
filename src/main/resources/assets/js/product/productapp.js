@@ -369,10 +369,139 @@ ineuronApp.controller('FormulaListController', ['$http', '$scope', '$rootScope',
 			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
 	
 	vm.updateFormula=updateFormula;
-	function updateFormula($index){
-		alert(vm.formulas[index]);
-		//$state.go("productManufacturingProcess", {productStr: JSON.stringify(vm.products[index])});
+	function updateFormula(index){
+		$state.go("formulaEdit", {formulaStr: JSON.stringify(vm.formulas[index])});
 	}
 	
 }]);
+
+ineuronApp.controller('FormulaEditController', [
+	'$http',
+	'$stateParams',
+	'$scope',
+	'$location',
+	'$cookies',
+	'$state',
+	'$rootScope', 
+	'$modal',
+	'DTOptionsBuilder',
+	'DTColumnDefBuilder',
+	function($http, $stateParams, $scope, $location, $cookies, $state, $rootScope, $modal,
+			DTOptionsBuilder, DTColumnDefBuilder) {
+		var vm = this;
+		$scope.formula = {};
+		
+		var formulaStr = $stateParams.formulaStr;
+		var selectedFormula = eval('(' + formulaStr + ')');
+		$scope.formula.id = selectedFormula.id;
+		$scope.formula.name = selectedFormula.name;
+		$scope.formula.description = selectedFormula.description;
+		var formulaId = selectedFormula.id;
+		$http({
+			url : '/product/formulamaterials?id=' + formulaId,
+			method : 'GET'
+		}).success(function(data) {
+			validateApiToken(data, $cookies);
+			$scope.formula.materials = data.value;
+			$scope.formula.selected = {};
+		}).error(function(data) {
+			alert('error');
+			console.log("error");
+		});
+
+		$http({
+			url : '/product/materials',
+			method : 'GET'
+		}).success(function(data) {
+			//alert(JSON.stringify(data));
+			validateApiToken(data, $cookies);
+			$scope.materials = data.value;
+		}).error(function(data) {
+			alert('error');
+			console.log("error");
+		});
+
+		// gets the template to ng-include for a table row / item
+		$scope.getTemplate = function(row) {
+			if (row === $scope.formula.selected)
+				return 'edit';
+			else
+				return 'display';
+		};
+
+		$scope.editContact = function(index) {
+			$scope.formula.selected = $scope.formula.materials[index];
+		};
+
+		$scope.saveContact = function(index) {
+			console.log("Saving contact");
+			$scope.formula.materials[index] = angular.copy($scope.formula.selected);
+			$scope.reset();
+		};
+
+		$scope.reset = function() {
+			$scope.formula.selected = {};
+		};
+
+		var emptyFormulaMaterial = {
+				"id" : 0,
+				"formulaId" : formulaId,
+				"materialId" : 0,
+				"materialQuantity" : 0
+			};
+		
+		$scope.addRow = addRow;
+		$scope.removeRow = removeRow;
+		$scope.updateFormula = updateFormula;
+		
+		function addRow() {
+			var newMaterial = clone(emptyFormulaMaterial);
+
+			$scope.formula.materials.push(newMaterial);
+			$scope.formula.selected = newMaterial;
+		};
+
+		function removeRow(index) {
+			$scope.formula.materials.splice(index, 1);
+		};
+		
+		function updateFormula(){
+			var formula = getFormula();
+			$http({
+				url : '/product/updateformula',
+				method : 'POST',
+				data : formula
+			}).success(function(data) {
+				validateApiToken(data, $cookies);
+				if(data.success == true){
+					ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
+				}
+				else{
+					ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
+				}
+			}).error(function(data) {
+				ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
+				console.log("error");
+			})
+		}
+		
+		function getFormula(){
+			var formula = {};
+			formula.id = $scope.formula.id;
+			formula.name = $scope.formula.name;
+			formula.description = $scope.formula.description;
+			formula.materials = [];
+			for(var index in  $scope.formula.materials){
+				var newMaterial = {};
+				newMaterial.formulaId = $scope.formula.materials[index].formulaId;
+				newMaterial.materialId = $scope.formula.materials[index].materialId;
+				newMaterial.materialQuantity = $scope.formula.materials[index].materialQuantity;
+				formula.materials.push(newMaterial);
+			}
+			
+			return formula;
+			
+		}
+
+	} ]);
 

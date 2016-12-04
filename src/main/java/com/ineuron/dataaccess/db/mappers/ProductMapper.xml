@@ -60,9 +60,30 @@
     select * from materials
   </select>
   
-  <select id="getFormulas" resultType="com.ineuron.domain.product.valueobject.ProductFormula">
+  <select id="getFormulas" resultType="com.ineuron.domain.product.entity.Formula">
     select * from productFormulas
   </select>
   
+  <insert id="addFormula">
+    insert into productFormulas (name,description) 
+	values(#{name},#{description})
+  </insert>
+  
+  <update id="updateFormula">
+    update productFormulas set name=#{name},description=#{description} where id=#{id}
+  </update>
+  
+  <select id="getFormulaMaterials" resultType="com.ineuron.domain.product.valueobject.FormulaMaterial">
+    select * from productFormulaMaterials where formulaId = #{id}
+  </select>
+  
+  <insert id="addFormulaMaterial">
+    insert into productFormulaMaterials (formulaId,materialId,materialQuantity) 
+	values(#{formulaId},#{materialId},#{materialQuantity})
+  </insert>
+  
+  <delete id="deleteFormulaMaterial" >
+    delete from productFormulaMaterials where formulaId = #{id}
+  </delete>
   
 </mapper>

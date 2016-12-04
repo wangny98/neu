@@ -6,14 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
+import com.ineuron.domain.product.entity.Formula;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.Attribute;
+import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.product.valueobject.ProductFormula;
 import com.ineuron.domain.user.valueobject.Operation;
 
 public class ProductService {
@@ -74,8 +74,8 @@ public class ProductService {
 		return materialList;
 	}
 	
-	public List<ProductFormula> getFormulas() throws RepositoryException {
-		List<ProductFormula> formulaList = productRepository.getFormulaList();
+	public List<Formula> getFormulas() throws RepositoryException {
+		List<Formula> formulaList = productRepository.getFormulaList();
 		return formulaList;
 	}
 
@@ -83,6 +83,24 @@ public class ProductService {
 		
 		productRepository.saveProcesses(processes);
 		
+	}
+
+	public void addFormula(Formula formula) throws RepositoryException {
+		formula.addFormula(productRepository);
+		
+	}
+
+	public void updateFormula(Formula formula) throws RepositoryException {
+		formula.updateFormula(productRepository);
+		
+	}
+
+	public List<FormulaMaterial> getFormulaMaterials(int formulaId) throws RepositoryException {
+		
+		Formula formula = new Formula();
+		formula.setId(formulaId);
+		
+		return formula.getMaterials(productRepository);
 	}
 
 }

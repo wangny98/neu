@@ -16,42 +16,87 @@
 
 </head>
 
-<div ng-controller="ProductCreateController as productCreate">
+<div ng-controller="FormulaEditController as formulaEdit">
 	<div class="message">产品配方</div>
-
 	<div class="template">
-		<hr class="hr20">
-		<hr class="hr20">
-		<form class="form-product" name="createProduct">
+		<form class="form-product" name="editFormula">
 			<table class="functionarea">
 				<tbody>
 					<tr>
-						<th class="labelformat">产品名：</th>
+						<th class="labelformat">配方名：</th>
 						<td><input class="input-block-level" type="text"
-							ng-model="productName" required></td>
-						<td></td>
-					</tr>
-					<tr>
-						<th class="labelformat">编码：</th>
-						<td><input class="input-block-level" type="text"
-							ng-model="productCode" required></td>
+							ng-model="formula.name" required></td>
 						<td></td>
 					</tr>
 					<tr>
 						<th class="labelformat">描述：</th>
 						<td><input class="input-block-level" type="text"
-							ng-model="productDescription"></td>
-							<td></td>
+							ng-model="formula.description"></td>
+						<td></td>
 					</tr>
-								<tr>
-									<td></td>
-									<td><button class="btn btn-large btn-primary"
-											ng-click="productCreate.createProduct()">
-											<span class="glyphicon glyphicon-upload"></span> 提交
-										</button></td>
-								</tr>
-								</tbody>
-							</table>
-							</form>
-			</div>
-</div> <!-- /container -->
+
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>物料</th>
+						<th>比例</th>
+					</tr>
+				</thead>
+				<tbody ui-sortable="sortableOptions" ng-model="formula.materials"
+					class="list">
+					<tr ng-repeat="row in formula.materials" ng-include="getTemplate(row)"
+						class="item" style="cursor: move;">
+					</tr>
+				</tbody>
+			</table>
+			<script type="text/ng-template" id="display">
+			  
+              <td>
+                <select disabled
+    				ng-model="row.materialId"
+    				ng-options="value.id as value.name for value in materials">
+				</select>
+              </td>
+			  <td>{{row.materialQuantity}}</td>
+			  <td>
+            	<button ng-click="editContact($index)">Edit</button>
+				<button ng-click="removeRow($index)">Remove</button>
+       		  </td>
+		</script>
+			<script type="text/ng-template" id="edit">
+              <td>
+                <select 
+    				ng-model="row.materialId"
+    				ng-options="value.id as value.name for value in materials">
+				</select>
+              </td>
+            <td><input type="text" ng-model="formula.selected.materialQuantity" /></td>
+        	<td>
+            	<button ng-click="saveContact($index)">Save</button>
+            	<button ng-click="reset()">Cancel</button>
+        	</td>
+    	</script>
+		</div>
+	</div>
+	<div class="right-align">
+		<button type="button" style="float: right" ng-click="addRow()"
+			class="custombutton">
+			<span class="glyphicon glyphicon-new"
+				style="font-weight: bold; color: rgb(255, 140, 60);"></span> 增加材料
+		</button>
+
+		<button type="button" style="float: right" ng-click="updateFormula()"
+			class="custombutton">
+			<span class="glyphicon glyphicon-update"
+				style="font-weight: bold; color: rgb(255, 140, 60);"></span> 保存配方
+		</button>
+
+	</div>
+</div>

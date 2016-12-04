@@ -345,3 +345,34 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 			}
 
 		} ]);
+
+ineuronApp.controller('FormulaListController', ['$http', '$scope', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+	var vm = this;
+	
+	$http({
+		url : '/product/formulas',
+		method : 'GET'
+	}).success(function(data) {
+		validateApiToken(data, $cookies);
+		vm.formulas = data.value;
+	}).error(function(data) {
+		alert('error');
+		console.log("error");
+	});
+
+	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
+			'full_numbers');
+	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
+			DTColumnDefBuilder.newColumnDef(1),
+			DTColumnDefBuilder.newColumnDef(2),
+			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
+	
+	vm.updateFormula=updateFormula;
+	function updateFormula($index){
+		alert(vm.formulas[index]);
+		//$state.go("productManufacturingProcess", {productStr: JSON.stringify(vm.products[index])});
+	}
+	
+}]);
+

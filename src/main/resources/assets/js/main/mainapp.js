@@ -73,11 +73,18 @@ ineuronApp.config(function($stateProvider) {
 			controller : 'ProductAttributesController'
 		}
 	
-	var productManufacturingProcess = {
+	var productManufacturingProcessState = {
 			name : 'productManufacturingProcess',
 			url : 'productManufacturingProcess/:productStr',
 			templateUrl : '/ineuron/product/manufacturingprocess.html',
 			controller : 'ProductManufacturingProcessController'
+		}
+	
+	var formulaManagementState = {
+			name : 'formulaList',
+			url : 'formulaList',
+			templateUrl : '/ineuron/product/formulaList.html',
+			controller : 'FormulaListController'
 		}
 
 	$stateProvider.state(userManagementState);
@@ -90,7 +97,8 @@ ineuronApp.config(function($stateProvider) {
 	$stateProvider.state(productManagementState);
 	$stateProvider.state(createProductState);
 	$stateProvider.state(productAttributesState);
-	$stateProvider.state(productManufacturingProcess);
+	$stateProvider.state(productManufacturingProcessState);
+	$stateProvider.state(formulaManagementState);
 	
 	$stateProvider.state(aboutState);
 

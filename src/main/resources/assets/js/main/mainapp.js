@@ -87,11 +87,18 @@ ineuronApp.config(function($stateProvider) {
 			controller : 'FormulaListController'
 		}
 	
-	var formulaEditState = {
-			name : 'formulaEdit',
-			url : 'formulaEdit/:formulaStr',
-			templateUrl : '/ineuron/product/formula.html',
-			controller : 'FormulaEditController'
+	var updateFormulaState = {
+			name : 'updateFormula',
+			url : 'updateFormula/:formulaStr',
+			templateUrl : '/ineuron/product/updateFormula.html',
+			controller : 'UpdateFormulaController'
+		}
+	
+	var createFormulaState = {
+			name : 'createFormula',
+			url : 'createFormula/',
+			templateUrl : '/ineuron/product/createFormula.html',
+			controller : 'CreateFormulaController'
 		}
 
 	$stateProvider.state(userManagementState);
@@ -106,7 +113,8 @@ ineuronApp.config(function($stateProvider) {
 	$stateProvider.state(productAttributesState);
 	$stateProvider.state(productManufacturingProcessState);
 	$stateProvider.state(formulaManagementState);
-	$stateProvider.state(formulaEditState);
+	$stateProvider.state(updateFormulaState);
+	$stateProvider.state(createFormulaState);
 	
 	$stateProvider.state(aboutState);
 

@@ -369,13 +369,16 @@ ineuronApp.controller('FormulaListController', ['$http', '$scope', '$rootScope',
 			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
 	
 	vm.updateFormula=updateFormula;
+	vm.createFormula=createFormula;
 	function updateFormula(index){
-		$state.go("formulaEdit", {formulaStr: JSON.stringify(vm.formulas[index])});
+		$state.go("updateFormula", {formulaStr: JSON.stringify(vm.formulas[index])});
 	}
-	
+	function createFormula(){
+		$state.go("createFormula");
+	}
 }]);
 
-ineuronApp.controller('FormulaEditController', [
+ineuronApp.controller('UpdateFormulaController', [
 	'$http',
 	'$stateParams',
 	'$scope',
@@ -505,3 +508,45 @@ ineuronApp.controller('FormulaEditController', [
 
 	} ]);
 
+ineuronApp.controller('CreateFormulaController', [
+	'$http',
+	'$stateParams',
+	'$scope',
+	'$location',
+	'$cookies',
+	'$state',
+	'$rootScope', 
+	'$modal',
+	function($http, $stateParams, $scope, $location, $cookies, $state, $rootScope, $modal) {
+		var vm = this;
+		$scope.formula = {};
+	
+		$scope.createFormula = createFormula;
+		
+		function createFormula(){
+			if($scope.formula.name == null){
+				ineuronApp.confirm("提示","请输入配方名称", 'sm', $rootScope, $modal);
+				return;
+			}
+			$http({
+				url : '/product/createformula',
+				method : 'POST',
+				data : $scope.formula
+			}).success(function(data) {
+				validateApiToken(data, $cookies);
+				if(data.success == true){
+					ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
+					$state.go("formulaList");
+				}
+				else{
+					ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
+				}
+				
+			}).error(function(data) {
+				ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
+				console.log("error");
+			})
+		}
+		
+
+	} ]);

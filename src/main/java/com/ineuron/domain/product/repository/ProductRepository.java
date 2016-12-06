@@ -242,4 +242,20 @@ public class ProductRepository {
 		}
 		
 	}
+
+
+	public void deleteFormula(Formula formula) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try{
+			if(formula != null){
+				session.delete("deleteFormula", formula);
+				session.commit();
+			}
+			
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql: deleteFormula!", e);
+		} finally {
+			session.close();
+		}
+	}
 }

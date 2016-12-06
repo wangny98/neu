@@ -7,15 +7,13 @@ ineuronApp.config(function($stateProvider) {
 	var userManagementState = {
 		name : 'userManagement',
 		url : 'userManagement',
-		templateUrl : '/ineuron/user/list.html',
-		controller : 'UserListController'
+		templateUrl : '/ineuron/user/list.html'
 	}
 	
 	var roleManagementState = {
 			name : 'roleManagement',
 			url : 'roleManagement',	
-			templateUrl : '/ineuron/user/rolelist.html',
-			controller : 'RoleListController'
+			templateUrl : '/ineuron/user/rolelist.html'
 		}
 
 	var aboutState = {
@@ -27,78 +25,67 @@ ineuronApp.config(function($stateProvider) {
 	var updateUserState = {
 		name : 'updateUser',
 		url : 'updateUser/:userStr',
-		templateUrl : '/ineuron/user/updateUser.html',
-		controller : 'UserUpdateController'
+		templateUrl : '/ineuron/user/updateUser.html'
 		}
 	
 	var updateRoleState = {
 			name : 'updateRole',
 			url : 'updateRole/:roleStr',
-			templateUrl : '/ineuron/user/updateRole.html',
-			controller : 'RoleUpdateController'
+			templateUrl : '/ineuron/user/updateRole.html'
 		}
 	
 	var createRoleState = {
 			name : 'createRole',
 			url : 'createRole',
-			templateUrl : '/ineuron/user/createRole.html',
-			controller : 'RoleCreateController'
+			templateUrl : '/ineuron/user/createRole.html'
 		}
 	
 	var createUserState = {
 			name : 'createUser',
 			url : 'createUser',
-			templateUrl : '/ineuron/user/createUser.html',
-			controller : 'UserCreateController'
+			templateUrl : '/ineuron/user/createUser.html'
 		}
 
 	var createProductState = {
 			name : 'createProduct',
 			url : 'createProduct',
-			templateUrl : '/ineuron/product/create.html',
-			controller : 'ProductCreateController'
+			templateUrl : '/ineuron/product/create.html'
 		}
 	
 	var productManagementState = {
 			name : 'productList',
 			url : 'productList',
-			templateUrl : '/ineuron/product/list.html',
-			controller : 'ProductListController'
+			templateUrl : '/ineuron/product/list.html'
 		}
 	
 	var productAttributesState = {
 			name : 'productAttributes',
 			url : 'productAttributes/:productStr',
-			templateUrl : '/ineuron/product/attributes.html',
-			controller : 'ProductAttributesController'
+			templateUrl : '/ineuron/product/attributes.html'
 		}
 	
 	var productManufacturingProcessState = {
 			name : 'productManufacturingProcess',
 			url : 'productManufacturingProcess/:productStr',
-			templateUrl : '/ineuron/product/manufacturingprocess.html',
-			controller : 'ProductManufacturingProcessController'
+			templateUrl : '/ineuron/product/manufacturingprocess.html'
 		}
 	
 	var formulaManagementState = {
 			name : 'formulaList',
 			url : 'formulaList',
-			templateUrl : '/ineuron/product/formulaList.html',
-			controller : 'FormulaListController'
+			templateUrl : '/ineuron/product/formulaList.html'
 		}
 	
 	var updateFormulaState = {
 			name : 'updateFormula',
 			url : 'updateFormula/:formulaStr',
-			templateUrl : '/ineuron/product/updateFormula.html',
-			controller : 'UpdateFormulaController'
+			templateUrl : '/ineuron/product/updateFormula.html'
 		}
 	
 	var createFormulaState = {
 			name : 'createFormula',
 			url : 'createFormula/',
-			templateUrl : '/ineuron/product/createFormula.html',
-			controller : 'CreateFormulaController'
+			templateUrl : '/ineuron/product/createFormula.html'
 		}
 
 	$stateProvider.state(userManagementState);

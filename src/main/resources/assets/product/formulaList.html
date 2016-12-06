@@ -18,6 +18,7 @@
 					<th>配方名称</th>
 					<th>描述</th>
 					<th style="width: 100px">修改</th>
+					<th style="width: 100px">删除</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,6 +29,12 @@
 							class="editableinput" type="text" ng-model="formula.description" /></td>
 					<td>
 						<button type="button" ng-click="formulaList.updateFormula($index)"
+							class="btn btn-warning">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+					<td>
+						<button type="button" ng-click="formulaList.deleteFormula($index)"
 							class="btn btn-warning">
 							<i class="fa fa-edit"></i>
 						</button>

@@ -26,6 +26,13 @@ public class Formula {
 		productRepository.updateFormula(this);
 	}
 	
+	public void deleteFormula(ProductRepository productRepository) throws RepositoryException {
+		productRepository.deleteFormula(this);
+		
+	}
+	
+	
+	
 	public List<FormulaMaterial> getMaterials(ProductRepository productRepository) throws RepositoryException {
 		if(materials == null){
 			materials = productRepository.getFormulaMaterialList(this);
@@ -76,7 +83,6 @@ public class Formula {
 	public void setMaterials(List<FormulaMaterial> materials) {
 		this.materials = materials;
 	}
-	
-	
+
 
 }

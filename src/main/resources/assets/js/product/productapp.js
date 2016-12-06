@@ -365,16 +365,32 @@ ineuronApp.controller('FormulaListController', ['$http', '$scope', '$rootScope',
 			'full_numbers');
 	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 			DTColumnDefBuilder.newColumnDef(1),
-			DTColumnDefBuilder.newColumnDef(2),
-			DTColumnDefBuilder.newColumnDef(3).notSortable() ];
+			DTColumnDefBuilder.newColumnDef(2).notSortable() ];
 	
 	vm.updateFormula=updateFormula;
 	vm.createFormula=createFormula;
+	vm.deleteFormula=deleteFormula;
 	function updateFormula(index){
 		$state.go("updateFormula", {formulaStr: JSON.stringify(vm.formulas[index])});
 	}
 	function createFormula(){
 		$state.go("createFormula");
+	}
+	function deleteFormula(index){
+		ineuronApp.confirm("确认","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+			if(clickok){
+				$http({
+					url : '/product/deleteformula?id=' + vm.formulas[index].id,
+					method : 'POST'
+				}).success(function(data) {
+					ineuronApp.confirm("提示","删除成功！", 'sm', $rootScope, $modal);
+					$state.go("formulaList", null, {reload:true});
+				}).error(function(data) {
+					alert('error');
+					console.log("error");
+				});
+			}
+		})
 	}
 }]);
 

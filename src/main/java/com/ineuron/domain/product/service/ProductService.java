@@ -103,4 +103,11 @@ public class ProductService {
 		return formula.getMaterials(productRepository);
 	}
 
+	public void deleteFormula(int id) throws RepositoryException {
+		Formula formula = new Formula();
+		formula.setId(id);
+		formula.deleteFormula(productRepository);
+		
+	}
+
 }

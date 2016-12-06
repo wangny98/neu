@@ -73,6 +73,10 @@
     update productFormulas set name=#{name},description=#{description} where id=#{id}
   </update>
   
+  <delete id="deleteFormula" >
+    delete from productFormulas where id = #{id}
+  </delete>
+  
   <select id="getFormulaMaterials" resultType="com.ineuron.domain.product.valueobject.FormulaMaterial">
     select * from productFormulaMaterials where formulaId = #{id}
   </select>

@@ -392,4 +392,25 @@ public class ProductResource {
 		return response;
 	}
 	
+	@Path("/deleteformula")
+	@POST
+	@Timed
+	public INeuronResponse deleteFormula(@QueryParam("id") int id, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+		LOGGER.info("deleteformula:" + id);
+		INeuronResponse response = null;
+		try {
+			response = new INeuronResponse(securityService, httpHeader, debug); 
+			productService.deleteFormula(id);
+			response.setSuccess(true);
+		} catch (RepositoryException e) {
+			LOGGER.error(e.getMessage(), e);
+			response.setMessage(e.getMessage());
+		} catch (InvalidAPITokenException e) {
+			LOGGER.error(e.getMessage(), e);
+			response = new INeuronResponse();
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
 }

@@ -14,8 +14,9 @@ import com.ineuron.domain.product.repository.ProductRepository;
 public class Attribute {
 
 	private Integer id;
-	private Integer productid;
 	private String attribute;
+	private String code;
+	private String description;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Attribute.class);
 
@@ -42,13 +43,6 @@ public class Attribute {
 		this.id = id;
 	}
 
-	public Integer getProductid() {
-		return productid;
-	}
-
-	public void setProductid(Integer productid) {
-		this.productid = productid;
-	}
 
 	public String getAttribute() {
 		return attribute;
@@ -56,6 +50,18 @@ public class Attribute {
 
 	public void setAttribute(String attribute) {
 		this.attribute = attribute;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

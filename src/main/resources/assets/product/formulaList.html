@@ -2,7 +2,13 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="FormulaListController as formulaList">
-
+	<div class="right-align">
+		<button class="custombutton" style="float:right;background-color:#88bdea;border-color:#88bdea;width:200px;"
+			ng-click="formulaList.createFormula()">
+			<span class="glyphicon glyphicon-new"
+				style="font-weight:bold;color: rgb(255, 140, 60);"></span> 新增配方
+		</button>
+	</div>
 	<div>
 		<table datatable="ng" dt-options="formulaList.dtOptions"
 			dt-column-defs="formulaList.dtColumnDefs" class="row-border hover"
@@ -12,6 +18,7 @@
 					<th>配方名称</th>
 					<th>描述</th>
 					<th style="width: 100px">修改</th>
+					<th style="width: 100px">删除</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,6 +29,12 @@
 							class="editableinput" type="text" ng-model="formula.description" /></td>
 					<td>
 						<button type="button" ng-click="formulaList.updateFormula($index)"
+							class="btn btn-warning">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+					<td>
+						<button type="button" ng-click="formulaList.deleteFormula($index)"
 							class="btn btn-warning">
 							<i class="fa fa-edit"></i>
 						</button>

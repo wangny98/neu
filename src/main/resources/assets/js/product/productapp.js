@@ -610,6 +610,10 @@ ineuronApp.controller('UpdateFormulaController', [
 		
 		function updateFormula(){
 			var formula = getFormula();
+			var isValid = validateFormula(formula);
+			if(!isValid){
+				return;
+			}
 			$http({
 				url : '/product/updateformula',
 				method : 'POST',
@@ -644,6 +648,30 @@ ineuronApp.controller('UpdateFormulaController', [
 			
 			return formula;
 			
+		}
+		
+		function validateFormula(formula){
+			var totalQuantity = 0.0;
+			for(var index in formula.materials){
+				var materialQuantity = formula.materials[index].materialQuantity;
+				var materialId = formula.materials[index].materialId;
+				if(isNaN(materialQuantity)){
+					ineuronApp.confirm("提示","物料的比例应为数字。", 'sm', $rootScope, $modal);
+					return false;
+				}
+				if(materialId == 0){
+					ineuronApp.confirm("提示","物料不能为空。", 'sm', $rootScope, $modal);
+					return false;
+				}
+				totalQuantity += parseFloat(materialQuantity);
+				
+			}
+			if(totalQuantity == 100){
+				return true;
+			}else{
+				ineuronApp.confirm("提示","所有配方的比例之和不是 100，请修改比例之后重新保存。", 'sm', $rootScope, $modal);
+				return false;
+			}
 		}
 
 	} ]);

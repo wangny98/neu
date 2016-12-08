@@ -9,8 +9,10 @@ import com.google.inject.Inject;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Formula;
 import com.ineuron.domain.product.entity.Product;
+import com.ineuron.domain.product.valueobject.AttributeCategory;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.FormulaMaterial;
+import com.ineuron.domain.product.valueobject.ProductCategory;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
@@ -23,21 +25,52 @@ public class ProductService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 	
-	public void createProduct(Product product) throws RepositoryException {
-		product.addProduct(productRepository);
+	public ProductCategory createProductCategory(ProductCategory productCategory) throws RepositoryException {
+		productCategory.addProductCategory(productRepository);
+		return productCategory;
 	}
 	
-	public void updateProduct(Product product) throws RepositoryException {
+	public List<ProductCategory> getProductCategoryList() throws RepositoryException{		
+		List<ProductCategory> productCategoryList = productRepository.getProductCategoryList();
+		return productCategoryList;
+	}
+	
+	public ProductCategory getProductCategoryByName(String name) throws RepositoryException{		
+		ProductCategory productCategory = productRepository.getProductCategoryByName(name);
+		return productCategory;
+	}
+	
+	public ProductCategory getProductCategoryByCode(String code) throws RepositoryException{		
+		ProductCategory productCategory = productRepository.getProductCategoryByCode(code);
+		return productCategory;
+	}
+
+	public ProductCategory updateProductCategory(ProductCategory productCategory) throws RepositoryException {
+		productRepository.updateProductCategory(productCategory);
+		return productCategory;
+	}
+	
+	public Product createProduct(Product product) throws RepositoryException {
+		product.addProduct(productRepository);
+		return product;
+	}
+	
+	public Product updateProduct(Product product) throws RepositoryException {
 		product.updateProduct(productRepository);
+		return product;
 	}
 	
 	public void deleteProduct(Product product) throws RepositoryException {
 		product.deleteProduct(productRepository);
 	}
 	
-	public List<Product> getProductList() throws RepositoryException{
-		
+	public List<Product> getProductList() throws RepositoryException{		
 		List<Product> productList = productRepository.getProductList();
+		return productList;
+	}
+	
+	public List<Product> getProductListByCategory(Integer productCategoryId) throws RepositoryException{		
+		List<Product> productList = productRepository.getProductListByCategory(productCategoryId);
 		return productList;
 	}
 	
@@ -53,10 +86,19 @@ public class ProductService {
 		attribute.deleteAttibute(productRepository);
 	}
 
-	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException{
-		
-		List<Attribute> attributeList = productRepository.getAttributeList(productid);
+	public List<Attribute> getAttributeList() throws RepositoryException{		
+		List<Attribute> attributeList = productRepository.getAttributeList();
 		return attributeList;
+	}
+	
+	public List<Attribute> getAttributesByCategoryId(Integer attributeCategoryId) throws RepositoryException{		
+		List<Attribute> attributeList = productRepository.getAttributesByCategoryId(attributeCategoryId);
+		return attributeList;
+	}
+
+	public List<AttributeCategory> getAttributeCategoryList() throws RepositoryException{		
+		List<AttributeCategory> attributeCategoryList = productRepository.getAttributeCategoryList();
+		return attributeCategoryList;
 	}
 
 	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {

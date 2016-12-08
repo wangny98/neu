@@ -3,7 +3,10 @@ package com.ineuron.domain.product.repository;
 import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.dataaccess.db.INeuronDBConnection;
-import com.ineuron.domain.product.entity.*;
+import com.ineuron.domain.product.entity.Product;
+import com.ineuron.domain.product.entity.Formula;
+import com.ineuron.domain.product.valueobject.AttributeCategory;
+import com.ineuron.domain.product.valueobject.ProductCategory;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
@@ -24,6 +27,64 @@ public class ProductRepository {
 
 	}
 
+	public void addProductCategory(ProductCategory productCategory) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("productCategory: "+productCategory.getName());
+			session.insert("addProductCategory", productCategory);
+			session.commit();
+			//System.out.println("success to insert productcategory!");
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<ProductCategory> getProductCategoryList() throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<ProductCategory> productCategories = session.selectList("getProductCategories");
+			return productCategories;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public ProductCategory getProductCategoryByName(String name) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			ProductCategory productCategory = session.selectOne("getProductCategoryByName", name);
+			return productCategory;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public ProductCategory getProductCategoryByCode(String code) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("pc code: "+code);
+			ProductCategory productCategory = session.selectOne("getProductCategoryByCode", code);
+			return productCategory;
+		} finally {
+			session.close();
+		}
+	}
+	
+	
+	public void updateProductCategory(ProductCategory productCategory) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("productCategory: "+productCategory.getName());
+			session.update("updateProductCategory", productCategory);
+			session.commit();
+			//System.out.println("success to insert productcategory!");
+		} finally {
+			session.close();
+		}
+	}
 	
 	public void addProduct(Product product) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
@@ -70,10 +131,21 @@ public class ProductRepository {
 		}
 	}
 	
+	public List<Product> getProductListByCategory(Integer productCategoryId) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Product> products = session.selectList("getProductByCategory", productCategoryId);
+			return products;
+		} finally {
+			session.close();
+		}
+	}
+	
 	public void addAttribute(Attribute attribute) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			System.out.println("attribute: "+attribute.getAttribute());
+			System.out.println("attribute: "+attribute.getName());
 			session.insert("addAttribute", attribute);
 			session.commit();
 			System.out.println("insert attribute by using mybatis!");
@@ -85,7 +157,7 @@ public class ProductRepository {
 	public void updateAttribute(Attribute attribute) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			System.out.println("attribute: "+attribute.getAttribute());
+			System.out.println("attribute: "+attribute.getName());
 			session.update("updateAttribute", attribute);
 			session.commit();
 			System.out.println("update attribute by using mybatis!");
@@ -98,7 +170,7 @@ public class ProductRepository {
 	public void deleteAttribute(Attribute attribute) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			System.out.println("attribute: "+attribute.getAttribute());
+			System.out.println("attribute: "+attribute.getName());
 			session.update("deleteAttribute", attribute);
 			session.commit();
 			System.out.println("delete attribute by using mybatis!");
@@ -108,13 +180,34 @@ public class ProductRepository {
 	}
 
 
-	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException {
+	public List<Attribute> getAttributeList() throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
-		//System.out.println("getAttributeList: "+"productid: "+productid);
 		try {
-			List<Attribute> attributes = session.selectList("getAttributesByProductID", productid);
+			System.out.println("getAttributes: ");
+			List<Attribute> attributes = session.selectList("getAttributes");			
+			return attributes;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<Attribute> getAttributesByCategoryId(Integer attributeCategoryId) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("categoryid: "+attributeCategoryId);
+			List<Attribute> attributes = session.selectList("getAttributesByCategoryID", attributeCategoryId);
 			//System.out.println("attributelist size "+attributes.get(0).getAttribute());
 			return attributes;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<AttributeCategory> getAttributeCategoryList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<AttributeCategory> attributeCategories = session.selectList("getAttributeCategories");
+			return attributeCategories;
 		} finally {
 			session.close();
 		}

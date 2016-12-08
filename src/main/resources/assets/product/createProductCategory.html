@@ -2,51 +2,82 @@
 <head>
 </head>
 
-<div ng-controller="ProductCreateController as productCreate">
+<div ng-controller="ProductCategoryCreateController as productCategoryCreate">
 	<div class="message">添加产品类型</div>
 
 	<div>
-		<hr class="hr20">
-		<hr class="hr20">
-		<form class="form-product" name="createProduct">
+		<form class="form-product" name="createProductCategory">
 			<table id="table-style" style="margin:50px auto">
 				<tbody>
 					<tr>
-						<th class="labelformat">产品类名：</th>
+						<th class="labelformat">产品类名</th>
 						<td><input class="input-block-level" type="text"
-							ng-model="productName" required /></td>
+							ng-model="productCategoryName" required /></td>
 						<td style="color:red">*</td>
 					</tr>
 					<tr>
-						<th class="labelformat">用途：</th>
+						<th class="labelformat">用途</th>
 						<!-- <td><input class="input-block-level" type="text"
 							ng-model="productCode" required /></td>
 						<td style="color:red">*</td> -->
 						<td><div isteven-multi-select
-											input-model="usages"
-											output-model="" button-label="attribute"
-											item-label="attribute" tick-property="ticked" 
+											input-model="productCategoryCreate.attributeUsages"
+											output-model="selectedAttributeUsage" output-properties="code"
+											button-label="name code" item-label="name code" tick-property="ticked" 
 											orientation="horizontal"
 											selection-mode="single">
 						</div></td>
 						<td style="color:red">*</td>									
 					</tr>
 					<tr>
-						<th class="labelformat">乳液类型：</th>
+						<th class="labelformat">乳液类型</th>
+						<td><div isteven-multi-select
+											input-model="productCategoryCreate.attributeEmulsionTypes"
+											output-model="selectedEmulsionType" output-properties="code"
+											button-label="name code" item-label="name code" tick-property="ticked" 
+											orientation="horizontal"
+											selection-mode="single">
+						</div></td>
+						<td style="color:red">*</td>	
+					<tr>
+						<th class="labelformat">颜色</th>
+						<td><div isteven-multi-select
+											input-model="productCategoryCreate.attributeColors"
+											output-model="selectedColor" output-properties="code"
+											button-label="name code" item-label="name code" tick-property="ticked" 
+											orientation="horizontal"
+											selection-mode="single">
+						</div></td>
+						<td style="color:red">*</td>	
+					</tr>
+					<tr>
+						<th class="labelformat">简介</th>
 						<td><textarea style="resize=none;min-height:60px" class="input-block-level" type="text"
-							ng-model="productDescription" /></td>
+							ng-model="productCategoryDescription" /></td>
 							<td></td>
 					</tr>
 					<tr>
-						<th class="labelformat">乳液类型：</th>
+						<th class="labelformat">特点</th>
 						<td><textarea style="resize=none;min-height:60px" class="input-block-level" type="text"
-							ng-model="productDescription" /></td>
+							ng-model="productCategoryCharacters" /></td>
+							<td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">技术参数</th>
+						<td><textarea style="resize=none;min-height:60px" class="input-block-level" type="text"
+							ng-model="productCategoryTechParameters" /></td>
+							<td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">使用范围</th>
+						<td><textarea style="resize=none;min-height:60px" class="input-block-level" type="text"
+							ng-model="productCategoryScope" /></td>
 							<td></td>
 					</tr>
 								<tr>
 									<td></td>
 									<td><button class="btn btn-large btn-primary"
-											ng-click="productCreate.createProduct()">
+											ng-click="productCategoryCreate.createProductCategory()">
 											<span class="glyphicon glyphicon-upload"></span> 提交
 										</button></td>
 								</tr>

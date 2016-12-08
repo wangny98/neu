@@ -3,10 +3,9 @@
 <meta charset="UTF-8">
 <div ng-controller="RoleListController as roleList">
 	<div class="right-align">
-		<button class="custombutton" style="float:right;background-color:#88bdea;border-color:#88bdea;width:200px;"
+		<button class="custombutton"
 			ng-click="roleList.createRole()">
-			<span class="glyphicon glyphicon-new"
-				style="font-weight:bold;color: rgb(255, 140, 60);"></span> 新增角色
+			<span class="glyphicon glyphicon-new"></span> 新增角色
 		</button>
 	</div>
 	<table datatable="ng" dt-options="roleList.dtOptions"

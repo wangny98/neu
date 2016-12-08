@@ -9,8 +9,10 @@ import com.google.inject.Inject;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.entity.Formula;
 import com.ineuron.domain.product.entity.Product;
+import com.ineuron.domain.product.valueobject.AttributeCategory;
 import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.FormulaMaterial;
+import com.ineuron.domain.product.valueobject.ProductCategory;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
@@ -22,6 +24,10 @@ public class ProductService {
 	ProductRepository productRepository;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+	
+	public void createProductCategory(ProductCategory productCategory) throws RepositoryException {
+		productCategory.addProductCategory(productRepository);
+	}
 	
 	public void createProduct(Product product) throws RepositoryException {
 		product.addProduct(productRepository);
@@ -53,10 +59,19 @@ public class ProductService {
 		attribute.deleteAttibute(productRepository);
 	}
 
-	public List<Attribute> getAttributeList(Integer productid) throws RepositoryException{
-		
-		List<Attribute> attributeList = productRepository.getAttributeList(productid);
+	public List<Attribute> getAttributeList() throws RepositoryException{		
+		List<Attribute> attributeList = productRepository.getAttributeList();
 		return attributeList;
+	}
+	
+	public List<Attribute> getAttributesByCategoryId(Integer attributeCategoryId) throws RepositoryException{		
+		List<Attribute> attributeList = productRepository.getAttributesByCategoryId(attributeCategoryId);
+		return attributeList;
+	}
+
+	public List<AttributeCategory> getAttributeCategoryList() throws RepositoryException{		
+		List<AttributeCategory> attributeCategoryList = productRepository.getAttributeCategoryList();
+		return attributeCategoryList;
 	}
 
 	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {

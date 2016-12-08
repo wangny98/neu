@@ -4,6 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ineuron.dataaccess.db.mappers.ProductMapper">
   
+  <select id="getAttributeCategories" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
+    select * from attributecategories
+  </select>
+  
+  <select id="getAttributes" resultType="com.ineuron.domain.product.valueobject.Attribute">
+    select * from attributes
+  </select>
+     
+  <select id="getAttributesByCategoryID" resultType="com.ineuron.domain.product.valueobject.Attribute">
+    select * from attributes where attributeCategoryId=#{attributeCategoryId}
+  </select>
+  
+   <insert id="addProductCategory">
+    insert into productcategories (name,code,description,characters,techParameters,scope) 
+	values(#{name},#{code},#{description},#{characters},#{techParameters},#{scope})  
+  </insert>
   
   <insert id="addProduct">
     insert into products (productname,productcode,description) 
@@ -34,10 +50,6 @@
    <delete id="deleteAttribute">
     delete from productattributes where id = #{id}
   </delete>
-  
-  <select id="getAttributesByProductID" resultType="com.ineuron.domain.product.valueobject.Attribute">
-    select * from productattributes where productid=#{productid}
-  </select>
   
   <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
     select * from productManufacturingProcess where productId = #{productId}

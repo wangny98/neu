@@ -25,25 +25,52 @@ public class ProductService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 	
-	public void createProductCategory(ProductCategory productCategory) throws RepositoryException {
+	public ProductCategory createProductCategory(ProductCategory productCategory) throws RepositoryException {
 		productCategory.addProductCategory(productRepository);
+		return productCategory;
 	}
 	
-	public void createProduct(Product product) throws RepositoryException {
+	public List<ProductCategory> getProductCategoryList() throws RepositoryException{		
+		List<ProductCategory> productCategoryList = productRepository.getProductCategoryList();
+		return productCategoryList;
+	}
+	
+	public ProductCategory getProductCategoryByName(String name) throws RepositoryException{		
+		ProductCategory productCategory = productRepository.getProductCategoryByName(name);
+		return productCategory;
+	}
+	
+	public ProductCategory getProductCategoryByCode(String code) throws RepositoryException{		
+		ProductCategory productCategory = productRepository.getProductCategoryByCode(code);
+		return productCategory;
+	}
+
+	public ProductCategory updateProductCategory(ProductCategory productCategory) throws RepositoryException {
+		productRepository.updateProductCategory(productCategory);
+		return productCategory;
+	}
+	
+	public Product createProduct(Product product) throws RepositoryException {
 		product.addProduct(productRepository);
+		return product;
 	}
 	
-	public void updateProduct(Product product) throws RepositoryException {
+	public Product updateProduct(Product product) throws RepositoryException {
 		product.updateProduct(productRepository);
+		return product;
 	}
 	
 	public void deleteProduct(Product product) throws RepositoryException {
 		product.deleteProduct(productRepository);
 	}
 	
-	public List<Product> getProductList() throws RepositoryException{
-		
+	public List<Product> getProductList() throws RepositoryException{		
 		List<Product> productList = productRepository.getProductList();
+		return productList;
+	}
+	
+	public List<Product> getProductListByCategory(Integer productCategoryId) throws RepositoryException{		
+		List<Product> productList = productRepository.getProductListByCategory(productCategoryId);
 		return productList;
 	}
 	

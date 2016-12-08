@@ -2,6 +2,10 @@
 ineuronApp.controller('ProductCategoryCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
 	function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
 	
+	$scope.existedProductCategoryCode=false;
+	$scope.existedProductCategoryName=false;
+	var companyCode="HS";
+	
 	var vm = this;
     
 	//get attribute list
@@ -38,18 +42,49 @@ ineuronApp.controller('ProductCategoryCreateController', ['$scope', '$stateParam
 		console.log("error in get attribute list");
   	});
 
+	$scope.CheckProductCategoryName=function(){
+		//alert("checkproductcategeryname");
+		$http({
+			url : '/product/getproductcategorybyname',
+			method : 'POST',
+			data :  $scope.productCategoryName
+		}).success(function(data) {
+			var pc = data.value;
+			if(pc==null) $scope.existedProductCategoryName=false; 
+			 else $scope.existedProductCategoryName=true;
+		}).error(function(data) {
+			//alert('error');
+			console.log("error to get productcategory ");
+		});				
+	}
+	
+	$scope.CheckProductCategoryCode=function(){
+		$scope.productCategoryCode=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
+		$http({
+			url : '/product/getproductcategorybycode',
+			method : 'POST',
+			data :  $scope.productCategoryCode
+		}).success(function(data) {
+			var pc = data.value;
+			if(pc==null) $scope.existedProductCategoryCode=false; 
+			 else $scope.existedProductCategoryCode=true;
+		}).error(function(data) {
+			//alert('error');
+			console.log("error to get productcategory ");
+		});			
+	}
+	
 	vm.createProductCategory = createProductCategory;
 	function createProductCategory() {
-	   //alert("to createProduct");
-		var companyCode="HS";
-		var codeStr=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-		//alert($scope.selectedAttributeUsage);
+	   //alert("to createProductCategory");
+		$scope.productCategoryCode=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
+		
 		$http({
 			url : '/product/createproductcategory',
 			method : 'POST',
 			data : {
 				name : $scope.productCategoryName,
-				code: codeStr,
+				code: $scope.productCategoryCode,
 				description : $scope.productCategoryDescription,
 				characters: $scope.productCategoryCharacters,
 				techParameters: $scope.productCategoryTechParameters,
@@ -91,35 +126,110 @@ ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$roo
 	                    DTColumnDefBuilder.newColumnDef(4).notSortable(),
 	                    DTColumnDefBuilder.newColumnDef(5).notSortable(),
 	                    DTColumnDefBuilder.newColumnDef(6).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(7).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(8).notSortable() ];
+	                    DTColumnDefBuilder.newColumnDef(7).notSortable() ];
 	
 	vm.updateProductCategory=updateProductCategory;
 	function updateProductCategory(index){
-		ineuronApp.confirm("确认","确定修改吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
-			if(clickok){
-				 /*$http({
-					url : '/user/delete',
-					method : 'POST',
-					data : {
-						username : $scope.updateUsername
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies);
-					$state.go("userManagement");
-				}).error(function(data) {
-					alert('error in delete');
-					console.log("error");
-				})*/
-			}
-		});		
+		//alert(index+vm.productCategories[index].code);
+		$state.go("updateProductCategory", {productCategoryStr: JSON.stringify(vm.productCategories[index])});
 	}
 	
 	vm.productList=productList;
 	function productList(index){
-		//alert("index: "+index);
-		$state.go("productList", {productStr: JSON.stringify(vm.products[index])});
+		var pcId=vm.productCategories[index].id;
+		$state.go("productList", {productCategoryId: pcId});
 	}
+	
+	vm.createProductCategory=createProductCategory;
+	function createProductCategory(){
+		//alert("index: "+index);
+		$state.go("createProductCategory");
+	}
+}]);
+
+ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
+    function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
+	
+	var productCategory = eval('(' + $stateParams.productCategoryStr + ')');
+	$scope.productCategoryName=productCategory.name;
+	var codeList=productCategory.code.split("-");
+	
+	var vm = this;
+
+	//get attribute list
+	$http({
+		url : '/product/attributesbycategoryid',
+		method : 'POST',
+		data : 1
+	}).success(function(data) {
+		vm.attributeUsages=data.value;
+		for (var i in vm.attributeUsages){
+			if(vm.attributeUsages[i].code==codeList[1]) vm.attributeUsages[i].ticked=true;
+		}
+	}).error(function(data) {
+		//alert('error');
+		console.log("error in get attribute list");
+	});
+
+	$http({
+		url : '/product/attributesbycategoryid',
+		method : 'POST',
+		data : 2
+	}).success(function(data) {
+		vm.attributeEmulsionTypes=data.value;
+		for (var i in vm.attributeEmulsionTypes){
+			if(vm.attributeEmulsionTypes[i].code==codeList[2]) vm.attributeEmulsionTypes[i].ticked=true;
+		}
+	}).error(function(data) {
+		//alert('error');
+		console.log("error in get attribute list");
+	});
+
+	$http({
+		url : '/product/attributesbycategoryid',
+		method : 'POST',
+		data : 3
+	}).success(function(data) {
+		vm.attributeColors=data.value;
+		for (var i in vm.attributeColors){
+			if(vm.attributeColors[i].code==codeList[3]) vm.attributeColors[i].ticked=true;
+		}
+	}).error(function(data) {
+		//alert('error');
+		console.log("error in get attribute list");
+	});
+
+	vm.updateProductCategory = updateProductCategory;
+	function updateProductCategory() {
+		ineuronApp.confirm("确认","确定修改吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
+			if(clickok){
+				var companyCode="HS";
+				var codeStr=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
+				//alert($scope.selectedAttributeUsage);
+				$http({
+					url : '/product/updateproductcategory',
+					method : 'POST',
+					data : {
+						id : selectedProductCategory.id,
+						name : $scope.productCategoryName,
+						code: codeStr,
+						description : $scope.productCategoryDescription,
+						characters: $scope.productCategoryCharacters,
+						techParameters: $scope.productCategoryTechParameters,
+						scope: $scope.productCategoryScope			
+					}
+				}).success(function(data) {
+					validateApiToken(data, $cookies);
+					ineuronApp.confirm("提示","修改类型成功！", 'sm', $rootScope, $modal);		
+					$state.go("productCategoryList");
+				}).error(function(data) {
+					alert('error');
+					console.log("error");
+				})
+			}
+		});				
+	}
+
 }]);
 
 
@@ -155,18 +265,19 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 }]);
 
 
-ineuronApp.controller('ProductListController', ['$http', '$scope', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
-	function($http, $scope, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $stateParams, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	
 	$http({
-		url : '/product/list',
-		method : 'GET'
+		url : '/product/productlistbycategory',
+		method : 'POST',
+		data : $stateParams.productCategoryId
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.products = data.value;
 	}).error(function(data) {
-		alert('error');
+		//alert('error');
 		console.log("error");
 	});
 
@@ -305,43 +416,6 @@ ineuronApp.controller('ProductAttributesController', ['$http', '$scope', '$state
 	}
 }]);
 
-
-ineuronApp.controller('ProductListController', [
-		'$http',
-		'$scope',
-		'$location',
-		'$cookies',
-		'$state',
-		'DTOptionsBuilder',
-		'DTColumnDefBuilder',
-		function($http, $scope, $location, $cookies, $state, DTOptionsBuilder,
-				DTColumnDefBuilder) {
-			var vm = this;
-
-			$http({
-				url : '/product/list',
-				method : 'GET'
-			}).success(function(data) {
-				validateApiToken(data, $cookies);
-				vm.products = data.value;
-			}).error(function(data) {
-				alert('error');
-				console.log("error");
-			});
-
-			vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-					'full_numbers');
-			vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
-					DTColumnDefBuilder.newColumnDef(1),
-					DTColumnDefBuilder.newColumnDef(2),
-					DTColumnDefBuilder.newColumnDef(3).notSortable() ];
-
-			vm.updateManufacturingProcess = updateManufacturingProcess;
-			function updateManufacturingProcess(index) {
-				//alert(JSON.stringify(vm.products[index]));
-				$state.go("productManufacturingProcess", {productStr: JSON.stringify(vm.products[index])});
-			}
-		} ]);
 
 ineuronApp.controller('ProductManufacturingProcessController', [
 		'$http',

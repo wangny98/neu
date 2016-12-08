@@ -39,6 +39,53 @@ public class ProductRepository {
 		}
 	}
 	
+	public List<ProductCategory> getProductCategoryList() throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<ProductCategory> productCategories = session.selectList("getProductCategories");
+			return productCategories;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public ProductCategory getProductCategoryByName(String name) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			ProductCategory productCategory = session.selectOne("getProductCategoryByName", name);
+			return productCategory;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public ProductCategory getProductCategoryByCode(String code) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("pc code: "+code);
+			ProductCategory productCategory = session.selectOne("getProductCategoryByCode", code);
+			return productCategory;
+		} finally {
+			session.close();
+		}
+	}
+	
+	
+	public void updateProductCategory(ProductCategory productCategory) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("productCategory: "+productCategory.getName());
+			session.update("updateProductCategory", productCategory);
+			session.commit();
+			//System.out.println("success to insert productcategory!");
+		} finally {
+			session.close();
+		}
+	}
+	
 	public void addProduct(Product product) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
@@ -78,6 +125,17 @@ public class ProductRepository {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			List<Product> products = session.selectList("getProducts");
+			return products;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public List<Product> getProductListByCategory(Integer productCategoryId) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			List<Product> products = session.selectList("getProductByCategory", productCategoryId);
 			return products;
 		} finally {
 			session.close();
@@ -136,7 +194,7 @@ public class ProductRepository {
 	public List<Attribute> getAttributesByCategoryId(Integer attributeCategoryId) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			System.out.println("categoryid: "+attributeCategoryId);
+			//System.out.println("categoryid: "+attributeCategoryId);
 			List<Attribute> attributes = session.selectList("getAttributesByCategoryID", attributeCategoryId);
 			//System.out.println("attributelist size "+attributes.get(0).getAttribute());
 			return attributes;

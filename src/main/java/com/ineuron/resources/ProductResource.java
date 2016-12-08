@@ -67,8 +67,96 @@ public INeuronResponse createProductCategory(final ProductCategory productCatego
 	}
 	return response;
 }
+
+@Path("/updateproductcategory")
+@POST
+@Timed
+public INeuronResponse updateProductCategory(final ProductCategory productCategory, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		productService.updateProductCategory(productCategory);
+		response.setValue(productCategory);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+@Path("/getproductcategorybyname")
+@POST
+@Timed
+public INeuronResponse getProductCategoryByName(final String name, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		ProductCategory productCategory=productService.getProductCategoryByName(name);
+		response.setValue(productCategory);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+@Path("/getproductcategorybycode")
+@POST
+@Timed
+public INeuronResponse getProductCategoryByCode(final String code, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		ProductCategory productCategory=productService.getProductCategoryByCode(code);
+		response.setValue(productCategory);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+
+
+@Path("/productcategorylist")
+@GET
+@Timed
+public INeuronResponse productCategoryList( @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		List<ProductCategory> productCategories = productService.getProductCategoryList();
+		response.setValue(productCategories);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+
 	
-@Path("/create")
+@Path("/createproduct")
 @POST
 @Timed
 public INeuronResponse createProduct(final Product product, @Context HttpHeaders httpHeader) {
@@ -90,7 +178,7 @@ public INeuronResponse createProduct(final Product product, @Context HttpHeaders
 }
 
 
-@Path("/delete")
+@Path("/deleteproduct")
 @POST
 @Timed
 public INeuronResponse deleteProduct(final Product product, @Context HttpHeaders httpHeader) {
@@ -111,7 +199,7 @@ public INeuronResponse deleteProduct(final Product product, @Context HttpHeaders
 }
 
 
-@Path("/update")
+@Path("/updateproduct")
 @POST
 @Timed
 public INeuronResponse updateProduct(final Product product, @Context HttpHeaders httpHeader) {
@@ -134,7 +222,7 @@ public INeuronResponse updateProduct(final Product product, @Context HttpHeaders
 
 
 
-@Path("/list")
+@Path("/productlist")
 @GET
 @Timed
 public INeuronResponse productList( @Context HttpHeaders httpHeader) {
@@ -142,6 +230,27 @@ public INeuronResponse productList( @Context HttpHeaders httpHeader) {
 	try {
 		response = new INeuronResponse(securityService, httpHeader, false); 
 		List<Product> products = productService.getProductList();
+		response.setValue(products);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+@Path("/productlistbycategory")
+@POST
+@Timed
+public INeuronResponse productListByCategory(final Integer productCategoryId, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		List<Product> products = productService.getProductListByCategory(productCategoryId);
 		response.setValue(products);
 		response.setSuccess(true);
 	} catch (RepositoryException e) {

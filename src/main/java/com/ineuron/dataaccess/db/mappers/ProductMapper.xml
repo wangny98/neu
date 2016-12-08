@@ -3,103 +3,135 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ineuron.dataaccess.db.mappers.ProductMapper">
-  
-  <select id="getAttributeCategories" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
-    select * from attributecategories
-  </select>
-  
-  <select id="getAttributes" resultType="com.ineuron.domain.product.valueobject.Attribute">
-    select * from attributes
-  </select>
-     
-  <select id="getAttributesByCategoryID" resultType="com.ineuron.domain.product.valueobject.Attribute">
-    select * from attributes where attributeCategoryId=#{attributeCategoryId}
-  </select>
-  
-   <insert id="addProductCategory">
-    insert into productcategories (name,code,description,characters,techParameters,scope) 
-	values(#{name},#{code},#{description},#{characters},#{techParameters},#{scope})  
-  </insert>
-  
-  <insert id="addProduct">
-    insert into products (productname,productcode,description) 
-	values(#{productname},#{productcode},#{description})  
-  </insert>
-  
-  <select id="getProducts" resultType="com.ineuron.domain.product.entity.Product">
-    select * from products
-  </select>
-  
-  <update id="updateProduct">
-    update products p set p.productname = #{productname}, p.productcode = #{productcode}, p.description=#{description} where id = #{id}
-  </update>
-  
-  <update id="deleteProduct">
-    delete from products where productname = #{productname}
-  </update>
-  
-  <insert id="addAttribute">
-    insert into productattributes (productid,attribute) 
-	values(#{productid},#{attribute})
-  </insert>
-  
-  <update id="updateAttribute">
-    update productattributes a set a.attribute = #{attribute} where id = #{id}
-  </update>
-  
-   <delete id="deleteAttribute">
-    delete from productattributes where id = #{id}
-  </delete>
-  
-  <select id="getProcesses" resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
-    select * from productManufacturingProcess where productId = #{productId}
-  </select>
-  
-  <delete id="deleteProcesses" >
-    delete from productManufacturingProcess where productId = #{productId}
-  </delete>
-  
-  <insert id="insertProcess">
-      insert into productManufacturingProcess (productId,orderId,operationId,materialId,materialQuantity,equipmentId) 
-      values (#{productId},#{orderId},#{operationId},#{materialId},#{materialQuantity},#{equipmentId})     
-  </insert>
-  
-  <select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
-    select * from operations
-  </select>
-  
-  <select id="getMaterials" resultType="com.ineuron.domain.product.valueobject.Material">
-    select * from materials
-  </select>
-  
-  <select id="getFormulas" resultType="com.ineuron.domain.product.entity.Formula">
-    select * from productFormulas
-  </select>
-  
-  <insert id="addFormula">
-    insert into productFormulas (name,description) 
-	values(#{name},#{description})
-  </insert>
-  
-  <update id="updateFormula">
-    update productFormulas set name=#{name},description=#{description} where id=#{id}
-  </update>
-  
-  <delete id="deleteFormula" >
-    delete from productFormulas where id = #{id}
-  </delete>
-  
-  <select id="getFormulaMaterials" resultType="com.ineuron.domain.product.valueobject.FormulaMaterial">
-    select * from productFormulaMaterials where formulaId = #{id}
-  </select>
-  
-  <insert id="addFormulaMaterial">
-    insert into productFormulaMaterials (formulaId,materialId,materialQuantity) 
-	values(#{formulaId},#{materialId},#{materialQuantity})
-  </insert>
-  
-  <delete id="deleteFormulaMaterial" >
-    delete from productFormulaMaterials where formulaId = #{id}
-  </delete>
-  
+
+	<select id="getAttributeCategories"
+		resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
+		select * from attributecategories
+	</select>
+
+	<select id="getAttributes" resultType="com.ineuron.domain.product.valueobject.Attribute">
+		select * from attributes
+	</select>
+
+	<select id="getAttributesByCategoryID" resultType="com.ineuron.domain.product.valueobject.Attribute">
+		select * from attributes where attributeCategoryId=#{attributeCategoryId}
+	</select>
+
+	<insert id="addProductCategory">
+		insert into productcategories (name,code,description,characters,techParameters,scope)
+		values(#{name},#{code},#{description},#{characters},#{techParameters},#{scope})
+	</insert>
+
+	<select id="getProductCategories"
+		resultType="com.ineuron.domain.product.valueobject.ProductCategory">
+		select * from productcategories
+	</select>
+	
+	<select id="getProductCategoryByName"
+		resultType="com.ineuron.domain.product.valueobject.ProductCategory">
+		select * from productcategories where name=#{name}
+	</select>
+	
+	<select id="getProductCategoryByCode"
+		resultType="com.ineuron.domain.product.valueobject.ProductCategory">
+		select * from productcategories where code=#{code}
+	</select>
+	
+	
+	<update id="updateProductCategory">
+		update productcategories pc set pc.name = #{name}, pc.code =#{code}, 
+		pc.description=#{description}, pc.characters=#{characters}, pc.techParameters=#{techParameters}, pc.scope=#{scope} where id = #{id}
+	</update>
+
+	<insert id="addProduct">
+		insert into products (productname,productcode,description)
+		values(#{productname},#{productcode},#{description})
+	</insert>
+
+	<select id="getProducts" resultType="com.ineuron.domain.product.entity.Product">
+		select * from products
+	</select>
+	
+	<select id="getProductByCategory" resultType="com.ineuron.domain.product.entity.Product">
+		select * from products where productCategoryId=#{productCategoryId}
+	</select>
+
+	<update id="updateProduct">
+		update products p set p.productname = #{productname}, p.productcode =
+		#{productcode}, p.description=#{description} where id = #{id}
+	</update>
+
+	<update id="deleteProduct">
+		delete from products where productname = #{productname}
+	</update>
+
+	<insert id="addAttribute">
+		insert into productattributes (productid,attribute)
+		values(#{productid},#{attribute})
+	</insert>
+
+	<update id="updateAttribute">
+		update productattributes a set a.attribute = #{attribute} where id = #{id}
+	</update>
+
+	<delete id="deleteAttribute">
+		delete from productattributes where id = #{id}
+	</delete>
+
+	<select id="getProcesses"
+		resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
+		select * from productManufacturingProcess where productId = #{productId}
+	</select>
+
+	<delete id="deleteProcesses">
+		delete from productManufacturingProcess where productId = #{productId}
+	</delete>
+
+	<insert id="insertProcess">
+		insert into productManufacturingProcess
+		(productId,orderId,operationId,materialId,materialQuantity,equipmentId)
+		values
+		(#{productId},#{orderId},#{operationId},#{materialId},#{materialQuantity},#{equipmentId})
+	</insert>
+
+	<select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
+		select * from operations
+	</select>
+
+	<select id="getMaterials" resultType="com.ineuron.domain.product.valueobject.Material">
+		select * from materials
+	</select>
+
+	<select id="getFormulas" resultType="com.ineuron.domain.product.entity.Formula">
+		select * from productFormulas
+	</select>
+
+	<insert id="addFormula">
+		insert into productFormulas (name,description)
+		values(#{name},#{description})
+	</insert>
+
+	<update id="updateFormula">
+		update productFormulas set name=#{name},description=#{description} where
+		id=#{id}
+	</update>
+
+	<delete id="deleteFormula">
+		delete from productFormulas where id = #{id}
+	</delete>
+
+	<select id="getFormulaMaterials"
+		resultType="com.ineuron.domain.product.valueobject.FormulaMaterial">
+		select * from productFormulaMaterials where formulaId = #{id}
+	</select>
+
+	<insert id="addFormulaMaterial">
+		insert into productFormulaMaterials (formulaId,materialId,materialQuantity)
+		values(#{formulaId},#{materialId},#{materialQuantity})
+	</insert>
+
+	<delete id="deleteFormulaMaterial">
+		delete from productFormulaMaterials where formulaId = #{id}
+	</delete>
+
 </mapper>

@@ -11,30 +11,32 @@ import com.ineuron.common.exception.INeuronException;
 import com.ineuron.common.exception.RepositoryException;
 import com.ineuron.domain.product.repository.ProductRepository;
 
-public class Attribute {
+public class ProductCategory {
 
 	private Integer id;
 	private String name;
 	private String code;
 	private String description;
-	private Integer attributeCategoryId;
+	private String characters;
+	private String techParameters;
+	private String scope;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Attribute.class);
 
-	public void addAttribute(ProductRepository productRepository) throws RepositoryException {
-		productRepository.addAttribute(this);
+	public void addProductCategory(ProductRepository productRepository) throws RepositoryException {
+		productRepository.addProductCategory(this);
 		
 	}
 
-	public void updateAttribute(ProductRepository productRepository) throws RepositoryException {
-		productRepository.updateAttribute(this);
+	/*public void updateProductCategory(ProductRepository productRepository) throws RepositoryException {
+		productRepository.updateProductCategory(this);
 	}
 
 	
-	public void deleteAttibute(ProductRepository productRepository) throws RepositoryException {
-		productRepository.deleteAttribute(this);
+	public void deleteProductCategory(ProductRepository productRepository) throws RepositoryException {
+		productRepository.deleteProductCategory(this);
 		
-	}
+	}*/
 	
 	public Integer getId() {
 		return id;
@@ -69,11 +71,27 @@ public class Attribute {
 		this.description = description;
 	}
 
-	public Integer getAttributeCategoryId() {
-		return attributeCategoryId;
+	public String getCharacters() {
+		return characters;
 	}
-
-	public void setAttributeCategoryId(Integer attributeCategoryId) {
-		this.attributeCategoryId = attributeCategoryId;
+	
+	public void setCharacters(String characters) {
+		this.characters = characters;
+	}
+	
+	public String getTechParameters() {
+		return techParameters;
+	}
+	
+	public void setTechParameters(String techParameters) {
+		this.techParameters = techParameters;
+	}
+	
+	public String getScope() {
+		return scope;
+	}
+	
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 }

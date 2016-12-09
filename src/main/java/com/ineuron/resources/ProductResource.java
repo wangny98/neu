@@ -264,6 +264,28 @@ public INeuronResponse productListByCategory(final Integer productCategoryId, @C
 	return response;
 }
 
+@Path("/productbyname")
+@POST
+@Timed
+public INeuronResponse productByName(final String name, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		Product product = productService.getProductByName(name);
+		response.setValue(product);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+
 @Path("/attributecategorylist")
 @GET
 @Timed

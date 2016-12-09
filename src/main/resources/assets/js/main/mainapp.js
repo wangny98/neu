@@ -66,7 +66,7 @@ ineuronApp.config(function($stateProvider) {
 	
 	var productManagementState = {
 			name : 'productList',
-			url : 'productList/:productCategeryId',
+			url : 'productList/:productCategoryStr',
 			templateUrl : '/ineuron/product/productList.html'
 		}
 	

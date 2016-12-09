@@ -89,7 +89,16 @@ public class ProductRepository {
 	public void addProduct(Product product) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
-			System.out.println("product: "+product.getProductname());
+			int productSN=0;
+			Product p=session.selectOne("getMaxProductSNByCategoryId", product.getProductCategoryId());
+			if(p!=null) productSN=p.getSerialNumber()+1;
+			else productSN=1;
+			product.setSerialNumber(productSN);
+			//System.out.println("productSN: "+productSN);
+			String productCode=product.getCode()+"-"+String.format("%03d", productSN);
+			product.setCode(productCode);
+			
+			System.out.println("product code: "+productCode);
 			session.insert("addProduct", product);
 			session.commit();
 			System.out.println("insert product by using mybatis!");
@@ -135,7 +144,22 @@ public class ProductRepository {
 
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
+			System.out.println("pc id: "+productCategoryId);
 			List<Product> products = session.selectList("getProductByCategory", productCategoryId);
+			System.out.println("pc : "+products.get(0).getName());
+			return products;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public Product getProductByName(String name) throws RepositoryException {
+
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("pc id: "+productCategoryId);
+			Product products = session.selectOne("getProductByName", name);
+			//System.out.println("pc : "+products.get(0).getName());
 			return products;
 		} finally {
 			session.close();

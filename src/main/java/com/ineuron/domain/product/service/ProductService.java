@@ -74,6 +74,11 @@ public class ProductService {
 		return productList;
 	}
 	
+	public Product getProductByName(String name) throws RepositoryException{		
+		Product product = productRepository.getProductByName(name);
+		return product;
+	}
+	
 	public void createAttribute(Attribute attribute) throws RepositoryException {
 		attribute.addAttribute(productRepository);
 	}

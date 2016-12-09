@@ -13,6 +13,23 @@ function validateApiToken(data, cookies, $rootScope, $modal) {
 	});
 }
 
+/*function VerifyExistedProductCategoryName(productCategoryName, $http){
+	$http({
+		url : '/product/getproductcategorybyname',
+		method : 'POST',
+		data :  productCategoryName
+	}).success(function(data) {
+		var pc = data.value;
+		alert(pc.name);
+		if(pc==null) return false; 
+		 else return true;
+	}).error(function(data) {
+		//alert('error');
+		console.log("error to get productcategory ");
+		return false;
+	});		
+}*/
+
 function clone(obj) {  
     var o;  
     if (typeof obj == "object") {  

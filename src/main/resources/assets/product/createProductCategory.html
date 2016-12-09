@@ -19,7 +19,7 @@
 					<tr>
 						<td></td>
 						<td><label ng-show="existedProductCategoryName"
-							style="text-align: center; font-weight: bold; color: red">重复的产品类型名！请重新输入。</label>
+							style="text-align: center; font-weight: bold; color: red">产品类型名已存在！请重新输入。</label>
 						</td>
 						<td></td>
 					</tr>
@@ -33,7 +33,8 @@
 								output-model="selectedAttributeUsage" output-properties="code"
 								button-label="name code" item-label="name code"
 								tick-property="ticked" orientation="horizontal"
-								selection-mode="single"></div></td>
+								selection-mode="single"
+								on-close="CheckProductCategoryCode()"></div></td>
 						<td style="color: red">*</td>
 					</tr>
 					<tr>
@@ -43,7 +44,8 @@
 								output-model="selectedEmulsionType" output-properties="code"
 								button-label="name code" item-label="name code"
 								tick-property="ticked" orientation="horizontal"
-								selection-mode="single"></div></td>
+								selection-mode="single"
+								on-close="CheckProductCategoryCode()"></div></td>
 						<td style="color: red">*</td>
 					<tr>
 						<th class="labelformat">颜色</th>
@@ -65,7 +67,7 @@
 					<tr>
 						<td></td>
 						<td><label ng-show="existedProductCategoryCode"
-							style="text-align: center; font-weight: bold; color: red">重复的编码！请重新输入。</label>
+							style="text-align: center; font-weight: bold; color: red">编码已存在！请重新输入。</label>
 						</td>
 						<td></td>
 					</tr>

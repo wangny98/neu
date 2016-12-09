@@ -2,48 +2,72 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="ProductListController as productList">
-	<!-- 
-	<form class="form-inline" ng-submit="productList.addProduct($index)">
-	 -->
-	 <div>
-	<table datatable="ng" dt-options="productList.dtOptions"
-		dt-column-defs="productList.dtColumnDefs" class="row-border hover" id="table-style">
-		<thead>
-			<tr>
-				<th>产品名称</th>
-				<th>产品编号</th>
-				<th>产品描述</th>
-				<th style="width:100px">查看/修改</th>
-				<th style="width:100px">配方</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="product in productList.products">
-			   <td><input class="editableinput" type="text" ng-model="product.productname" required /></td>
-			   <td><input class="editableinput" type="text" ng-model="product.productcode" required /></td>
-			   <td><textarea style="resize:none;min-width:200px" class="editableinput" type="text" ng-model="product.description" /></td>
-				<!-- 
-				<td>{{product.productcode}}</td> 
-				<td>{{product.productname}}</td>
+		<table>
+			<tbody>
+				<tr>
+					<td style="width:90%">
+						<table id="table-style">
+							<tr>
+								<th>产品类型名</th>
+								<td>{{productCategoryName}}</td>
+							</tr>
+						</table>
+					</td>
+					<td style="float:right">
+						<div class="right-align">
+							<button class="custombutton"
+								ng-click="productList.productCreate()">
+								<span class="glyphicon glyphicon-new"></span> 新增产品
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<table datatable="ng" dt-options="productList.dtOptions"
+			dt-column-defs="productList.dtColumnDefs" class="row-border hover"
+			id="table-style">
+			<thead>
+				<tr>
+					<th>产品名称</th>
+					<th>产品编号</th>
+					<th>产品描述</th>
+					<th style="width: 100px">查看/修改</th>
+					<th style="width: 100px">生产工艺</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="product in productList.products">
+					<!-- 
+					<td><input class="editableinput" type="text"
+						ng-model="product.name" required /></td>
+					<td><input class="editableinput" type="text"
+						ng-model="product.code" required /></td>
+					<td><textarea style="resize: none; min-width: 200px"
+							class="editableinput" type="text" ng-model="product.description" /></td>
+					-->
+				<td>{{product.name}}</td> 
+				<td>{{product.code}}</td>
 				<td>{{product.description}}</td>
-				-->
-				<td>
-					<button type="button"
-						ng-click="productList.updateProduct($index)"
-						class="btn btn-warning" >
-						<i class="fa fa-edit"></i>
-					</button>					
-				</td>
-				<td>
-					<button type="button"
-						ng-click="productList.productFormula($index)"
-						class="btn btn-warning">
-						<i class="fa fa-list"></i>
-					</button>					
-				</td>
-			</tr>
-		</tbody>
-	</table>
+				
+					<td>
+						<button type="button" ng-click="productList.updateProduct($index)"
+							class="btn btn-warning">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+					<td>
+						<button type="button"
+							ng-click="productList.productManufacturingProcess($index)"
+							class="btn btn-warning">
+							<i class="fa fa-list"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<!-- </form> -->
 </div>

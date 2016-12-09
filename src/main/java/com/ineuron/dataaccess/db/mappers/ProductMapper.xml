@@ -61,7 +61,7 @@
 	</select>
 	
 	<select id="getMaxProductSNByCategoryId" resultType="com.ineuron.domain.product.entity.Product">
-		select * from products where serialNumber=( select max(serialNumber) from products where productCategoryId=#{productCategoryId})
+		select * from products where productCategoryId=#{productCategoryId} and serialNumber=( select max(serialNumber) from products where productCategoryId=#{productCategoryId})
 	</select>
 
 	<update id="updateProduct">

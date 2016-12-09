@@ -12,8 +12,15 @@
 					<tr>
 						<th class="labelformat">产品类名</th>
 						<td><input class="input-block-level" type="text"
-							ng-model="productCategoryName" required /></td>
+							ng-model="productCategoryName" ng-change="CheckProductCategoryName()" required /></td>
 						<td style="color:red">*</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label ng-show="existedProductCategoryName"
+							style="text-align: center; font-weight: bold; color: red">产品类型名已存在！请重新输入。</label>
+						</td>
+						<td></td>
 					</tr>
 					<tr>
 						<th class="labelformat">用途</th>
@@ -22,7 +29,8 @@
 											output-model="selectedAttributeUsage" output-properties="code"
 											button-label="name code" item-label="name code" tick-property="ticked" 
 											orientation="horizontal"
-											selection-mode="single">
+											selection-mode="single"
+											on-close="CheckProductCategoryCode()">
 						</div></td>
 						<td style="color:red">*</td>									
 					</tr>
@@ -33,7 +41,8 @@
 											output-model="selectedEmulsionType" output-properties="code"
 											button-label="name code" item-label="name code" tick-property="ticked" 
 											orientation="horizontal"
-											selection-mode="single">
+											selection-mode="single"
+											on-close="CheckProductCategoryCode()">
 						</div></td>
 						<td style="color:red">*</td>	
 					<tr>
@@ -43,9 +52,23 @@
 											output-model="selectedColor" output-properties="code"
 											button-label="name code" item-label="name code" tick-property="ticked" 
 											orientation="horizontal"
-											selection-mode="single">
+											selection-mode="single"
+											on-close="CheckProductCategoryCode()">
 						</div></td>
 						<td style="color:red">*</td>	
+					</tr>
+					<tr>
+						<th><label>产品类别编码：</label></th>
+						<td><label style="text-align: center; font-weight: bold; color: green">{{productCategoryCode}}</label>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label ng-show="existedProductCategoryCode"
+							style="text-align: center; font-weight: bold; color: red">编码已存在！请重新输入。</label>
+						</td>
+						<td></td>
 					</tr>
 					<tr>
 						<th class="labelformat">简介</th>

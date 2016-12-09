@@ -9,8 +9,11 @@ import com.ineuron.domain.product.repository.ProductRepository;
 public class Product {
 
 	private Integer id;
-	private String productname;
-	private String productcode;
+	private String name;
+	private String code;
+	private Integer productCategoryId;
+	private Integer serialNumber;
+	private Integer formulaId;
 	private String description;
 	
 
@@ -35,21 +38,45 @@ public class Product {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getProductname() {
-		return productname;
+	
+	public Integer getProductCategoryId() {
+		return productCategoryId;
 	}
 
-	public void setProductname(String productname) {
-		this.productname = productname;
+	public void setProductCategoryId(Integer productCategoryId) {
+		this.productCategoryId = productCategoryId;
+	}
+	
+	public Integer getFormulaId() {
+		return formulaId;
 	}
 
-	public String getProductcode() {
-		return productcode;
+	public void setFormulaId(Integer formulaId) {
+		this.formulaId = formulaId;
+	}
+	
+	public Integer getSerialNumber() {
+		return serialNumber;
 	}
 
-	public void setProductcode(String productcode) {
-		this.productcode = productcode;
+	public void setSerialNumber(Integer serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	public String getDescription() {

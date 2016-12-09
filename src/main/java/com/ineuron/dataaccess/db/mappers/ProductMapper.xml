@@ -44,8 +44,8 @@
 	</update>
 
 	<insert id="addProduct">
-		insert into products (productname,productcode,description)
-		values(#{productname},#{productcode},#{description})
+		insert into products (name,productCategoryId,serialNumber,code,formulaId,description)
+		values(#{name},#{productCategoryId},#{serialNumber},#{code},#{formulaId},#{description})
 	</insert>
 
 	<select id="getProducts" resultType="com.ineuron.domain.product.entity.Product">
@@ -54,6 +54,14 @@
 	
 	<select id="getProductByCategory" resultType="com.ineuron.domain.product.entity.Product">
 		select * from products where productCategoryId=#{productCategoryId}
+	</select>
+	
+	<select id="getProductByName" resultType="com.ineuron.domain.product.entity.Product">
+		select * from products where name=#{name}
+	</select>
+	
+	<select id="getMaxProductSNByCategoryId" resultType="com.ineuron.domain.product.entity.Product">
+		select * from products where serialNumber=( select max(serialNumber) from products where productCategoryId=#{productCategoryId})
 	</select>
 
 	<update id="updateProduct">

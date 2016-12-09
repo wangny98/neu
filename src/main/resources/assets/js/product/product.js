@@ -1,291 +1,14 @@
 
-ineuronApp.controller('ProductCategoryCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
-	function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
-	
-	$scope.existedProductCategoryCode=false;
-	$scope.existedProductCategoryName=false;
-	var companyCode="HS";
-	
-	var vm = this;
-    
-	//get attribute list
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 1
-	}).success(function(data) {
-		vm.attributeUsages=data.value;
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-  	});
-		
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 2
-	}).success(function(data) {
-		vm.attributeEmulsionTypes=data.value;
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-  	});
-
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 3
-	}).success(function(data) {
-		vm.attributeColors=data.value;
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-  	});
-
-	$scope.CheckProductCategoryName=function(){
-		//alert("checkproductcategeryname");
-		//$scope.existedProductCategoryName=VerifyExistedProductCategoryName($scope.productCategoryName, $http);
-		$http({
-			url : '/product/getproductcategorybyname',
-			method : 'POST',
-			data :  $scope.productCategoryName
-		}).success(function(data) {
-			var pc = data.value;
-			if(pc==null) $scope.existedProductCategoryName=false; 
-			 else $scope.existedProductCategoryName=true;
-		}).error(function(data) {
-			//alert('error');
-			console.log("error to get productcategory ");
-		});				
-	}
-	
-	$scope.CheckProductCategoryCode=function(){
-		$scope.productCategoryCode=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-		$http({
-			url : '/product/getproductcategorybycode',
-			method : 'POST',
-			data :  $scope.productCategoryCode
-		}).success(function(data) {
-			var pc = data.value;
-			if(pc==null) $scope.existedProductCategoryCode=false; 
-			 else $scope.existedProductCategoryCode=true;
-		}).error(function(data) {
-			//alert('error');
-			console.log("error to get productcategory ");
-		});			
-	}
-	
-	vm.createProductCategory = createProductCategory;
-	function createProductCategory() {
-	   //alert("to createProductCategory");
-		$scope.productCategoryCode=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-		
-		$http({
-			url : '/product/createproductcategory',
-			method : 'POST',
-			data : {
-				name : $scope.productCategoryName,
-				code: $scope.productCategoryCode,
-				description : $scope.productCategoryDescription,
-				characters: $scope.productCategoryCharacters,
-				techParameters: $scope.productCategoryTechParameters,
-				scope: $scope.productCategoryScope			
-			}
-		}).success(function(data) {
-			validateApiToken(data, $cookies);
-			ineuronApp.confirm("提示","产品类型添加成功！", 'sm', $rootScope, $modal);		
-			$state.go("productCategoryList");
-		}).error(function(data) {
-			alert('error');
-			console.log("error");
-	  		})
-	  	}
-	  		
-}]);
-
-
-ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
-	function($http, $scope, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
-	var vm = this;
-	
-	$http({
-		url : '/product/productcategorylist',
-		method : 'GET'
-	}).success(function(data) {
-		validateApiToken(data, $cookies);
-		vm.productCategories = data.value;
-	}).error(function(data) {
-		alert('error');
-		console.log("error");
-	});
-
-	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-			'full_numbers');
-	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
-	                    DTColumnDefBuilder.newColumnDef(1),
-	                    DTColumnDefBuilder.newColumnDef(2).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(3).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(4).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(5).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(6).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(7).notSortable() ];
-	
-	vm.updateProductCategory=updateProductCategory;
-	function updateProductCategory(index){
-		//alert(index+vm.productCategories[index].code);
-		$state.go("updateProductCategory", {productCategoryStr: JSON.stringify(vm.productCategories[index])});
-	}
-	
-	vm.productList=productList;
-	function productList(index){
-		//var pcId=vm.productCategories[index].id;
-		$state.go("productList", {productCategoryStr: JSON.stringify(vm.productCategories[index])});
-	}
-	
-	vm.createProductCategory=createProductCategory;
-	function createProductCategory(){
-		//alert("index: "+index);
-		$state.go("createProductCategory");
-	}
-	
-	vm.createProduct=createProduct;
-	function createProduct(){
-		//alert("index: "+index);
-		$state.go("createProduct");
-	}
-	
-}]);
-
-ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
-    function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
-	
-	var productCategory = eval('(' + $stateParams.productCategoryStr + ')');
-	$scope.productCategoryName=productCategory.name;
-	var codeList=productCategory.code.split("-");
-	$scope.existedProductCategoryCode=false;
-	$scope.existedProductCategoryName=false;
-	var companyCode="HS";
-	
-	var vm = this;
-
-	//get attribute list
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 1
-	}).success(function(data) {
-		vm.attributeUsages=data.value;
-		for (var i in vm.attributeUsages){
-			if(vm.attributeUsages[i].code==codeList[1]) vm.attributeUsages[i].ticked=true;
-		}
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-	});
-
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 2
-	}).success(function(data) {
-		vm.attributeEmulsionTypes=data.value;
-		for (var i in vm.attributeEmulsionTypes){
-			if(vm.attributeEmulsionTypes[i].code==codeList[2]) vm.attributeEmulsionTypes[i].ticked=true;
-		}
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-	});
-
-	$http({
-		url : '/product/attributesbycategoryid',
-		method : 'POST',
-		data : 3
-	}).success(function(data) {
-		vm.attributeColors=data.value;
-		for (var i in vm.attributeColors){
-			if(vm.attributeColors[i].code==codeList[3]) vm.attributeColors[i].ticked=true;
-		}
-	}).error(function(data) {
-		//alert('error');
-		console.log("error in get attribute list");
-	});
-
-	$scope.CheckProductCategoryName=function(){
-		//alert("checkproductcategeryname");
-		//$scope.existedProductCategoryName=VerifyExistedProductCategoryName($scope.productCategoryName, $http);
-		$http({
-			url : '/product/getproductcategorybyname',
-			method : 'POST',
-			data :  $scope.productCategoryName
-		}).success(function(data) {
-			var pc = data.value;
-			if(pc==null) $scope.existedProductCategoryName=false; 
-			 else $scope.existedProductCategoryName=true;
-		}).error(function(data) {
-			//alert('error');
-			console.log("error to get productcategory ");
-		});				
-	}
-	
-	$scope.CheckProductCategoryCode=function(){
-		$scope.productCategoryCode=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-		$http({
-			url : '/product/getproductcategorybycode',
-			method : 'POST',
-			data :  $scope.productCategoryCode
-		}).success(function(data) {
-			var pc = data.value;
-			if(pc==null) $scope.existedProductCategoryCode=false; 
-			 else $scope.existedProductCategoryCode=true;
-		}).error(function(data) {
-			//alert('error');
-			console.log("error to get productcategory ");
-		});			
-	}
-	
-	vm.updateProductCategory = updateProductCategory;
-	function updateProductCategory() {
-		ineuronApp.confirm("确认","确定修改吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
-			if(clickok){
-				var companyCode="HS";
-				var codeStr=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-				//alert($scope.selectedAttributeUsage);
-				$http({
-					url : '/product/updateproductcategory',
-					method : 'POST',
-					data : {
-						id : selectedProductCategory.id,
-						name : $scope.productCategoryName,
-						code: codeStr,
-						description : $scope.productCategoryDescription,
-						characters: $scope.productCategoryCharacters,
-						techParameters: $scope.productCategoryTechParameters,
-						scope: $scope.productCategoryScope			
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies);
-					ineuronApp.confirm("提示","修改类型成功！", 'sm', $rootScope, $modal);		
-					$state.go("productCategoryList");
-				}).error(function(data) {
-					alert('error');
-					console.log("error");
-				})
-			}
-		});				
-	}
-
-}]);
-
-
 ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
     function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
 	
 	var vm = this;
 	
+	$scope.existedProductName=false;
 	$scope.CheckProductName=function(){
-		//alert("checkproductcategeryname");
-		//$scope.existedProductCategoryName=VerifyExistedProductCategoryName($scope.productCategoryName, $http);
+		// alert("checkproductcategeryname");
+		// $scope.existedProductCategoryName=VerifyExistedProductCategoryName($scope.productCategoryName,
+		// $http);
 		$http({
 			url : '/product/productbyname',
 			method : 'POST',
@@ -295,32 +18,32 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 			if(pc==null) $scope.existedProductName=false; 
 			 else $scope.existedProductName=true;
 		}).error(function(data) {
-			//alert('error');
+			// alert('error');
 			console.log("error to get product ");
 		});				
 	}
 	
-	//get productcategory list
+	// get productcategory list
 	$http({
 		url : '/product/productcategorylist',
 		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.productCategories = data.value;
-		//alert(vm.productCategories[0].name);
+		// alert(vm.productCategories[0].name);
 	}).error(function(data) {
 		ineuronApp.confirm("提示","调用失败！", 'sm', $rootScope, $modal);
 		console.log("error");
 	});
 	
-	//get formula list
+	// get formula list
 	$http({
 		url : '/product/formulas',
 		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.productFormulas = data.value;
-		//alert(vm.productFormulas[0].name);
+		// alert(vm.productFormulas[0].name);
 	}).error(function(data) {
 		ineuronApp.confirm("提示","调用失败！", 'sm', $rootScope, $modal);
 		console.log("error");
@@ -329,7 +52,8 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 	
 	vm.createProduct = createProduct;
 	function createProduct() {
-	   alert("pc id: "+$scope.selectedProductCategory[0].id+$scope.selectedProductCategory[0].code+$scope.selectedProductFormula.id);
+	   // alert("pc id:
+		// "+$scope.selectedProductCategory[0].id+$scope.selectedProductCategory[0].code+$scope.selectedProductFormula.id);
 		$http({
 			url : '/product/createproduct',
 			method : 'POST',
@@ -343,7 +67,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 		}).success(function(data) {
 			validateApiToken(data, $cookies);
 			ineuronApp.confirm("提示","产品添加成功！", 'sm', $rootScope, $modal);		
-			$state.go("productList");
+			$state.go("productList", {productCategoryStr: JSON.stringify($scope.selectedProductCategory[0])});
 		}).error(function(data) {
 			ineuronApp.confirm("提示","产品添加失败！", 'sm', $rootScope, $modal);
 			console.log("error");
@@ -367,14 +91,12 @@ ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams
 	}).success(function(data) {
 		validateApiToken(data, $cookies);
 		vm.products = data.value;
-		//alert(vm.products[0].name);
 	}).error(function(data) {
-		//alert('error');
+		// alert('error');
 		console.log("error");
 	});
 
-	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-	'full_numbers');
+	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
 	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 	                    DTColumnDefBuilder.newColumnDef(1),
 	                    DTColumnDefBuilder.newColumnDef(2).notSortable(),
@@ -385,26 +107,21 @@ ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams
 	function updateProduct($index){
 		ineuronApp.confirm("确认","确定修改吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
 			if(clickok){
-					/*$http({
-    					url : '/user/delete',
-    					method : 'POST',
-    					data : {
-    						username : $scope.updateUsername
-    					}
-    				}).success(function(data) {
-    					validateApiToken(data, $cookies);
-    					$state.go("userManagement");
-    				}).error(function(data) {
-    					alert('error in delete');
-    					console.log("error");
-    				})*/
+					/*
+					 * $http({ url : '/user/delete', method : 'POST', data : {
+					 * username : $scope.updateUsername }
+					 * }).success(function(data) { validateApiToken(data,
+					 * $cookies); $state.go("userManagement");
+					 * }).error(function(data) { alert('error in delete');
+					 * console.log("error"); })
+					 */
 			}
 		});		
 	}
 
 	vm.productCreate=productCreate;
 	function productCreate(){
-		//alert("create pro");
+		// alert("create pro");
 		$state.go("createProduct");
 	}
 
@@ -413,99 +130,6 @@ ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams
 	function updateManufacturingProcess(index) {
 		// alert(vm.users[index]);
 		$state.go("productManufacturingProcess", {productStr: JSON.stringify(vm.products[index])});
-	}
-}]);
-
-ineuronApp.controller('ProductAttributesController', ['$http', '$scope', '$stateParams', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
-	function($http, $scope, $stateParams, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
-	var vm = this;
-	var selectedProductStr = $stateParams.productStr;
-	var selectedProduct = eval('(' + selectedProductStr + ')');	
-	
-	//alert(selectedProduct);
-	vm.product=selectedProduct;
-	//alert("productid: "+vm.product.id);
-	$http({
-		url : '/product/attributelist',
-		method : 'POST',
-		data : vm.product.id
-	}).success(function(data) {
-		validateApiToken(data, $cookies);
-		vm.attributes = data.value;
-	}).error(function(data) {
-		alert('error');
-		console.log("error");
-	});
-
-	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-			'full_numbers');
-	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
-			DTColumnDefBuilder.newColumnDef(1).notSortable() ];
-	
-	vm.updateAttribute=updateAttribute;
-	function updateAttribute($index){
-		ineuronApp.confirm("确认","确定修改吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
-			if(clickok){
-				 /*$http({
-					url : '/user/delete',
-					method : 'POST',
-					data : {
-						username : $scope.updateUsername
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies);
-					$state.go("userManagement");
-				}).error(function(data) {
-					alert('error in delete');
-					console.log("error");
-				})*/
-			}
-		});		
-	}
-	
-	vm.addAttribute=addAttribute;
-	function addAttribute($index){
-		//alert("id: "+vm.product.id+" attribute: "+vm.newAttribute);
-		ineuronApp.confirm("确认","确定添加吗？", 'sm', $rootScope, $modal).result.then(function(clickok){
-			
-			if(clickok){
-				 $http({
-					url : '/product/createattribute',
-					method : 'POST',
-					data : {
-						productid : vm.product.id,
-						attribute: vm.newAttribute
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies);
-					$state.go("productAttributes");
-				}).error(function(data) {
-					//alert('error in add ');
-					console.log("error in add attribute");
-				})
-			}
-		});		
-	}
-	
-	vm.deleteAttribute=deleteAttribute;
-	function deleteAttribute($index){
-		ineuronApp.confirm("确认","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
-			if(clickok){
-				 /*$http({
-					url : '/user/delete',
-					method : 'POST',
-					data : {
-						username : $scope.updateUsername
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies);
-					$state.go("userManagement");
-				}).error(function(data) {
-					alert('error in delete');
-					console.log("error");
-				})*/
-			}
-		});		
 	}
 }]);
 
@@ -533,7 +157,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				url : '/product/manufacturing?id=' + productId,
 				method : 'GET'
 			}).success(function(data) {
-				//alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				validateApiToken(data, $cookies);
 				$scope.model = {
 					rows : data.value,
@@ -548,7 +172,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				url : '/product/operations',
 				method : 'GET'
 			}).success(function(data) {
-				//alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				validateApiToken(data, $cookies);
 				$scope.operations = data.value;
 			}).error(function(data) {
@@ -560,7 +184,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				url : '/product/materials',
 				method : 'GET'
 			}).success(function(data) {
-				//alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				validateApiToken(data, $cookies);
 				$scope.materials = data.value;
 			}).error(function(data) {
@@ -616,7 +240,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 			};
 			
 			function saveProcesses(){
-				//alert(JSON.stringify($scope.model.rows));
+				// alert(JSON.stringify($scope.model.rows));
 				$http({
 					url : '/product/saveprocesses',
 					method : 'POST',
@@ -723,7 +347,7 @@ ineuronApp.controller('UpdateFormulaController', [
 			url : '/product/materials',
 			method : 'GET'
 		}).success(function(data) {
-			//alert(JSON.stringify(data));
+			// alert(JSON.stringify(data));
 			validateApiToken(data, $cookies);
 			$scope.materials = data.value;
 		}).error(function(data) {

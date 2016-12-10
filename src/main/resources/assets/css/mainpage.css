@@ -95,6 +95,11 @@ color: #fff;
 	border:none;
 }
 
+.td-item{
+	width:80%;
+	height:30px;
+}
+
 body{
     background-size: cover;
     background:url(../images/bgcube.jpg);

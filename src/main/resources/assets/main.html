@@ -80,14 +80,15 @@
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
 							<li><a ui-sref="userManagement" class="secondmenu-position" ui-sref-active="active"
-								ng-show="ShowUserManagementMenu()"> <i
+								ng-show="hasPermission('5')"> <i
 									class="glyphicon glyphicon-user"></i>用户管理
 							</a></li>
 							<li><a ui-sref="roleManagement" class="secondmenu-position" ui-sref-active="active"
-								ng-show="ShowRoleManagementMenu()"> <i
+								ng-show="hasPermission('5')"> <i
 									class="glyphicon glyphicon-asterisk"></i>角色管理
 							</a></li>
-						</ul></li>
+						</ul>
+					</li>
 					<li><a href="#productManagement" class="nav-header collapsed"
 						data-toggle="collapse"><i
 							class="glyphicon glyphicon-credit-card"></i> 产品管理 <span
@@ -97,11 +98,6 @@
 							<li><a ui-sref="productCategoryList" class="secondmenu-position" ui-sref-active="active">
 									<i class="glyphicon glyphicon-list"></i>产品类型管理 
 							</a></li>
-						    <!-- 
-							<li><a ui-sref="productList" ui-sref-active="active">
-									<i class="glyphicon glyphicon-list"></i>产品管理
-							</a></li>
-							 -->
 							<li><a ui-sref="formulaList" class="secondmenu-position" ui-sref-active="active">
 									<i class="glyphicon glyphicon-list"></i>配方管理
 							</a></li>

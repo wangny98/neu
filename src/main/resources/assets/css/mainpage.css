@@ -58,6 +58,10 @@ padding-left: 50px;
 color: #fff;
 }
 
+.secondmenu-position{
+	float:left;
+	margin-left:20px;
+}
 .title {
 	display: inline-block;
 	font-size:x-large;

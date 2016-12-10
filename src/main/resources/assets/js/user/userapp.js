@@ -248,6 +248,14 @@ ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$c
 	function updateRole(index) {
 		$state.go("updateRole", {roleStr: JSON.stringify(vm.roles[index])});
 	}
+	
+	$scope.hasPermission = function(funcId){
+		if(hasPermission(funcId)){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }]);
 
 ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',

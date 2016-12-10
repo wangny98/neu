@@ -176,9 +176,8 @@ ineuronApp.controller('UserCreateController', ['$scope', '$rootScope', '$modal',
 	$scope.usernameCheck=function(){
 		//alert("checkusername");
 		$http({
-			url : '/user/user',
-			method : 'POST',
-			data :  $scope.createUsername
+			url : '/user/user?username='+$scope.createUsername,
+			method : 'GET'
 		}).success(function(data) {
 			var user = data.value;
 			if(user==null) $scope.existedUsername=false; 
@@ -219,7 +218,7 @@ ineuronApp.controller('UserCreateController', ['$scope', '$rootScope', '$modal',
 }]);
 
 
-ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', , '$rootScope', '$modal', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', '$rootScope', '$modal', 'DTOptionsBuilder', 'DTColumnDefBuilder',
 	function($http, $scope, $location, $cookies, $state, $rootScope, $modal, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	$http({

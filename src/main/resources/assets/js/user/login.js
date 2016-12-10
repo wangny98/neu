@@ -71,9 +71,8 @@ ineuronApp.controller('UserRegisterCtrl', ['$scope', '$rootScope', '$modal', '$h
 	$scope.usernameCheck=function(){
 		//alert("checkusername");
 		$http({
-			url : '/user/user',
-			method : 'POST',
-			data :  $scope.username
+			url : '/user/user?username=' + $scope.username,
+			method : 'GET'
 		}).success(function(data) {
 			var user = data.value;
 			if(user==null) $scope.existedUsername=false; 

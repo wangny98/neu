@@ -129,34 +129,12 @@ ineuronApp.config(function($stateProvider) {
 
 });
 
-ineuronApp.controller('NavMenuController', ['$scope', '$cookies', function($scope, $cookies) {
+ineuronApp.controller('NavMenuController', ['$scope', function($scope) {
 	
-	var allPermissionsStr=$cookies.get('INeuron-allPermissions');
-
-	var allPermissions = eval('(' + allPermissionsStr + ')');
-	$scope.ShowUserManagementMenu = function() {
-		var userManagementMenu="用户管理";
-		for (index in allPermissions){
-			var permission = allPermissions[index];
-	        var strFunc=permission.function;
-	        if (strFunc.indexOf(userManagementMenu)>=0){
-	        	return true;
-	        }      	
-	     }
-        return false;
+	$scope.hasPermission = function(funcId) {
+		return hasPermission(funcId);
 	}
 	
-	$scope.ShowRoleManagementMenu = function() {
-		var roleManagementMenu="角色管理";
-		for (index in allPermissions){
-			var permission = allPermissions[index];
-	        var strFunc=permission.function;
-	        if (strFunc.indexOf(roleManagementMenu)>=0){
-	        	return true;
-	        }      	
-	     }
-        return false;
-	}
 }]);
 
 ineuronApp.controller('LogoutController', ['$scope', '$cookies', function($scope, $cookies) {

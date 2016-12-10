@@ -9,18 +9,44 @@ function validateApiToken(data, cookies, $rootScope, $modal) {
 	
 }
 
+/*
+[
+{"function":"1|用户管理","operations":["2|编辑","3|打印"]},
+{"function":"2|产品管理","operations":["2|编辑"]},
+{"function":"3|订单管理","operations":["1|查询","3|打印"]},
+{"function":"5|角色管理","operations":["1|查询"]}
+]
+ */
 function hasPermission(funcId) {
+	//alert(funcId);
 	var allPermissionsStr = getCookie('INeuron-allPermissions');
-	alert(allPermissionsStr);
+	//alert(allPermissionsStr);
 	var allPermissions = eval('(' + allPermissionsStr + ')');
 	var funcParts = funcId.split("-");
 	if(funcParts.length == 1){
-		
+		for(index in  allPermissions){
+			var permission = allPermissions[index];
+			var functionId = permission.function.split("|")[0];
+			if(funcId == functionId){
+				return true;
+			}
+		}
 	}else if(funcParts.length == 2){
-		
-	}else{
-		return false;
+		for(index in  allPermissions){
+			var permission = allPermissions[index];
+			var functionId = permission.function.split("|")[0];
+			if(funcParts[0] == functionId){
+				for(opIndex in permission.operations){
+					if(funcParts[1] == permission.operations[opIndex].split("|")[0]){
+						return true;
+					}
+				}
+			}
+		}
 	}
+	
+	return false;
+	
 }
 
 function getCookie(name) {

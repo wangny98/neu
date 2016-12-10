@@ -100,11 +100,11 @@
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
 							<li><a ui-sref="userManagement" ui-sref-active="active"
-								ng-show="ShowUserManagementMenu()"> <i
+								ng-show="hasPermission('1')"> <i
 									class="glyphicon glyphicon-user"></i>用户管理
 							</a></li>
 							<li><a ui-sref="roleManagement" ui-sref-active="active"
-								ng-show="ShowRoleManagementMenu()"> <i
+								ng-show="hasPermission('5')"> <i
 									class="glyphicon glyphicon-asterisk"></i>角色管理
 							</a></li>
 						</ul></li>

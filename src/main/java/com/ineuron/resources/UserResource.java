@@ -174,9 +174,9 @@ public class UserResource {
 	
 
 	@Path("/user")
-	@POST
+	@GET
 	@Timed
-	public INeuronResponse getUserByUsername(final String username, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+	public INeuronResponse getUserByUsername(@QueryParam("username") String username, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 		INeuronResponse response = null;
 		LOGGER.info("in userResource: getUserByUsername. username:" + username);
 		try {

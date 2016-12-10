@@ -128,7 +128,6 @@ ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams
 
 	vm.updateManufacturingProcess=updateManufacturingProcess;
 	function updateManufacturingProcess(index) {
-		// alert(vm.users[index]);
 		$state.go("productManufacturingProcess", {productStr: JSON.stringify(vm.products[index])});
 	}
 }]);

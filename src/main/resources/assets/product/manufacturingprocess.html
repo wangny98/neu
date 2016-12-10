@@ -2,13 +2,11 @@
 
 <div ng-controller="ProductManufacturingProcessController as productManufacturing">
 	<div class="message">产品工艺流程</div>
-	<div class="container">	
-		<table class="functionarea">
+		<table id="table-style">
 			<tbody>
 				<tr>
 					<th class="labelformat">产品名称：</th>
-					<td><input class="input-block-level" type="text"
-							ng-model="productName" disabled>
+					<td>{{productName}}
 					</td>
 				</tr>
 			</tbody>
@@ -27,9 +25,8 @@
 				</button>
 				
 		</div>	
-		<div class="row">
 			<div class="col-xs-12">
-				<table class="table">
+				<table style="width:100%" id="table-style">
 					<thead>
 						<tr>
 							<th>操作顺序</th>
@@ -47,45 +44,42 @@
 		<script type="text/ng-template" id="display">
 			  <td>{{$index}}</td>
               <td>
-				<select disabled
+				<select class="td-item" disabled
     				ng-model="row.operationId"
     				ng-options="value.id as value.name for value in operations">
 				</select>
       	      </td>	
               <td>
-                <select disabled
+                <select class="td-item" disabled
     				ng-model="row.materialId"
     				ng-options="value.id as value.name for value in materials">
 				</select>
               </td>
 			  <td>{{row.materialQuantity}}</td>
 			  <td>
-            	<button ng-click="editContact($index)">Edit</button>
-				<button ng-click="removeRow($index)">Remove</button>
+            	<button ng-click="editContact($index)">编辑</button>
+				<button ng-click="removeRow($index)">删除</button>
        		  </td>
 		</script>
 		<script type="text/ng-template" id="edit">
         	<td>{{$index}}</td>
 			<td>
-				<select 
+				<select class="td-item"
     				ng-model="row.operationId"
     				ng-options="value.id as value.name for value in operations">
 				</select>
       	      </td>	
               <td>
-                <select 
+                <select class="td-item"
     				ng-model="row.materialId"
     				ng-options="value.id as value.name for value in materials">
 				</select>
               </td>
             <td><input type="text" ng-model="model.selected.materialQuantity" /></td>
         	<td>
-            	<button ng-click="saveContact($index)">Save</button>
-            	<button ng-click="reset()">Cancel</button>
+            	<button ng-click="saveContact($index)">完成</button>
+            	<button ng-click="reset()">取消</button>
         	</td>
     	</script>
 			</div>
-		</div>
-	</div>
 </div>
-<!-- /container -->

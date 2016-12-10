@@ -150,7 +150,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 
 			var productStr = $stateParams.productStr;
 			var selectedProduct = eval('(' + productStr + ')');
-			$scope.productName = selectedProduct.productname;
+			$scope.productName = selectedProduct.name;
 			var productId = selectedProduct.id;
 			$http({
 				url : '/product/manufacturing?id=' + productId,

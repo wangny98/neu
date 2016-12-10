@@ -28,7 +28,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 		url : '/product/productcategorylist',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.productCategories = data.value;
 		// alert(vm.productCategories[0].name);
 	}).error(function(data) {
@@ -41,7 +41,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 		url : '/product/formulas',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.productFormulas = data.value;
 		// alert(vm.productFormulas[0].name);
 	}).error(function(data) {
@@ -65,7 +65,7 @@ ineuronApp.controller('ProductCreateController', ['$scope', '$stateParams', '$ht
 				description : $scope.productDescription
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			ineuronApp.confirm("提示","产品添加成功！", 'sm', $rootScope, $modal);		
 			$state.go("productList", {productCategoryStr: JSON.stringify($scope.selectedProductCategory[0])});
 		}).error(function(data) {
@@ -89,7 +89,7 @@ ineuronApp.controller('ProductListController', ['$http', '$scope', '$stateParams
 		method : 'POST',
 		data : productCategory.id
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.products = data.value;
 	}).error(function(data) {
 		// alert('error');
@@ -157,7 +157,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				method : 'GET'
 			}).success(function(data) {
 				// alert(JSON.stringify(data));
-				validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies, $rootScope, $modal);
 				$scope.model = {
 					rows : data.value,
 					selected : {}
@@ -172,7 +172,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				method : 'GET'
 			}).success(function(data) {
 				// alert(JSON.stringify(data));
-				validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies, $rootScope, $modal);
 				$scope.operations = data.value;
 			}).error(function(data) {
 				alert('error');
@@ -184,7 +184,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 				method : 'GET'
 			}).success(function(data) {
 				// alert(JSON.stringify(data));
-				validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies, $rootScope, $modal);
 				$scope.materials = data.value;
 			}).error(function(data) {
 				alert('error');
@@ -245,7 +245,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 					method : 'POST',
 					data : $scope.model.rows
 				}).success(function(data) {
-					validateApiToken(data, $cookies);
+					validateApiToken(data, $cookies, $rootScope, $modal);
 					if(data.success == true){
 						ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
 					}
@@ -268,7 +268,7 @@ ineuronApp.controller('FormulaListController', ['$http', '$scope', '$rootScope',
 		url : '/product/formulas',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.formulas = data.value;
 	}).error(function(data) {
 		alert('error');
@@ -334,7 +334,7 @@ ineuronApp.controller('UpdateFormulaController', [
 			url : '/product/formulamaterials?id=' + formulaId,
 			method : 'GET'
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			$scope.formula.materials = data.value;
 			$scope.formula.selected = {};
 		}).error(function(data) {
@@ -347,7 +347,7 @@ ineuronApp.controller('UpdateFormulaController', [
 			method : 'GET'
 		}).success(function(data) {
 			// alert(JSON.stringify(data));
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			$scope.materials = data.value;
 		}).error(function(data) {
 			alert('error');
@@ -409,7 +409,7 @@ ineuronApp.controller('UpdateFormulaController', [
 				method : 'POST',
 				data : formula
 			}).success(function(data) {
-				validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies, $rootScope, $modal);
 				if(data.success == true){
 					ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
 				}
@@ -491,7 +491,7 @@ ineuronApp.controller('CreateFormulaController', [
 				method : 'POST',
 				data : $scope.formula
 			}).success(function(data) {
-				validateApiToken(data, $cookies);
+				validateApiToken(data, $cookies, $rootScope, $modal);
 				if(data.success == true){
 					ineuronApp.confirm("提示","保存成功！", 'sm', $rootScope, $modal);
 					$state.go("formulaList");

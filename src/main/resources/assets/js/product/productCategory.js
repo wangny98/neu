@@ -93,7 +93,7 @@ ineuronApp.controller('ProductCategoryCreateController', ['$scope', '$stateParam
 				scope: $scope.productCategoryScope			
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			ineuronApp.confirm("提示","产品类型添加成功！", 'sm', $rootScope, $modal);		
 			$state.go("productCategoryList");
 		}).error(function(data) {
@@ -113,7 +113,7 @@ ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$roo
 		url : '/product/productcategorylist',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.productCategories = data.value;
 	}).error(function(data) {
 		alert('error');
@@ -265,7 +265,7 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 						scope: $scope.productCategoryScope			
 					}
 				}).success(function(data) {
-					validateApiToken(data, $cookies);
+					validateApiToken(data, $cookies, $rootScope, $modal);
 					ineuronApp.confirm("提示","修改类型成功！", 'sm', $rootScope, $modal);		
 					$state.go("productCategoryList");
 				}).error(function(data) {

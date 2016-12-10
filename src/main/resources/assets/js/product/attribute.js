@@ -13,7 +13,7 @@ ineuronApp.controller('ProductAttributesController', ['$http', '$scope', '$state
 		method : 'POST',
 		data : vm.product.id
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.attributes = data.value;
 	}).error(function(data) {
 		alert('error');
@@ -55,7 +55,7 @@ ineuronApp.controller('ProductAttributesController', ['$http', '$scope', '$state
 						attribute: vm.newAttribute
 					}
 				}).success(function(data) {
-					validateApiToken(data, $cookies);
+					validateApiToken(data, $cookies, $rootScope, $modal);
 					$state.go("productAttributes");
 				}).error(function(data) {
 					// alert('error in add ');

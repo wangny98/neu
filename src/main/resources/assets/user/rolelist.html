@@ -23,7 +23,7 @@
 				<td>{{ role.description }}</td>
 				<td>
 					<button type="button" ng-click="roleList.updateRole($index)"
-						class="btn btn-warning" ng-disabled="role.rolename=='系统管理员'">
+						class="btn btn-warning" ng-disabled="hasPermission('5-2')">
 						<i class="fa fa-edit"></i>
 					</button>
 				</td>

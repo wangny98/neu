@@ -42,7 +42,7 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 		url : '/user/rolelist',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.roles = data.value;
 			
 		for (var i in vm.roles){
@@ -96,7 +96,7 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 				permissions: strPer
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			$state.go("userManagement");
 		}).error(function(data) {
 			alert('error');
@@ -115,7 +115,7 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 						username : $scope.updateUsername
 					}
 				}).success(function(data) {
-					validateApiToken(data, $cookies);
+					validateApiToken(data, $cookies, $rootScope, $modal);
 					$state.go("userManagement");
 				}).error(function(data) {
 					alert('error in delete');
@@ -128,15 +128,15 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 
 }]); // end of controller
 
-ineuronApp.controller('UserListController', ['$http', '$scope', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
-	function($http, $scope, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+ineuronApp.controller('UserListController', ['$http', '$scope', '$location', '$cookies', '$state', '$rootScope', '$modal', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $location, $cookies, $state, $rootScope, $modal, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	
 	$http({
 		url : '/user/list',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.users = data.value;
 		/*var usernameList=new Array();
 		for (var i in vm.users){
@@ -207,10 +207,7 @@ ineuronApp.controller('UserCreateController', ['$scope', '$rootScope', '$modal',
 				password : $scope.createUserPassword				
 			}
 		}).success(function(data) {
-			ineuronApp.confirm("提示","新用户已添加！", 'sm', $rootScope, $modal).result.then(function(clickok){  
-				if(clickok){
-				}
-			});		
+			ineuronApp.confirm("提示","新用户已添加！", 'sm', $rootScope, $modal);		
 			$state.go("userManagement");
 			console.log("success in User Create!");
 
@@ -222,14 +219,14 @@ ineuronApp.controller('UserCreateController', ['$scope', '$rootScope', '$modal',
 }]);
 
 
-ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
-	function($http, $scope, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
+ineuronApp.controller('RoleListController', ['$http', '$scope', '$location', '$cookies', '$state', , '$rootScope', '$modal', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+	function($http, $scope, $location, $cookies, $state, $rootScope, $modal, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
 	$http({
 		url : '/user/rolelist',
 		method : 'GET'
 	}).success(function(data) {
-		validateApiToken(data, $cookies);
+		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.roles = data.value;
 	}).error(function(data) {
 		alert('error');
@@ -316,7 +313,7 @@ ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http'
 				permissions: strPer
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			$state.go("roleManagement");
 		}).error(function(data) {
 			alert('error');
@@ -335,7 +332,7 @@ ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http'
 						id : selectedRole.id
 					}
 				}).success(function(data) {
-					validateApiToken(data, $cookies);
+					validateApiToken(data, $cookies, $rootScope, $modal);
 					$state.go("roleManagement");
 				}).error(function(data) {
 					alert('error in delete');
@@ -348,8 +345,8 @@ ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http'
 }]);
 
 
-ineuronApp.controller('RoleCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies',
-	function($scope, $stateParams, $http, $state, $cookies) {
+ineuronApp.controller('RoleCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal', 
+	function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
 
 	var vm = this;
 	
@@ -380,7 +377,7 @@ ineuronApp.controller('RoleCreateController', ['$scope', '$stateParams', '$http'
 				permissions: strPer
 			}
 		}).success(function(data) {
-			validateApiToken(data, $cookies);
+			validateApiToken(data, $cookies, $rootScope, $modal);
 			$state.go("roleManagement");
 		}).error(function(data) {
 			alert('error');

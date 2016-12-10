@@ -100,10 +100,7 @@ ineuronApp.controller('UserRegisterCtrl', ['$scope', '$rootScope', '$modal', '$h
 				password : $scope.password
 			}
 		}).success(function(data) {
-			ineuronApp.confirm("提示","注册成功！请登录。", 'sm', $rootScope, $modal).result.then(function(clickok){  
-				if(clickok){
-				}
-			});		
+			ineuronApp.confirm("提示","注册成功！请登录。", 'sm', $rootScope, $modal);		
 			$location.path("/login");
 			console.log("success!");
 

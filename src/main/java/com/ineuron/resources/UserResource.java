@@ -176,12 +176,11 @@ public class UserResource {
 	@Path("/user")
 	@GET
 	@Timed
-	public INeuronResponse getUserByUsername(@QueryParam("username") String username, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+	public INeuronResponse getUserByUsername(@QueryParam("username") String username) {
 		INeuronResponse response = null;
 		LOGGER.info("in userResource: getUserByUsername. username:" + username);
 		try {
-			response = new INeuronResponse(securityService, httpHeader, debug); 
-			LOGGER.info("user/user newApiToken=" + response.getApiToken());
+			response = new INeuronResponse(); 
 			User user=userService.getUserByUsername(username);			
 			response.setValue(user);
 			response.setSuccess(true);
@@ -191,11 +190,7 @@ public class UserResource {
 		} catch (INeuronException e) {
 			response.setMessage(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-		} catch (InvalidAPITokenException e) {
-			LOGGER.error(e.getMessage(), e);
-			response = new INeuronResponse();
-			response.setMessage(e.getMessage());
-		}
+		} 
 		return response;
 	}
 

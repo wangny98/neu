@@ -17,27 +17,7 @@
 <link rel="stylesheet"
 	href="/ineuron/css/datatable-css/datatables/media/css/jquery.dataTables.min.css">
 <link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-colreorder/css/dataTables.colReorder.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-colvis/css/dataTables.colVis.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-tabletools/css/dataTables.tableTools.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-responsive/css/responsive.dataTables.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-scroller/css/dataTables.scroller.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-fixedcolumns/css/fixedColumns.dataTables.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-fixedheader/css/fixedHeader.dataTables.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-buttons/css/buttons.dataTables.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/datatables-select/css/select.dataTables.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/backtotop/backtotop.min.css">
-<link rel="stylesheet"
-	href="/ineuron/css/datatable-css/dist/css/angular-datatables.css">
+	href="/ineuron/css/datatable-css/dist/css/angular-datatables.css">	
 	
 <link rel="stylesheet" href="/ineuron/css/lib/bootstrap.css">
 <link rel="stylesheet" href="/ineuron/css/lib/bootstrap-responsive.css">
@@ -99,11 +79,11 @@
 					</a>
 						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a ui-sref="userManagement" ui-sref-active="active"
+							<li><a ui-sref="userManagement" class="secondmenu-position" ui-sref-active="active"
 								ng-show="ShowUserManagementMenu()"> <i
 									class="glyphicon glyphicon-user"></i>用户管理
 							</a></li>
-							<li><a ui-sref="roleManagement" ui-sref-active="active"
+							<li><a ui-sref="roleManagement" class="secondmenu-position" ui-sref-active="active"
 								ng-show="ShowRoleManagementMenu()"> <i
 									class="glyphicon glyphicon-asterisk"></i>角色管理
 							</a></li>
@@ -114,7 +94,7 @@
 							class="pull-right glyphicon glyphicon-chevron-down"></span> </a>
 						<ul id="productManagement"
 							class="nav nav-list collapse secondmenu" style="height: 0px;">
-							<li><a ui-sref="productCategoryList" ui-sref-active="active">
+							<li><a ui-sref="productCategoryList" class="secondmenu-position" ui-sref-active="active">
 									<i class="glyphicon glyphicon-list"></i>产品类型管理 
 							</a></li>
 						    <!-- 
@@ -122,7 +102,7 @@
 									<i class="glyphicon glyphicon-list"></i>产品管理
 							</a></li>
 							 -->
-							<li><a ui-sref="formulaList" ui-sref-active="active">
+							<li><a ui-sref="formulaList" class="secondmenu-position" ui-sref-active="active">
 									<i class="glyphicon glyphicon-list"></i>配方管理
 							</a></li>
 						</ul>

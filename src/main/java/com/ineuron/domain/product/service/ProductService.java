@@ -11,12 +11,11 @@ import com.ineuron.domain.product.entity.Formula;
 import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.AttributeCategory;
 import com.ineuron.domain.product.valueobject.Attribute;
-import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ProductCategory;
 import com.ineuron.domain.product.repository.ProductRepository;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.user.valueobject.Operation;
+import com.ineuron.domain.product.valueobject.Operation;
 
 public class ProductService {
 
@@ -125,6 +124,15 @@ public class ProductService {
 		List<Formula> formulaList = productRepository.getFormulaList();
 		return formulaList;
 	}
+	
+	public Formula getFormulaById(int formulaId) throws RepositoryException {
+		Formula formula = productRepository.getFormulaById(formulaId);
+		if(formula != null){
+			formula.init(productRepository);
+		}
+		return formula;
+	}
+
 
 	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
 		
@@ -142,19 +150,20 @@ public class ProductService {
 		
 	}
 
-	public List<FormulaMaterial> getFormulaMaterials(int formulaId) throws RepositoryException {
-		
-		Formula formula = new Formula();
-		formula.setId(formulaId);
-		
-		return formula.getMaterials(productRepository);
-	}
 
 	public void deleteFormula(int id) throws RepositoryException {
 		Formula formula = new Formula();
 		formula.setId(id);
 		formula.deleteFormula(productRepository);
 		
+	}
+
+	public Product getProductById(Integer productId) throws RepositoryException {
+		Product product = productRepository.getProductById(productId);
+		if(product != null){
+			product.init(productRepository);
+		}	
+		return product;
 	}
 
 }

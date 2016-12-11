@@ -52,13 +52,13 @@ ineuronApp.controller('UserLoginController', ['$scope', '$http', '$location', '$
 						
 						window.location.href = "/ineuron/main.html";
 					} else {
-						//alert("不正确的用户名或者密码！");
+						ineuronApp.confirm("提示","不正确的用户名或者密码！", 'sm', $rootScope, $modal);
 						$scope.invalidUserPwd=true;
 					}
 
 				}).error(function(data) {
-			alert(data.message+"error");
-			console.log("error");
+					ineuronApp.confirm("提示","不正确的用户名或者密码！", 'sm', $rootScope, $modal);
+					console.log("error");
 		})
 	};
 
@@ -99,9 +99,12 @@ ineuronApp.controller('UserRegisterCtrl', ['$scope', '$rootScope', '$modal', '$h
 				password : $scope.password
 			}
 		}).success(function(data) {
-			ineuronApp.confirm("提示","注册成功！请登录。", 'sm', $rootScope, $modal);		
-			$location.path("/login");
-			console.log("success!");
+			ineuronApp.confirm("提示","注册成功！请登录。", 'sm', $rootScope, $modal).result.then(function(clickok){  
+				if(clickok){
+					$location.path("/login");
+					console.log("success!");
+				}
+			})
 
 		}).error(function(data) {
 			console.log("error");

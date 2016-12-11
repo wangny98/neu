@@ -10,10 +10,9 @@ import com.ineuron.domain.product.entity.Product;
 import com.ineuron.domain.product.valueobject.ProductCategory;
 import com.ineuron.domain.product.valueobject.AttributeCategory;
 import com.ineuron.domain.product.valueobject.Attribute;
-import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.user.valueobject.Operation;
+import com.ineuron.domain.product.valueobject.Operation;
 import com.ineuron.domain.product.service.ProductService;
 import com.ineuron.domain.user.service.SecurityService;
 
@@ -415,6 +414,7 @@ public INeuronResponse deleteAttribute(final Attribute attribute, @Context HttpH
 }
 
 
+//-----------------------------------------------------------------------------------
 @Path("/manufacturing")
 @GET
 @Timed
@@ -435,30 +435,6 @@ public INeuronResponse manufacturing(@QueryParam("id") Integer id, @Context Http
 	}
 	return response;
 }
-
-
-@Path("/saveprocesses")
-@POST
-@Timed
-public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
-	
-	INeuronResponse response = null;
-	try {
-		response = new INeuronResponse(securityService, httpHeader, debug); 
-		productService.saveProcesses(processes);
-		response.setSuccess(true);
-	} catch (RepositoryException e) {
-		LOGGER.error(e.getMessage(), e);
-		response.setMessage(e.getMessage());
-	} catch (InvalidAPITokenException e) {
-		LOGGER.error(e.getMessage(), e);
-		response = new INeuronResponse();
-		response.setMessage(e.getMessage());
-	}
-	return response;
-}
-
-
 
 @Path("/operations")
 @GET
@@ -502,6 +478,48 @@ public INeuronResponse materials(@Context HttpHeaders httpHeader, @QueryParam("d
 	}
 	return response;
 }
+//---------------------------------------
+@Path("/productbyid")
+@GET
+@Timed
+public INeuronResponse productById(@QueryParam("id") Integer productId, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		Product product = productService.getProductById(productId);
+		response.setValue(product);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
+@Path("/saveprocesses")
+@POST
+@Timed
+public INeuronResponse saveProcesses(final List<ManufacturingProcess> processes, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+	
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, debug); 
+		productService.saveProcesses(processes);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
 
 @Path("/formulas")
 @GET
@@ -524,15 +542,15 @@ public INeuronResponse formulas(@Context HttpHeaders httpHeader, @QueryParam("de
 	return response;
 }
 
-@Path("/formulamaterials")
+@Path("/formulabyid")
 @GET
 @Timed
-public INeuronResponse formulaMaterials(@QueryParam("id") int formulaId, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
+public INeuronResponse formulaById(@QueryParam("id") int formulaId, @Context HttpHeaders httpHeader, @QueryParam("debug") boolean debug) {
 	INeuronResponse response = null;
 	try {
 		response = new INeuronResponse(securityService, httpHeader, debug); 
-		List<FormulaMaterial> materials = productService.getFormulaMaterials(formulaId);
-		response.setValue(materials);
+		Formula formula = productService.getFormulaById(formulaId);
+		response.setValue(formula);
 		response.setSuccess(true);
 	} catch (RepositoryException e) {
 		LOGGER.error(e.getMessage(), e);

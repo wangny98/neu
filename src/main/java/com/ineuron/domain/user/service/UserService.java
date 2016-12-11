@@ -34,7 +34,10 @@ public class UserService {
 	
 	public User doAuthenticate(User user) throws RepositoryException, INeuronException {
 		User founduser = user.doAuthenticate(userRepository);
-		founduser.getAllPermissions();
+		if(founduser != null){
+			founduser.getAllPermissions();
+		}
+		
 		LOGGER.info("founduser.getAllPermissions().size() : " + founduser.getAllPermissions().size());
 		return founduser;
 	}

@@ -26,7 +26,7 @@ function hasPermission(funcId) {
 	if(funcParts.length == 1){
 		for(index in  allPermissions){
 			var permission = allPermissions[index];
-			var functionId = permission.function.split("|")[0];
+			var functionId = permission.function;
 			if(funcId == functionId){
 				return true;
 			}
@@ -34,10 +34,10 @@ function hasPermission(funcId) {
 	}else if(funcParts.length == 2){
 		for(index in  allPermissions){
 			var permission = allPermissions[index];
-			var functionId = permission.function.split("|")[0];
+			var functionId = permission.function;
 			if(funcParts[0] == functionId){
 				for(opIndex in permission.operations){
-					if(funcParts[1] == permission.operations[opIndex].split("|")[0]){
+					if(funcParts[1] == permission.operations[opIndex]){
 						return true;
 					}
 				}

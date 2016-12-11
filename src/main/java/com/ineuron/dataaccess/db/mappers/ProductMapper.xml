@@ -60,6 +60,10 @@
 		select * from Products where name=#{name}
 	</select>
 	
+	<select id="getProductById" resultType="com.ineuron.domain.product.entity.Product">
+		select * from products where id=#{id}
+	</select>
+	
 	<select id="getMaxProductSNByCategoryId" resultType="com.ineuron.domain.product.entity.Product">
 		select * from Products where productCategoryId=#{productCategoryId} and serialNumber=( select max(serialNumber) from products where productCategoryId=#{productCategoryId})
 	</select>
@@ -105,13 +109,30 @@
 	<select id="getOperations" resultType="com.ineuron.domain.product.valueobject.Operation">
 		select * from Operations
 	</select>
+	
+	<select id="getOperationTypes" resultType="com.ineuron.domain.product.valueobject.OperationType">
+		select * from operationTypes
+	</select>
 
 	<select id="getMaterials" resultType="com.ineuron.domain.product.valueobject.Material">
 		select * from Materials
 	</select>
+	
+	<select id="getMaterialByIds" resultType="com.ineuron.domain.product.valueobject.Material">
+		select * from materials where id in 
+		
+		<foreach item="item" index="index" collection="list"   
+                         open="(" separator="," close=")">  
+                        #{item}  
+                </foreach>  
+	</select>
 
 	<select id="getFormulas" resultType="com.ineuron.domain.product.entity.Formula">
 		select * from ProductFormulas
+	</select>
+	
+	<select id="getFormulaById" resultType="com.ineuron.domain.product.entity.Formula">
+		select * from productFormulas where id = #{id}
 	</select>
 
 	<insert id="addFormula">

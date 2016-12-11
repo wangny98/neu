@@ -61,7 +61,7 @@
 				<button ng-click="removeRow($index)">删除</button>
        		  </td>
 		</script>
-		<script type="text/ng-template" id="edit">
+		<script type="text/ng-template" id="editMaterial">
         	<td>{{$index}}</td>
 			<td>
 				<select class="td-item"
@@ -81,5 +81,22 @@
             	<button ng-click="reset()">取消</button>
         	</td>
     	</script>
-			</div>
+    	<script type="text/ng-template" id="editOp">
+        	<td>{{$index}}</td>
+			<td>
+				<select class="td-item"
+    				ng-model="row.operationId"
+    				ng-options="value.id as value.name for value in operations">
+				</select>
+      	      </td>	
+              <td>
+                
+              </td>
+            <td><input type="text" ng-model="model.selected.materialQuantity" /></td>
+        	<td>
+            	<button ng-click="saveContact($index)">完成</button>
+            	<button ng-click="reset()">取消</button>
+        	</td>
+    	</script>
+	</div>
 </div>

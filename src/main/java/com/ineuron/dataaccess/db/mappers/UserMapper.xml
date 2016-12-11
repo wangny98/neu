@@ -6,42 +6,42 @@
   
   
   <insert id="addUser">
-    insert into users (username,lastname,firstname,password, roles, permissions) 
+    insert into Users (username,lastname,firstname,password, roles, permissions) 
 	values(#{username},#{lastname},#{firstname},#{password},#{roles},#{permissions})  
   </insert>
   
   <update id="updateUser">
-    update users u set u.roles = #{roles}, u.permissions = #{permissions} where username = #{username}
+    update Users set roles = #{roles}, permissions = #{permissions} where username = #{username}
   </update>
   
   <update id="deleteUser">
-    delete from users where username = #{username}
+    delete from Users where username = #{username}
   </update>
   
    <select id="getUserByUsername" resultType="com.ineuron.domain.user.entity.User">
-    select * from users where username = #{username}
+    select * from Users where username = #{username}
   </select>
   
   <select id="getUsers" resultType="com.ineuron.domain.user.entity.User">
-    select id, username, lastname, firstname, roles, permissions from users;
+    select id, username, lastname, firstname, roles, permissions from Users;
   </select>
   
   <!-- mappers for roles -->
 
  <insert id="addRole">
-    insert into roles (id, rolename, permissions, description) 
-	values(#{id},#{rolename},#{permissions},#{description})  
+    insert into Roles (rolename, permissions, description) 
+	values(#{rolename},#{permissions},#{description})  
   </insert>
   
   <update id="updateRole" >
-    update roles r set r.rolename = #{rolename}, r.description = #{description}, r.permissions = #{permissions} where id = #{id}
+    update Roles set rolename = #{rolename}, description = #{description}, permissions = #{permissions} where id = #{id}
   </update>
   
   <delete id="deleteRole">
-    delete from roles where id = #{id}
+    delete from Roles where id = #{id}
   </delete>
   
   <select id="getRoles" resultType="com.ineuron.domain.user.valueobject.Role">
-    select * from roles
+    select * from Roles
   </select>
 </mapper>

@@ -45,19 +45,14 @@ public class Role {
 					LOGGER.error("Illegal permission format: " + permission);
 					continue;
 				}
-				if (Function.getFunction(Integer.valueOf(fao[0])) == null) {
-					continue;
-				}
+				
 				Permission permissionObj = new Permission();
-				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
+				String function = fao[0];
 				permissionObj.setFunction(function);
 
 				String[] operationArray = fao[1].split("\\|");
-				for (String op : operationArray) {
-					if (Operation.getOperation(Integer.valueOf(op)) != null) {
-						String operation = Operation.getOperation(Integer.valueOf(op)).toString();
-						permissionObj.getOperations().add(operation);
-					}
+				for (String op : operationArray) {	
+					permissionObj.getOperations().add(op);
 				}
 				permissionList.add(permissionObj);
 			}

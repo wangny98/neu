@@ -16,8 +16,6 @@ import com.ineuron.domain.user.repository.UserRepository;
 import com.ineuron.domain.user.valueobject.Permission;
 import com.ineuron.domain.user.valueobject.Role;
 import com.ineuron.domain.user.valueobject.RolesCache;
-import com.ineuron.domain.user.valueobject.Function;
-import com.ineuron.domain.user.valueobject.Operation;
 
 public class User {
 
@@ -94,22 +92,14 @@ public class User {
 					LOGGER.error("Illegal permission format: " + permission);
 					continue;
 				}
-				if (Function.getFunction(Integer.valueOf(fao[0])) == null) {
-					LOGGER.warn("Illegal function id: " + fao[0]);
-					continue;
-				}
+				
 				Permission permissionObj = new Permission();
-				String function = Function.getFunction(Integer.valueOf(fao[0])).toString();
+				String function = fao[0];
 				permissionObj.setFunction(function);
 
 				String[] operationArray = fao[1].split("\\|");
-				for (String op : operationArray) {
-					if (Operation.getOperation(Integer.valueOf(op)) == null) {
-						LOGGER.warn("Illegal operation id: " + op);
-						continue;
-					}
-					String operation = Operation.getOperation(Integer.valueOf(op)).toString();
-					permissionObj.getOperations().add(operation);
+				for (String op : operationArray) {		
+					permissionObj.getOperations().add(op);
 				}
 				permissionList.add(permissionObj);
 			}

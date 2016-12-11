@@ -153,41 +153,28 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 			$scope.productName = selectedProduct.name;
 			var productId = selectedProduct.id;
 			$http({
-				url : '/product/manufacturing?id=' + productId,
+				url : '/product/productbyid?id=' + productId,
 				method : 'GET'
 			}).success(function(data) {
-				// alert(JSON.stringify(data));
+				//alert(JSON.stringify(data));
 				validateApiToken(data, $cookies, $rootScope, $modal);
-				$scope.model = {
-					rows : data.value,
-					selected : {}
+				var manufacturingProcesses = data.value.manufacturingProcesses
+				if(manufacturingProcesses == undefined){
+					manufacturingProcesses = {};
 				}
+				$scope.model = {
+						rows : manufacturingProcesses,	
+						selected : {}
+					}
+				$scope.operations = data.value.operations;
+				if(data.value.formula == undefined || data.value.formula.materials == undefined){
+					ineuronApp.confirm("提示","请为产品选择配方，然后设置工艺流程！", 'sm', $rootScope, $modal);
+				}else{
+					$scope.materials = data.value.formula.materials;
+				}
+				
 			}).error(function(data) {
-				alert('error');
-				console.log("error");
-			});
-
-			$http({
-				url : '/product/operations',
-				method : 'GET'
-			}).success(function(data) {
-				// alert(JSON.stringify(data));
-				validateApiToken(data, $cookies, $rootScope, $modal);
-				$scope.operations = data.value;
-			}).error(function(data) {
-				alert('error');
-				console.log("error");
-			});
-
-			$http({
-				url : '/product/materials',
-				method : 'GET'
-			}).success(function(data) {
-				// alert(JSON.stringify(data));
-				validateApiToken(data, $cookies, $rootScope, $modal);
-				$scope.materials = data.value;
-			}).error(function(data) {
-				alert('error');
+				alert(JSON.stringify(data));
 				console.log("error");
 			});
 
@@ -331,11 +318,12 @@ ineuronApp.controller('UpdateFormulaController', [
 		$scope.formula.description = selectedFormula.description;
 		var formulaId = selectedFormula.id;
 		$http({
-			url : '/product/formulamaterials?id=' + formulaId,
+			url : '/product/formulabyid?id=' + formulaId,
 			method : 'GET'
 		}).success(function(data) {
+			//alert(JSON.stringify(data));
 			validateApiToken(data, $cookies, $rootScope, $modal);
-			$scope.formula.materials = data.value;
+			$scope.formula.materials = data.value.materialSettings;
 			$scope.formula.selected = {};
 		}).error(function(data) {
 			alert('error');
@@ -427,13 +415,13 @@ ineuronApp.controller('UpdateFormulaController', [
 			formula.id = $scope.formula.id;
 			formula.name = $scope.formula.name;
 			formula.description = $scope.formula.description;
-			formula.materials = [];
+			formula.materialSettings = [];
 			for(var index in  $scope.formula.materials){
 				var newMaterial = {};
 				newMaterial.formulaId = $scope.formula.materials[index].formulaId;
 				newMaterial.materialId = $scope.formula.materials[index].materialId;
 				newMaterial.materialQuantity = $scope.formula.materials[index].materialQuantity;
-				formula.materials.push(newMaterial);
+				formula.materialSettings.push(newMaterial);
 			}
 			
 			return formula;
@@ -442,9 +430,9 @@ ineuronApp.controller('UpdateFormulaController', [
 		
 		function validateFormula(formula){
 			var totalQuantity = 0.0;
-			for(var index in formula.materials){
-				var materialQuantity = formula.materials[index].materialQuantity;
-				var materialId = formula.materials[index].materialId;
+			for(var index in formula.materialSettings){
+				var materialQuantity = formula.materialSettings[index].materialQuantity;
+				var materialId = formula.materialSettings[index].materialId;
 				if(isNaN(materialQuantity)){
 					ineuronApp.confirm("提示","物料的比例应为数字。", 'sm', $rootScope, $modal);
 					return false;

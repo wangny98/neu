@@ -11,7 +11,8 @@ import com.ineuron.domain.product.valueobject.Attribute;
 import com.ineuron.domain.product.valueobject.FormulaMaterial;
 import com.ineuron.domain.product.valueobject.ManufacturingProcess;
 import com.ineuron.domain.product.valueobject.Material;
-import com.ineuron.domain.user.valueobject.Operation;
+import com.ineuron.domain.product.valueobject.OperationType;
+import com.ineuron.domain.product.valueobject.Operation;
 
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -282,6 +283,17 @@ public class ProductRepository {
 		}
 	}
 
+	public Formula getFormulaById(Integer formulaId) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			return session.selectOne("getFormulaById", formulaId);
+
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql!", e);
+		} finally {
+			session.close();
+		}
+	}
 
 	public void saveProcesses(List<ManufacturingProcess> processes) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();
@@ -308,7 +320,7 @@ public class ProductRepository {
 		try{
 			if(formula != null){
 				session.update("addFormula", formula);
-				List<FormulaMaterial> materials = formula.getMaterials();
+				List<FormulaMaterial> materials = formula.getMaterialSettings();
 				if(materials != null && materials.size() > 0){
 					for(FormulaMaterial material : materials){
 						session.insert("addFormulaMaterial", material);
@@ -331,7 +343,7 @@ public class ProductRepository {
 			if(formula != null){
 				session.update("updateFormula", formula);
 				session.delete("deleteFormulaMaterial", formula);
-				List<FormulaMaterial> materials = formula.getMaterials();
+				List<FormulaMaterial> materials = formula.getMaterialSettings();
 				if(materials != null && materials.size() > 0){
 					for(FormulaMaterial material : materials){
 						session.insert("addFormulaMaterial", material);
@@ -371,6 +383,39 @@ public class ProductRepository {
 			
 		} catch(RuntimeException e){
 			throw new RepositoryException("failed to excute sql: deleteFormula!", e);
+		} finally {
+			session.close();
+		}
+	}
+
+	public Product getProductById(Integer productId) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			return session.selectOne("getProductById", productId);
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql: getProductById!", e);
+		} finally {
+			session.close();
+		}
+	}
+
+	public List<OperationType> getOperationTypeList() throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			return session.selectList("getOperationTypes");
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql: getOperationTypeList!", e);
+		} finally {
+			session.close();
+		}
+	}
+
+	public List<Material> getMaterialByIds(List<Integer> materialIds) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			return session.selectList("getMaterialByIds", materialIds);
+		} catch(RuntimeException e){
+			throw new RepositoryException("failed to excute sql: getMaterialByIds!", e);
 		} finally {
 			session.close();
 		}

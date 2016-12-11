@@ -180,14 +180,22 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 
 			// gets the template to ng-include for a table row / item
 			$scope.getTemplate = function(row) {
-				if (row === $scope.model.selected)
-					return 'edit';
+				if (row === $scope.model.selected){
+					var operationId = $scope.model.selected.operationId;
+					var operationTypeId = getOperationTypeId(operationId);
+					if(operationTypeId == 1){
+						return 'editMaterial';
+					}else{
+						return 'editOp';
+					}
+				}
 				else
 					return 'display';
 			};
 
 			$scope.editContact = function(index) {
 				$scope.model.selected = $scope.model.rows[index];
+				
 			};
 
 			$scope.saveContact = function(index) {
@@ -243,6 +251,15 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 					ineuronApp.confirm("提示","保存失败！", 'sm', $rootScope, $modal);
 					console.log("error");
 				})
+			}
+			
+			function getOperationTypeId(operationId){
+				for(index in $scope.operations){
+					if(operationId == $scope.operations[index].id){
+						return $scope.operations[index].typeId; 
+					}
+				}
+				return 0;
 			}
 
 		} ]);

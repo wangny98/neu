@@ -3,46 +3,70 @@ var ineuronFuncs = angular.module('ineuron.funcs', []);
 //用户管理
 ineuronFuncs.userAdmin = {id:"1", name:"用户管理", ops:[ 
 		{id : "1", operationname : "查询", ticked : false}, 
-		{id : "2", operationname : "编辑", ticked : false}, 
-		{id : "3", operationname : "打印", ticked : false}, 
-		{id : "4", operationname : "报表", ticked : false} 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false} 
 	],
 	output: {}
 }
 
 //角色管理
-ineuronFuncs.roleAdmin = {id:"5", name:"角色管理", ops:[ 
+ineuronFuncs.roleAdmin = {id:"2", name:"角色管理", ops:[ 
 		{id : "1", operationname : "查询", ticked : false}, 
-		{id : "2", operationname : "编辑", ticked : false}, 
-		{id : "3", operationname : "打印", ticked : false}, 
-		{id : "4", operationname : "报表", ticked : false} 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false}
 	],
 	output: {}
 }
 
 //产品管理
-ineuronFuncs.prodAdmin = {id:"2", name:"产品管理", ops:[ 
+ineuronFuncs.prodAdmin = {id:"3", name:"产品管理", ops:[ 
 		{id : "1", operationname : "查询", ticked : false}, 
-		{id : "2", operationname : "编辑", ticked : false}, 
-		{id : "3", operationname : "打印", ticked : false}, 
-		{id : "4", operationname : "报表", ticked : false} 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false},
+		{id : "5", operationname : "查看工艺流程", ticked : false},
+		{id : "6", operationname : "编辑工艺流程", ticked : false}
+	],
+	output: {}
+}
+
+//产品属性管理
+ineuronFuncs.prodAttrAdmin = {id:"4", name:"产品属性管理", ops:[ 
+		{id : "1", operationname : "查询", ticked : false}, 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false} 
+	],
+	output: {}
+}
+
+//配方管理
+ineuronFuncs.prodFormulaAdmin = {id:"5", name:"配方管理", ops:[ 
+		{id : "1", operationname : "查询", ticked : false}, 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false} 
 	],
 	output: {}
 }
 
 //订单管理
-ineuronFuncs.orderAdmin = {id:"3", name:"订单管理", ops:[ 
+ineuronFuncs.orderAdmin = {id:"6", name:"订单管理", ops:[ 
 		{id : "1", operationname : "查询", ticked : false}, 
-		{id : "2", operationname : "编辑", ticked : false}, 
-		{id : "3", operationname : "打印", ticked : false}, 
-		{id : "4", operationname : "报表", ticked : false} 
+		{id : "2", operationname : "新增", ticked : false}, 
+		{id : "3", operationname : "编辑", ticked : false}, 
+		{id : "4", operationname : "删除", ticked : false} 
 	],
 	output: {}
 }
 
 ineuronFuncs.funcList = [ineuronFuncs.userAdmin, 
 	ineuronFuncs.roleAdmin, 
-	ineuronFuncs.prodAdmin, 
+	ineuronFuncs.prodAdmin,
+	ineuronFuncs.prodAttrAdmin,
+	ineuronFuncs.prodFormulaAdmin,
 	ineuronFuncs.orderAdmin
 ];
 

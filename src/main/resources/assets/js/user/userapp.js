@@ -17,17 +17,19 @@ ineuronApp.controller('UserUpdateController', ['$scope', '$stateParams', '$http'
 	
 	for (var upermissions_index in vm.userpermissions){
 		
-		var funcStr=vm.userpermissions[upermissions_index].function;
-		var func=funcStr.split("|");
+		var func=vm.userpermissions[upermissions_index].function;
 		var ops=vm.userpermissions[upermissions_index].operations;
 		
-		var definedFunc = ineuronFuncs.getFunc(func[0]);
+		var definedFunc = ineuronFuncs.getFunc(func);
 		if(definedFunc != null){
 			var definedOps = definedFunc.ops;
 			for (var op_index in ops){
-				var opid=ops[op_index].split("|");
+				var opid=ops[op_index];
 				for (var u_index in definedOps){
-					if(opid[0]==definedOps[u_index].id) {definedOps[u_index].ticked=true; break;}	
+					if(opid==definedOps[u_index].id) {
+						definedOps[u_index].ticked=true; 
+						break;	
+					}
 				}
 			}
 		}
@@ -275,17 +277,19 @@ ineuronApp.controller('RoleUpdateController', ['$scope', '$stateParams', '$http'
 	
 	for (var upermissions_index in vm.rolepermissions){
 		
-		var funcStr=vm.rolepermissions[upermissions_index].function;
-		var func=funcStr.split("|");
+		var func=vm.rolepermissions[upermissions_index].function;
 		var ops=vm.rolepermissions[upermissions_index].operations;
 		
-		var definedFunc = ineuronFuncs.getFunc(func[0]);
+		var definedFunc = ineuronFuncs.getFunc(func);
 		if(definedFunc != null){
 			var definedOps = definedFunc.ops;
 			for (var op_index in ops){
-				var opid=ops[op_index].split("|");
+				var opid=ops[op_index];
 				for (var u_index in definedOps){
-					if(opid[0]==definedOps[u_index].id) {definedOps[u_index].ticked=true; break;}	
+					if(opid==definedOps[u_index].id) {
+						definedOps[u_index].ticked=true; 
+						break;
+					}
 				}
 			}
 		}

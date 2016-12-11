@@ -21,7 +21,7 @@ public class ProductCategory {
 	private String techParameters;
 	private String scope;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Attribute.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductCategory.class);
 
 	public void addProductCategory(ProductRepository productRepository) throws RepositoryException {
 		productRepository.addProductCategory(this);

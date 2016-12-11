@@ -1,9 +1,9 @@
 package com.ineuron.domain.product.valueobject;
 
-public class Operation {
+public class OperationType {
+	
 	private Integer id;
 	private String name;
-	private Integer typeId;
 	private String description;
 	
 	public Integer getId() {
@@ -18,12 +18,6 @@ public class Operation {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getTypeId() {
-		return typeId;
-	}
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
-	}
 	public String getDescription() {
 		return description;
 	}
@@ -31,4 +25,6 @@ public class Operation {
 		this.description = description;
 	}
 	
+	
+
 }

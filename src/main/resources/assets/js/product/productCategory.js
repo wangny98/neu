@@ -132,7 +132,7 @@ ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$roo
 	
 	vm.updateProductCategory=updateProductCategory;
 	function updateProductCategory(index){
-		// alert(index+vm.productCategories[index].code);
+		// alert(index+vm.productCategories[index].description);
 		$state.go("updateProductCategory", {productCategoryStr: JSON.stringify(vm.productCategories[index])});
 	}
 	
@@ -161,6 +161,10 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 	
 	var productCategory = eval('(' + $stateParams.productCategoryStr + ')');
 	$scope.productCategoryName=productCategory.name;
+	$scope.productCategoryDescription=productCategory.description;
+	$scope.productCategoryCharacters=productCategory.characters;
+	$scope.productCategoryTechParameters=productCategory.techParameters;
+	$scope.productCategoryScope=productCategory.scope;
 	var codeList=productCategory.code.split("-");
 	$scope.existedProductCategoryCode=false;
 	$scope.existedProductCategoryName=false;
@@ -240,7 +244,7 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 			if(pc==null) $scope.existedProductCategoryCode=false; 
 			 else $scope.existedProductCategoryCode=true;
 		}).error(function(data) {
-			// alert('error');
+			ineuronApp.confirm("提示","失败！", 'sm', $rootScope, $modal);
 			console.log("error to get productcategory ");
 		});			
 	}
@@ -251,12 +255,11 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 			if(clickok){
 				var companyCode="HS";
 				var codeStr=companyCode+"-"+$scope.selectedAttributeUsage[0].code+"-"+$scope.selectedEmulsionType[0].code+"-"+$scope.selectedColor[0].code;
-				// alert($scope.selectedAttributeUsage);
 				$http({
 					url : '/product/updateproductcategory',
 					method : 'POST',
 					data : {
-						id : selectedProductCategory.id,
+						id : productCategory.id,
 						name : $scope.productCategoryName,
 						code: codeStr,
 						description : $scope.productCategoryDescription,
@@ -269,7 +272,7 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 					ineuronApp.confirm("提示","修改类型成功！", 'sm', $rootScope, $modal);		
 					$state.go("productCategoryList");
 				}).error(function(data) {
-					alert('error');
+					ineuronApp.confirm("提示","修改失败！", 'sm', $rootScope, $modal);
 					console.log("error");
 				})
 			}

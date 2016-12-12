@@ -92,6 +92,10 @@ public class ProductService {
 
 	public List<Attribute> getAttributeList() throws RepositoryException{		
 		List<Attribute> attributeList = productRepository.getAttributeList();
+		for(int i = 0; i < attributeList.size(); i++)  
+        {  
+			attributeList.get(i).init(productRepository);
+        } 
 		return attributeList;
 	}
 	
@@ -103,6 +107,11 @@ public class ProductService {
 	public List<AttributeCategory> getAttributeCategoryList() throws RepositoryException{		
 		List<AttributeCategory> attributeCategoryList = productRepository.getAttributeCategoryList();
 		return attributeCategoryList;
+	}
+	
+	public AttributeCategory getAttributeCategoryById(Integer attributeCategoryId) throws RepositoryException{		
+		AttributeCategory attributeCategory = productRepository.getAttributeCategoryById(attributeCategoryId);
+		return attributeCategory;
 	}
 
 	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {

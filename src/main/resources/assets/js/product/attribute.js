@@ -1,20 +1,17 @@
 
-ineuronApp.controller('ProductAttributesController', ['$http', '$scope', '$stateParams', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+ineuronApp.controller('AttributeListController', ['$http', '$scope', '$stateParams', '$rootScope', '$modal', '$location', '$cookies', '$state', 'DTOptionsBuilder', 'DTColumnDefBuilder',
 	function($http, $scope, $stateParams, $rootScope, $modal, $location, $cookies, $state, DTOptionsBuilder, DTColumnDefBuilder) {
 	var vm = this;
-	var selectedProductStr = $stateParams.productStr;
-	var selectedProduct = eval('(' + selectedProductStr + ')');	
+	//var selectedProductStr = $stateParams.productStr;
+	//var selectedProduct = eval('(' + selectedProductStr + ')');	
 	
-	// alert(selectedProduct);
-	vm.product=selectedProduct;
-	// alert("productid: "+vm.product.id);
 	$http({
 		url : '/product/attributelist',
-		method : 'POST',
-		data : vm.product.id
+		method : 'GET'
 	}).success(function(data) {
 		validateApiToken(data, $cookies, $rootScope, $modal);
 		vm.attributes = data.value;
+		//alert(vm.attributes[0].name+" "+vm.attributes[0].attributeCategory.name);
 	}).error(function(data) {
 		alert('error');
 		console.log("error");

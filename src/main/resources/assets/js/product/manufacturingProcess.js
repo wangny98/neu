@@ -81,8 +81,7 @@ ineuronApp.controller('ProductManufacturingProcessController', [
 					"orderId" : 0,
 					"operationId" : 0,
 					"materialId" : 0,
-					"materialQuantity" : 0,
-					"equipmentId" : 0
+					"materialQuantity" : 0
 				};
 			
 			$scope.addRow = addRow;

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<div ng-controller="AttributeListController as AttributeList">
+	<div class="message">属性</div>	
+	<table datatable="ng" dt-options="AttributeList.dtOptions"
+		dt-column-defs="AttributeList.dtColumnDefs" class="row-border hover" id="table-style">
+		<thead>
+			<tr>
+				<th>名称</th>
+				<th>编码</th>
+				<th>类型</th>
+				<th>描述</th>
+				<th style="width:100px">编辑/删除</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="attribute in AttributeList.attributes">
+			   <td>{{attribute.name}}</td>
+			   <td>{{attribute.code}}</td>
+			   <td>{{attribute.attributeCategory.name}}</td>
+			   <td>{{attribute.description}}</td>
+				<td>
+					<button type="button"
+						ng-click="productAttributes.updateAttribute($index)"
+						class="btn btn-warning">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button type="button"
+						ng-click="productAttributes.deleteAttribute($index)"
+						class="btn btn-danger">
+						<i class="fa fa-times"></i>
+					</button>					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

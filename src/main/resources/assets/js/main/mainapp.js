@@ -77,10 +77,10 @@ ineuronApp.config(function($stateProvider) {
 		}
 	
 	
-	var productAttributesState = {
-			name : 'productAttributes',
-			url : 'productAttributes/:productStr',
-			templateUrl : '/ineuron/product/attributes.html'
+	var attributeManagementState = {
+			name : 'attributeList',
+			url : 'attributeList',
+			templateUrl : '/ineuron/product/attributeList.html'
 		}
 	
 	var productManufacturingProcessState = {
@@ -119,7 +119,9 @@ ineuronApp.config(function($stateProvider) {
 	$stateProvider.state(updateProductCategoryState);
 	$stateProvider.state(productManagementState);
 	$stateProvider.state(createProductState);
-	$stateProvider.state(productAttributesState);
+	
+	$stateProvider.state(attributeManagementState);
+	
 	$stateProvider.state(productManufacturingProcessState);
 	$stateProvider.state(formulaManagementState);
 	$stateProvider.state(updateFormulaState);

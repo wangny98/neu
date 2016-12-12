@@ -238,6 +238,15 @@ public class ProductRepository {
 		}
 	}
 	
+	public AttributeCategory getAttributeCategoryById(Integer attributeCategoryId) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			AttributeCategory attributeCategory = session.selectOne("getAttributeCategoryById", attributeCategoryId);
+			return attributeCategory;
+		} finally {
+			session.close();
+		}
+	}
 	
 	public List<ManufacturingProcess> getProcessList(Integer productId) throws RepositoryException {
 		SqlSession session = INeuronDBConnection.getSession();

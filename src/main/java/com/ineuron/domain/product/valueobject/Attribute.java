@@ -18,6 +18,8 @@ public class Attribute {
 	private String code;
 	private String description;
 	private Integer attributeCategoryId;
+	
+	private AttributeCategory attributeCategory;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Attribute.class);
 
@@ -34,6 +36,12 @@ public class Attribute {
 	public void deleteAttibute(ProductRepository productRepository) throws RepositoryException {
 		productRepository.deleteAttribute(this);
 		
+	}
+	
+	public void init(ProductRepository productRepository) throws RepositoryException{
+		
+		attributeCategory = productRepository.getAttributeCategoryById(attributeCategoryId);	
+	
 	}
 	
 	public Integer getId() {
@@ -76,4 +84,13 @@ public class Attribute {
 	public void setAttributeCategoryId(Integer attributeCategoryId) {
 		this.attributeCategoryId = attributeCategoryId;
 	}
+	
+	public AttributeCategory getAttributeCategory() {
+		return attributeCategory;
+	}
+
+	public void setAttributeCategory(AttributeCategory attributeCategory) {
+		this.attributeCategory = attributeCategory;
+	}
+
 }

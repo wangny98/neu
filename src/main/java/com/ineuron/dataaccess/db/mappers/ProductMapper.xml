@@ -4,19 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ineuron.dataaccess.db.mappers.ProductMapper">
 
-	<select id="getAttributeCategories"
-		resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
-		select * from AttributeCategories
-	</select>
+	<!-- attributes -->
 
 	<select id="getAttributes" resultType="com.ineuron.domain.product.valueobject.Attribute">
 		select * from Attributes
 	</select>
 
-	<select id="getAttributesByCategoryID" resultType="com.ineuron.domain.product.valueobject.Attribute">
+	<select id="getAttributesByCategoryId" resultType="com.ineuron.domain.product.valueobject.Attribute">
 		select * from Attributes where attributeCategoryId=#{attributeCategoryId}
 	</select>
 
+	<select id="getAttributeCategoryById" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
+		select * from AttributeCategories where id=#{attributeCategoryId}
+	</select>
+	
+	<insert id="addAttribute">
+		insert into Attributes (id,name,code,description,attributeCategoryId)
+		values(#{id},#{name},#{code},#{description},#{attributeCategoryId})
+	</insert>
+
+	<update id="updateAttribute">
+		update Attributes set name = #{name} where id = #{id}
+	</update>
+
+	<delete id="deleteAttribute">
+		delete from Attributes where id = #{id}
+	</delete>
+
+	
+	
+	<!-- ProductCategory -->
+	
 	<insert id="addProductCategory">
 		insert into ProductCategories (name,code,description,characters,techParameters,scope)
 		values(#{name},#{code},#{description},#{characters},#{techParameters},#{scope})
@@ -40,9 +58,13 @@
 	
 	<update id="updateProductCategory">
 		update ProductCategories set name = #{name}, code =#{code}, 
-		description=#{description}, characters=#{characters}, techParameters=#{techParameters}, pc.scope=#{scope} where id = #{id}
+		description=#{description}, characters=#{characters}, techParameters=#{techParameters}, scope=#{scope} where id = #{id}
 	</update>
 
+
+
+	<!-- Product -->
+	
 	<insert id="addProduct">
 		insert into Products (name,productCategoryId,serialNumber,code,formulaId,description)
 		values(#{name},#{productCategoryId},#{serialNumber},#{code},#{formulaId},#{description})
@@ -77,19 +99,10 @@
 		delete from Products where name = #{name}
 	</update>
 
-	<insert id="addAttribute">
-		insert into Attributes (id,name,code,description,attributeCategoryId)
-		values(#{id},#{name},#{code},#{description},#{attributeCategoryId})
-	</insert>
-
-	<update id="updateAttribute">
-		update Attributes set name = #{name} where id = #{id}
-	</update>
-
-	<delete id="deleteAttribute">
-		delete from Attributes where id = #{id}
-	</delete>
-
+	
+	
+    <!-- ManufacturingProcess -->
+    
 	<select id="getProcesses"
 		resultType="com.ineuron.domain.product.valueobject.ManufacturingProcess">
 		select * from ProductManufacturingProcess where productId = #{productId}
@@ -127,6 +140,10 @@
                 </foreach>  
 	</select>
 
+
+
+    <!-- Formula -->
+    
 	<select id="getFormulas" resultType="com.ineuron.domain.product.entity.Formula">
 		select * from ProductFormulas
 	</select>

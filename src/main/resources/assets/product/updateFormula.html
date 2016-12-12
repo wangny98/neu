@@ -34,18 +34,17 @@
 				</tbody>
 			</table>
 	
-			<table datatable="ng" dt-options="formulaEdit.dtOptions"
-			dt-column-defs="formulaEdit.dtColumnDefs" id="table-style">
+			<table style="width:100%" id="table-style">
 				<thead>
 					<tr>
 						<th>物料</th>
 						<th>比例（%）</th>
-						<th style="width: 100px">编辑</th>
+						<th style="width: 120px">编辑</th>
 						<th style="width: 100px">删除</th>
 					</tr>
 				</thead>
-				<tbody ng-model="formula.materials">
-					<tr ng-repeat="row in formula.materials" ng-include="getTemplate(row)"
+				<tbody ng-model="formula.materialSettings">
+					<tr ng-repeat="row in formula.materialSettings" ng-include="getTemplate(row)"
 						class="item" style="cursor: move;">
 					</tr>
 				</tbody>

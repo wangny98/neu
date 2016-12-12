@@ -8,7 +8,7 @@ public class ManufacturingProcess {
 	private Integer operationId;
 	private Integer materialId;
 	private Integer materialQuantity;
-	private Integer equipmentId;
+
 	public Integer getStepId() {
 		return stepId;
 	}
@@ -45,13 +45,6 @@ public class ManufacturingProcess {
 	public void setMaterialQuantity(Integer materialQuantity) {
 		this.materialQuantity = materialQuantity;
 	}
-	public Integer getEquipmentId() {
-		return equipmentId;
-	}
-	public void setEquipmentId(Integer equipmentId) {
-		this.equipmentId = equipmentId;
-	}
-	
 	
 
 }

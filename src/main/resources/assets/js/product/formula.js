@@ -75,20 +75,9 @@ ineuronApp.controller('UpdateFormulaController', [
 		}).success(function(data) {
 			//alert(JSON.stringify(data));
 			validateApiToken(data, $cookies, $rootScope, $modal);
-			$scope.formula.materials = data.value.materialSettings;
+			$scope.formula.materialSettings = data.value.materialSettings;
+			$scope.materials = data.value.materials;
 			$scope.formula.selected = {};
-		}).error(function(data) {
-			alert('error');
-			console.log("error");
-		});
-
-		$http({
-			url : '/product/materials',
-			method : 'GET'
-		}).success(function(data) {
-			// alert(JSON.stringify(data));
-			validateApiToken(data, $cookies, $rootScope, $modal);
-			$scope.materials = data.value;
 		}).error(function(data) {
 			alert('error');
 			console.log("error");
@@ -103,12 +92,11 @@ ineuronApp.controller('UpdateFormulaController', [
 		};
 
 		$scope.editContact = function(index) {
-			$scope.formula.selected = $scope.formula.materials[index];
+			$scope.formula.selected = $scope.formula.materialSettings[index];
 		};
 
 		$scope.saveContact = function(index) {
-			console.log("Saving contact");
-			$scope.formula.materials[index] = angular.copy($scope.formula.selected);
+			$scope.formula.materialSettings[index] = angular.copy($scope.formula.selected);
 			$scope.reset();
 		};
 
@@ -118,7 +106,7 @@ ineuronApp.controller('UpdateFormulaController', [
 
 		var emptyFormulaMaterial = {
 				"id" : 0,
-				"formulaId" : formulaId,
+				"formulaId" :  formulaId,
 				"materialId" : 0,
 				"materialQuantity" : 0
 			};
@@ -130,12 +118,12 @@ ineuronApp.controller('UpdateFormulaController', [
 		function addRow() {
 			var newMaterial = clone(emptyFormulaMaterial);
 
-			$scope.formula.materials.push(newMaterial);
+			$scope.formula.materialSettings.push(newMaterial);
 			$scope.formula.selected = newMaterial;
 		};
 
 		function removeRow(index) {
-			$scope.formula.materials.splice(index, 1);
+			$scope.formula.materialSettings.splice(index, 1);
 		};
 		
 		function updateFormula(){
@@ -168,11 +156,11 @@ ineuronApp.controller('UpdateFormulaController', [
 			formula.name = $scope.formula.name;
 			formula.description = $scope.formula.description;
 			formula.materialSettings = [];
-			for(var index in  $scope.formula.materials){
+			for(var index in  $scope.formula.materialSettings){
 				var newMaterial = {};
-				newMaterial.formulaId = $scope.formula.materials[index].formulaId;
-				newMaterial.materialId = $scope.formula.materials[index].materialId;
-				newMaterial.materialQuantity = $scope.formula.materials[index].materialQuantity;
+				newMaterial.formulaId = $scope.formula.materialSettings[index].formulaId;
+				newMaterial.materialId = $scope.formula.materialSettings[index].materialId;
+				newMaterial.materialQuantity = $scope.formula.materialSettings[index].materialQuantity;
 				formula.materialSettings.push(newMaterial);
 			}
 			

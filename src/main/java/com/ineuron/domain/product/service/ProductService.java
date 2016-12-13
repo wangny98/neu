@@ -103,6 +103,11 @@ public class ProductService {
 		List<Attribute> attributeList = productRepository.getAttributesByCategoryId(attributeCategoryId);
 		return attributeList;
 	}
+	
+	public Attribute getAttributeByName(String name) throws RepositoryException{		
+		Attribute attribute = productRepository.getAttributeByName(name);
+		return attribute;
+	}
 
 	public List<AttributeCategory> getAttributeCategoryList() throws RepositoryException{		
 		List<AttributeCategory> attributeCategoryList = productRepository.getAttributeCategoryList();

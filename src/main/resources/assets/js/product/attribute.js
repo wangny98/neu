@@ -38,45 +38,71 @@ ineuronApp.controller('AttributeListController', ['$http', '$scope', '$statePara
 		});		
 	}
 	
-	vm.addAttribute=addAttribute;
-	function addAttribute($index){
-		// alert("id: "+vm.product.id+" attribute: "+vm.newAttribute);
-		ineuronApp.confirm("确认","确定添加吗？", 'sm', $rootScope, $modal).result.then(function(clickok){
-			
-			if(clickok){
-				 $http({
-					url : '/product/createattribute',
-					method : 'POST',
-					data : {
-						productid : vm.product.id,
-						attribute: vm.newAttribute
-					}
-				}).success(function(data) {
-					validateApiToken(data, $cookies, $rootScope, $modal);
-					$state.go("productAttributes");
-				}).error(function(data) {
-					// alert('error in add ');
-					console.log("error in add attribute");
-				})
-			}
-		});		
+	vm.createAttribute=createAttribute;
+	function createAttribute(){
+		// alert("index: "+index);
+		$state.go("createAttribute");
 	}
+		
+}]);
+
+
+ineuronApp.controller('AttributeCreateController', ['$scope', '$stateParams', '$http', '$state', '$cookies', '$rootScope', '$modal',
+   function($scope, $stateParams, $http, $state, $cookies, $rootScope, $modal) {
+
+	var vm = this;
+	$scope.existedAttributeName=false;
+		$http({
+			url : '/product/attributecategorylist',
+			method : 'GET'
+		}).success(function(data) {
+			vm.attributeCategories = data.value;
+		}).error(function(data) {
+			ineuronApp.confirm("提示","调用属性类型列表失败！", 'sm', $rootScope, $modal);
+			console.log("error to get attribute category list ");
+		});				
+
+$scope.CheckAttributeName=function(){
+	// alert("checkproductcategeryname");
+	// $scope.existedProductCategoryName=VerifyExistedProductCategoryName($scope.productCategoryName,
+	// $http);
+	$http({
+		url : '/product/getattributebyname',
+		method : 'POST',
+		data :  $scope.attributeName
+	}).success(function(data) {
+		var a = data.value;
+		if(a==null) $scope.existedProductCategoryName=false; 
+		 else $scope.existedProductCategoryName=true;
+	}).error(function(data) {
+		ineuronApp.confirm("提示","依据名称调用属性失败！", 'sm', $rootScope, $modal);
+		console.log("error to get attribute ");
+	});				
+}
+
+
+vm.createAttribute = createAttribute;
+function createAttribute() {
 	
-	vm.deleteAttribute=deleteAttribute;
-	function deleteAttribute($index){
-		ineuronApp.confirm("确认","确定删除吗？", 'sm', $rootScope, $modal).result.then(function(clickok){  
-			if(clickok){
-				 /*
-					 * $http({ url : '/user/delete', method : 'POST', data : {
-					 * username : $scope.updateUsername }
-					 * }).success(function(data) { validateApiToken(data,
-					 * $cookies); $state.go("userManagement");
-					 * }).error(function(data) { alert('error in delete');
-					 * console.log("error"); })
-					 */
-			}
-		});		
-	}
+	$http({
+		url : '/product/createattribute',
+		method : 'POST',
+		data : {
+			name : $scope.attributeName,
+			code: $scope.attributeCode,
+			description : $scope.attributeDescription,
+			attributeCategoryId: $scope.selectedAttributeCategory[0].id
+		}
+	}).success(function(data) {
+		validateApiToken(data, $cookies, $rootScope, $modal);
+		ineuronApp.confirm("提示","属性添加成功！", 'sm', $rootScope, $modal);		
+		$state.go("attributeList");
+	}).error(function(data) {
+		ineuronApp.confirm("提示","添加属性失败！", 'sm', $rootScope, $modal);
+		console.log("error");
+  		})
+  	}
+
 }]);
 
 

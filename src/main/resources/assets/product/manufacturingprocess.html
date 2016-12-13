@@ -90,7 +90,10 @@
 				</select>
       	      </td>	
               <td>
-                
+                 <select class="td-item"
+    				ng-model="row.materialId"
+    				ng-options="value.id as value.name for value in materials">
+				</select>
               </td>
             <td><input type="text" ng-model="model.selected.materialQuantity" /></td>
         	<td>

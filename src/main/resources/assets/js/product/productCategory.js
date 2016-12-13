@@ -120,7 +120,7 @@ ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$roo
 		console.log("error");
 	});
 
-	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
+/*	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
 	vm.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 	                    DTColumnDefBuilder.newColumnDef(1),
 	                    DTColumnDefBuilder.newColumnDef(2).notSortable(),
@@ -128,7 +128,7 @@ ineuronApp.controller('ProductCategoryListController', ['$http', '$scope', '$roo
 	                    DTColumnDefBuilder.newColumnDef(4).notSortable(),
 	                    DTColumnDefBuilder.newColumnDef(5).notSortable(),
 	                    DTColumnDefBuilder.newColumnDef(6).notSortable(),
-	                    DTColumnDefBuilder.newColumnDef(7).notSortable() ];
+	                    DTColumnDefBuilder.newColumnDef(7).notSortable() ];*/
 	
 	vm.updateProductCategory=updateProductCategory;
 	function updateProductCategory(index){
@@ -225,8 +225,12 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 			data :  $scope.productCategoryName
 		}).success(function(data) {
 			var pc = data.value;
+			// did not change the name
+			if(productCategory.name==$scope.productCategoryName)$scope.existedProductCategoryCode=false; 
+			else{
 			if(pc==null) $scope.existedProductCategoryName=false; 
 			 else $scope.existedProductCategoryName=true;
+			}
 		}).error(function(data) {
 			// alert('error');
 			console.log("error to get productcategory ");
@@ -241,8 +245,13 @@ ineuronApp.controller('ProductCategoryUpdateController', ['$scope', '$stateParam
 			data :  $scope.productCategoryCode
 		}).success(function(data) {
 			var pc = data.value;
-			if(pc==null) $scope.existedProductCategoryCode=false; 
-			 else $scope.existedProductCategoryCode=true;
+			// did not change code
+			if(productCategory.code==$scope.productCategoryCode)$scope.existedProductCategoryCode=false; 
+			else{
+				if(pc==null) $scope.existedProductCategoryCode=false; 
+				 else $scope.existedProductCategoryCode=true;	
+			}
+			
 		}).error(function(data) {
 			ineuronApp.confirm("提示","失败！", 'sm', $rootScope, $modal);
 			console.log("error to get productcategory ");

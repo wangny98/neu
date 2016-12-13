@@ -1,0 +1,56 @@
+<meta charset="utf-8">
+<head></head>
+<div
+	ng-controller="AttributeCreateController as attributeCreate">
+	<div class="message">添加属性</div>
+	<div>
+			<table id="table-style" style="margin: 50px auto">
+				<tbody>
+					<tr>
+						<th class="labelformat">属性名</th>
+						<td><input class="input-block-level" type="text"
+							ng-model="attributeName" ng-change="CheckAttributeName()" required /></td>
+						<td style="color: red">*</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label ng-show="existedAttributeName"
+							style="text-align: center; font-weight: bold; color: red">属性名已存在！请重新输入。</label>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<th class="labelformat">属性类型</th>
+						<td><div isteven-multi-select
+								input-model="attributeCreate.attributeCategories"
+								output-model="selectedAttributeCategory" output-properties="id name"
+								button-label="name" item-label="name"
+								tick-property="ticked" orientation="horizontal"
+								selection-mode="single"></div></td>
+						<td style="color: red">*</td>
+					</tr>
+					<tr>
+						<th class="labelformat">编码</th>
+						<td><input class="input-block-level" type="text"
+							ng-model="attributeCode" required />
+						</td>
+					</tr>
+					<tr>
+						<th class="labelformat">说明</th>
+						<td><textarea style="min-height: 60px"
+								class="input-block-level" type="text"
+								ng-model="attributeDescription" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><button class="btn btn-large btn-primary"
+								ng-click="attributeCreate.createAttribute()">
+								<span class="glyphicon glyphicon-upload"></span> 提交
+							</button></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>

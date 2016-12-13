@@ -348,6 +348,27 @@ public INeuronResponse attributesByCategoryId(final Integer attributeCategoryId,
 	return response;
 }
 
+@Path("/getattributebyname")
+@POST
+@Timed
+public INeuronResponse attributeByName(final String name, @Context HttpHeaders httpHeader) {
+	INeuronResponse response = null;
+	try {
+		response = new INeuronResponse(securityService, httpHeader, false); 
+		Attribute attribute =productService.getAttributeByName(name);
+		response.setValue(attribute);
+		response.setSuccess(true);
+	} catch (RepositoryException e) {
+		LOGGER.error(e.getMessage(), e);
+		response.setMessage(e.getMessage());
+	} catch (InvalidAPITokenException e) {
+		LOGGER.error(e.getMessage(), e);
+		response = new INeuronResponse();
+		response.setMessage(e.getMessage());
+	}
+	return response;
+}
+
 
 @Path("/createattribute")
 @POST

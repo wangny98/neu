@@ -18,6 +18,7 @@ public class Formula {
 	private String description;
 	private List<FormulaMaterial> materialSettings;
 	private List<Material> materials;
+	private List<Material> allMaterials;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(Formula.class);
 	
@@ -45,8 +46,13 @@ public class Formula {
 			}
 			
 			LOGGER.info("materialIds size in materialSettings = " + materialIds.size());
-			materials = productRepository.getMaterialByIds(materialIds);
-			LOGGER.info("material number is " + materials.size() + " in formula " + name);
+			if(materialIds.size() > 0){
+				materials = productRepository.getMaterialByIds(materialIds);
+				LOGGER.info("material number is " + materials.size() + " in formula " + name);
+			}
+			
+			allMaterials = productRepository.getMaterialList();
+			
 		}
 		
 	}
@@ -103,5 +109,14 @@ public class Formula {
 	public void setMaterials(List<Material> materials) {
 		this.materials = materials;
 	}
+
+	public List<Material> getAllMaterials() {
+		return allMaterials;
+	}
+
+	public void setAllMaterials(List<Material> allMaterials) {
+		this.allMaterials = allMaterials;
+	}
+	
 	
 }

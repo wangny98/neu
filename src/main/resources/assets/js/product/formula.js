@@ -76,7 +76,10 @@ ineuronApp.controller('UpdateFormulaController', [
 			//alert(JSON.stringify(data));
 			validateApiToken(data, $cookies, $rootScope, $modal);
 			$scope.formula.materialSettings = data.value.materialSettings;
-			$scope.materials = data.value.materials;
+			if($scope.formula.materialSettings == null){
+				$scope.formula.materialSettings = [];
+			}
+			$scope.materials = data.value.allMaterials;
 			$scope.formula.selected = {};
 		}).error(function(data) {
 			alert('error');

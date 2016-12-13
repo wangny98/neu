@@ -13,14 +13,14 @@
 	<select id="getAttributesByCategoryId" resultType="com.ineuron.domain.product.valueobject.Attribute">
 		select * from Attributes where attributeCategoryId=#{attributeCategoryId}
 	</select>
-
-	<select id="getAttributeCategoryById" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
-		select * from AttributeCategories where id=#{attributeCategoryId}
-	</select>
 	
+	<select id="getAttributeByName" resultType="com.ineuron.domain.product.valueobject.Attribute">
+		select * from Attributes where name=#{name}
+	</select>
+
 	<insert id="addAttribute">
-		insert into Attributes (id,name,code,description,attributeCategoryId)
-		values(#{id},#{name},#{code},#{description},#{attributeCategoryId})
+		insert into Attributes (name,code,description,attributeCategoryId)
+		values(#{name},#{code},#{description},#{attributeCategoryId})
 	</insert>
 
 	<update id="updateAttribute">
@@ -30,6 +30,15 @@
 	<delete id="deleteAttribute">
 		delete from Attributes where id = #{id}
 	</delete>
+	
+	<select id="getAttributeCategoryById" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
+		select * from AttributeCategories where id=#{attributeCategoryId}
+	</select>
+	
+	<select id="getAttributeCategories" resultType="com.ineuron.domain.product.valueobject.AttributeCategory">
+		select * from AttributeCategories
+	</select>
+	
 
 	
 	

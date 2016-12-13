@@ -2,7 +2,11 @@
 <html>
 <meta charset="UTF-8">
 <div ng-controller="AttributeListController as AttributeList">
-	<div class="message">属性</div>	
+	<div class="right-align">
+		<button class="custombutton" ng-click="AttributeList.createAttribute()">
+			<span class="glyphicon glyphicon-new"></span> 新增属性
+		</button>
+	</div>
 	<table datatable="ng" dt-options="AttributeList.dtOptions"
 		dt-column-defs="AttributeList.dtColumnDefs" class="row-border hover" id="table-style">
 		<thead>

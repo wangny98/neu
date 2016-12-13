@@ -220,9 +220,21 @@ public class ProductRepository {
 		SqlSession session = INeuronDBConnection.getSession();
 		try {
 			//System.out.println("categoryid: "+attributeCategoryId);
-			List<Attribute> attributes = session.selectList("getAttributesByCategoryID", attributeCategoryId);
+			List<Attribute> attributes = session.selectList("getAttributesByCategoryId", attributeCategoryId);
 			//System.out.println("attributelist size "+attributes.get(0).getAttribute());
 			return attributes;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public Attribute getAttributeByName(String name) throws RepositoryException {
+		SqlSession session = INeuronDBConnection.getSession();
+		try {
+			//System.out.println("categoryid: "+attributeCategoryId);
+			Attribute attribute = session.selectOne("getAttributeByName", name);
+			//System.out.println("attributelist size "+attributes.get(0).getAttribute());
+			return attribute;
 		} finally {
 			session.close();
 		}

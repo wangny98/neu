@@ -4,6 +4,16 @@ var ineuronApp = angular.module('ineuronApp', [ 'ui.router', 'ngCookies',
 
 ineuronApp.config(function($stateProvider) {
 
+
+	var aboutState = {
+		name : 'about',
+		url : '/about',
+		template : '<h3>琥崧智能控制系统</h3>'
+	}
+	
+	
+	//User Managerment
+	
 	var userManagementState = {
 		name : 'userManagement',
 		url : 'userManagement',
@@ -15,12 +25,6 @@ ineuronApp.config(function($stateProvider) {
 			url : 'roleManagement',	
 			templateUrl : '/ineuron/user/rolelist.html'
 		}
-
-	var aboutState = {
-		name : 'about',
-		url : '/about',
-		template : '<h3>琥崧智能控制系统</h3>'
-	}
 
 	var updateUserState = {
 		name : 'updateUser',
@@ -46,6 +50,10 @@ ineuronApp.config(function($stateProvider) {
 			templateUrl : '/ineuron/user/createUser.html'
 		}
 
+	
+	
+	//Product Management
+	
 	var createProductCategoryState = {
 			name : 'createProductCategory',
 			url : 'createProductCategory',
@@ -81,6 +89,12 @@ ineuronApp.config(function($stateProvider) {
 			name : 'attributeList',
 			url : 'attributeList',
 			templateUrl : '/ineuron/product/attributeList.html'
+		}
+	
+	var createAttributeState = {
+			name : 'createAttribute',
+			url : 'createAttribute',
+			templateUrl : '/ineuron/product/createAttribute.html'
 		}
 	
 	var productManufacturingProcessState = {
@@ -121,6 +135,7 @@ ineuronApp.config(function($stateProvider) {
 	$stateProvider.state(createProductState);
 	
 	$stateProvider.state(attributeManagementState);
+	$stateProvider.state(createAttributeState);
 	
 	$stateProvider.state(productManufacturingProcessState);
 	$stateProvider.state(formulaManagementState);
